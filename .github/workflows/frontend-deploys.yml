@@ -3,7 +3,7 @@ name: Build and Deploy Frontend to S3
 on:
   push:
     branches:
-      - main # körs när du pushar till main
+      - master # körs när du pushar till main
 
 jobs:
   deploy:
