@@ -3,7 +3,7 @@ name: Build and Deploy Frontend to S3
 on:
   push:
     branches:
-      - master # körs när du pushar till main
+      - master
 
 jobs:
   deploy:
@@ -41,4 +41,4 @@ jobs:
       # 6. Synka dist till S3
       - name: Deploy to S3
         run: |
-          aws s3 sync frontend/dist s3://myappliesbucket --delete --acl public-read
+          aws s3 sync dist s3://myappliesbucket --delete --acl public-read
