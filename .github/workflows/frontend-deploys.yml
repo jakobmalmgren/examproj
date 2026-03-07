@@ -23,13 +23,11 @@ jobs:
       # 3. Installera frontend dependencies
       - name: Install dependencies
         run: |
-          cd frontend
           npm install
 
       # 4. Bygg frontend
       - name: Build project
         run: |
-          cd frontend
           npm run build
 
       # 5. Konfigurera AWS credentials
