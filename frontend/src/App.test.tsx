@@ -6,6 +6,6 @@ import App from "./App";
 describe("App component", () => {
   it("renders HEJ text", () => {
     render(<App />);
-    expect(screen.getByText("Jakobs react")).toBeInTheDocument();
+    expect(screen.getByText("Jakobs react nya")).toBeInTheDocument();
   });
 });
