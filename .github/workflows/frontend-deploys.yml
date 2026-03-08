@@ -49,5 +49,4 @@ jobs:
       # 7. Synka dist till S3
       - name: Deploy to S3
         run: |
-          cd frontend
-          aws s3 sync frontend/dist s3://myappliesbucket --delete
+          aws s3 sync dist s3://myappliesbucket --delete
