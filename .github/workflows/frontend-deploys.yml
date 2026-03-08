@@ -26,13 +26,19 @@ jobs:
           cd frontend
           npm install
 
-      # 4. Bygg frontend
+      # 4. Run tests with coverage
+      - name: Run tests with coverage
+        run: |
+          cd frontend
+          npm run test:coverage
+
+      # 5. Bygg frontend
       - name: Build project
         run: |
           cd frontend 
           npm run build
 
-      # 5. Konfigurera AWS credentials
+      # 6. Konfigurera AWS credentials
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -40,7 +46,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-north-1
 
-      # 6. Synka dist till S3
+      # 7. Synka dist till S3
       - name: Deploy to S3
         run: |
           cd frontend
