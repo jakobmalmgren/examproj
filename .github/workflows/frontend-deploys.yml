@@ -23,11 +23,13 @@ jobs:
       # 3. Installera frontend dependencies
       - name: Install dependencies
         run: |
+          cd frontend
           npm install
 
       # 4. Bygg frontend
       - name: Build project
         run: |
+          cd frontend 
           npm run build
 
       # 5. Konfigurera AWS credentials
@@ -41,4 +43,5 @@ jobs:
       # 6. Synka dist till S3
       - name: Deploy to S3
         run: |
+          cd frontend
           aws s3 sync dist s3://myappliesbucket --delete
