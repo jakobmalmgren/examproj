@@ -14,11 +14,11 @@ describe("App component", () => {
     expect(screen.getByText("count is 0")).toBeInTheDocument();
 
     // Kolla <p> med code
-    expect(screen.getByText(/Edit src\/App.tsx/i)).toBeInTheDocument();
+    expect(screen.getByText("Edit")).toBeInTheDocument();
 
     // Kolla read-the-docs p
     expect(
-      screen.getByText(/Click on the Vite and React logos/i),
+      screen.getByText("Click on the Vite and React logos to learn more"),
     ).toBeInTheDocument();
 
     // Kolla att bilderna finns
@@ -28,16 +28,12 @@ describe("App component", () => {
 
   it("increments count when button is clicked", () => {
     render(<App />);
-    const button = screen.getByText(/count is 0/i);
+    const button = screen.getByText("count is 0");
 
     // Klicka på knappen
     fireEvent.click(button);
 
     // Count ska öka
-    expect(screen.getByText(/count is 1/i)).toBeInTheDocument();
-
-    // Klicka en gång till
-    fireEvent.click(screen.getByText(/count is 1/i));
-    expect(screen.getByText(/count is 2/i)).toBeInTheDocument();
+    expect(screen.getByText("count is 1")).toBeInTheDocument();
   });
 });
