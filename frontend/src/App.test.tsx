@@ -14,8 +14,17 @@ describe("App component", () => {
     expect(screen.getByAltText("Vite logo")).toBeInTheDocument();
     expect(screen.getByAltText("React logo")).toBeInTheDocument();
 
-    // Text och code-element
-    expect(screen.getByText(/Edit src\/App.tsx/i)).toBeInTheDocument();
+    // Text och code-element (splittrad text)
+    expect(
+      screen.getByText(
+        (content, element) =>
+          element?.tagName === "P" &&
+          content.includes("Edit") &&
+          content.includes("src/App.tsx"),
+      ),
+    ).toBeInTheDocument();
+
+    // read-the-docs p
     expect(
       screen.getByText(/Click on the Vite and React logos/i),
     ).toBeInTheDocument();
@@ -28,11 +37,9 @@ describe("App component", () => {
     render(<App />);
     const button = screen.getByText(/count is 0/i);
 
-    // Klick 1 → count 1
     fireEvent.click(button);
     expect(screen.getByText(/count is 1/i)).toBeInTheDocument();
 
-    // Klick 2 → count 2
     fireEvent.click(screen.getByText(/count is 1/i));
     expect(screen.getByText(/count is 2/i)).toBeInTheDocument();
   });
