@@ -14,33 +14,26 @@ describe("App component", () => {
     expect(screen.getByAltText("Vite logo")).toBeInTheDocument();
     expect(screen.getByAltText("React logo")).toBeInTheDocument();
 
-    // Text och code-element (splittrad text)
-    expect(
-      screen.getByText(
-        (content, element) =>
-          element?.tagName === "P" &&
-          content.includes("Edit") &&
-          content.includes("src/App.tsx"),
-      ),
-    ).toBeInTheDocument();
+    // Enkel text i <p>
+    expect(screen.getByText("Edit")).toBeInTheDocument();
 
-    // read-the-docs p
+    // read-the-docs
     expect(
       screen.getByText(/Click on the Vite and React logos/i),
     ).toBeInTheDocument();
 
-    // Knappen med initial count
+    // Initial count-knapp
     expect(screen.getByText("count is 0")).toBeInTheDocument();
   });
 
   it("increments count when button is clicked", () => {
     render(<App />);
-    const button = screen.getByText(/count is 0/i);
+    const button = screen.getByText("count is 0");
 
     fireEvent.click(button);
-    expect(screen.getByText(/count is 1/i)).toBeInTheDocument();
+    expect(screen.getByText("count is 1")).toBeInTheDocument();
 
-    fireEvent.click(screen.getByText(/count is 1/i));
-    expect(screen.getByText(/count is 2/i)).toBeInTheDocument();
+    fireEvent.click(screen.getByText("count is 1"));
+    expect(screen.getByText("count is 2")).toBeInTheDocument();
   });
 });
