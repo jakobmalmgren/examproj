@@ -110,7 +110,7 @@ on:
   pull_request:
     branches:
       - master
-      - dev
+      - develop
 
 jobs:
   # ✅ Job för PR som riktar sig mot master
@@ -122,7 +122,7 @@ jobs:
         run: |
           echo "PR target: ${{ github.base_ref }}"
           echo "Source branch: ${{ github.head_ref }}"
-          if [ "${{ github.head_ref }}" != "dev" ]; then
+          if [ "${{ github.head_ref }}" != "develop" ]; then
             echo "❌ Only dev branch can merge into master"
             exit 1
           fi
@@ -170,7 +170,7 @@ jobs:
 
   # ✅ PR mot dev – kör ingen build/deploy
   no-build-dev:
-    if: github.base_ref == 'dev'
+    if: github.base_ref == 'develop'
     runs-on: ubuntu-latest
     steps:
       - name: PR to dev detected
