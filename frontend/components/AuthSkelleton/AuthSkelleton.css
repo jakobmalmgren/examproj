@@ -1,4 +1,8 @@
-.authForm {
+.authSkelleton {
   height: 80%;
-  background-color: yellow;
+  /* background-color: yellow; */
+  width: 80%;
+}
+.authSkelleton__header {
+  margin: 30px 0px;
 }
