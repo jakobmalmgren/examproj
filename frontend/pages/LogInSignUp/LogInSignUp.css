@@ -1,0 +1,22 @@
+.loginSignup {
+  height: 100vh;
+  padding: 10px;
+  background-color: darkblue;
+}
+.loginSignup__container {
+  background-color: red;
+  height: 100%;
+  width: 100%;
+  display: flex;
+}
+.loginSignup__form {
+  height: 100%;
+  width: 50%;
+  background-color: green;
+}
+
+.loginSignup__hero {
+  height: 100%;
+  width: 50%;
+  background-color: grey;
+}
