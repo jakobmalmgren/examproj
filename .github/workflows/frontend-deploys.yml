@@ -110,7 +110,7 @@ on:
   pull_request:
     branches:
       - master
-      - develop
+      - dev
 
 jobs:
   # ✅ Job för PR som riktar sig mot master
