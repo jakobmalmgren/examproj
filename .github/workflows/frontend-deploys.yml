@@ -61,7 +61,6 @@ on:
 
 jobs:
   validate-branch:
-    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - name: Check source branch
@@ -73,55 +72,34 @@ jobs:
           fi
           echo "✅ Valid branch"
 
-  block-direct-push:
-    if: github.event_name == 'push'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Fail if push is not from PR merge
-        run: |
-          echo "Commit message: ${{ github.event.head_commit.message }}"
-          if [[ "${{ github.event.head_commit.message }}" != *"Merge pull request"* ]]; then
-            echo "❌ Direct push to master is not allowed!"
-            exit 1
-          fi
-          echo "✅ Push is from PR merge"
-
   deploy:
-    if: github.event_name == 'push'
-    needs: block-direct-push
+    needs: validate-branch
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: "20"
 
-      - name: Install dependencies
-        run: |
+      - run: |
           cd frontend
           npm install
 
-      - name: Run tests with coverage
-        run: |
+      - run: |
           cd frontend
           npm run test:coverage
 
-      - name: Build project
-        run: |
+      - run: |
           cd frontend
           npm run build
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v2
+      - uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-north-1
 
-      - name: Deploy to S3
-        run: |
+      - run: |
           cd frontend
           aws s3 sync dist s3://myappliesbucket --delete
