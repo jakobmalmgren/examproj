@@ -66,7 +66,6 @@ jobs:
   validate-branch:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
-
     steps:
       - name: Check source branch
         run: |
@@ -77,11 +76,23 @@ jobs:
           fi
           echo "✅ Valid branch"
 
-  deploy:
+  block-direct-push:
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
-    needs: validate-branch
+    steps:
+      - name: Fail if push is not from PR merge
+        run: |
+          echo "Commit message: ${{ github.event.head_commit.message }}"
+          if [[ "${{ github.event.head_commit.message }}" != *"Merge pull request"* ]]; then
+            echo "❌ Direct push to master is not allowed!"
+            exit 1
+          fi
+          echo "✅ Push is from PR merge"
 
+  deploy:
+    if: github.event_name == 'push'
+    needs: block-direct-push
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
