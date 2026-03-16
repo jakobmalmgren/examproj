@@ -103,3 +103,77 @@
 #       - run: |
 #           cd frontend
 #           aws s3 sync dist s3://myappliesbucket --delete
+
+name: Build and Deploy Frontend
+
+on:
+  pull_request:
+    branches:
+      - master
+      - dev
+
+jobs:
+  # ✅ Job för PR som riktar sig mot master
+  validate-master:
+    if: github.base_ref == 'master'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check source branch
+        run: |
+          echo "PR target: ${{ github.base_ref }}"
+          echo "Source branch: ${{ github.head_ref }}"
+          if [ "${{ github.head_ref }}" != "dev" ]; then
+            echo "❌ Only dev branch can merge into master"
+            exit 1
+          fi
+          echo "✅ Valid branch"
+
+  deploy-master:
+    if: github.base_ref == 'master'
+    needs: validate-master
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: |
+          cd frontend
+          npm install
+
+      - name: Run tests with coverage
+        run: |
+          cd frontend
+          npm run test:coverage
+
+      - name: Build project
+        run: |
+          cd frontend
+          npm run build
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-north-1
+
+      - name: Deploy to S3
+        run: |
+          cd frontend
+          aws s3 sync dist s3://myappliesbucket --delete
+
+  # ✅ PR mot dev – kör ingen build/deploy
+  no-build-dev:
+    if: github.base_ref == 'dev'
+    runs-on: ubuntu-latest
+    steps:
+      - name: PR to dev detected
+        run: |
+          echo "PR mot dev – ingen build eller deploy körs"
+          echo "Source branch: ${{ github.head_ref }}"
