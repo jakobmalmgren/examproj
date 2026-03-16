@@ -8,7 +8,7 @@ describe("App component", () => {
     render(<App />);
 
     // Huvudrubrik
-    expect(screen.getByText("test")).toBeInTheDocument();
+    expect(screen.getByText("test2")).toBeInTheDocument();
 
     // Bilder
     expect(screen.getByAltText("Vite logo")).toBeInTheDocument();
