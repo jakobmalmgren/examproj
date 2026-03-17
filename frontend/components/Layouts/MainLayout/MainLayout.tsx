@@ -112,7 +112,7 @@ import "./MainLayout.css";
 
 const navItems = [
   { text: "My Applications", icon: <HomeIcon />, path: "/home" },
-  { text: "Add Opportunity", icon: <AddIcon />, path: "/add" },
+  { text: "Add Application", icon: <AddIcon />, path: "/add" },
   { text: "Statistics", icon: <BarChartIcon />, path: "/stats" },
   { text: "Map", icon: <MapIcon />, path: "/map" },
   { text: "Profile", icon: <AccountCircleIcon />, path: "/profile" },
