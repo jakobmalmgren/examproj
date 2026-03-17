@@ -5,9 +5,7 @@ import {
   InputAdornment,
   IconButton,
   Typography,
-  RadioGroup,
   FormControlLabel,
-  Radio,
   Tooltip,
   Switch,
   MenuItem,
@@ -70,7 +68,7 @@ const AddApplications = () => {
         flexDirection: "column",
         gap: 3,
         p: 2,
-        width: "40%",
+        width: "50%",
         margin: "0 auto",
       }}
     >
@@ -127,19 +125,141 @@ const AddApplications = () => {
         Add Extra Info
       </Button>
 
-      {/* Priority */}
-      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-        <RadioGroup
-          row
-          value={priority}
-          onChange={(e) => setPriority(e.target.value)}
+      {/* Priority med checkboxar */}
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: 2,
+          justifyContent: "center",
+        }}
+      >
+        <Tooltip
+          title="I want this!!"
+          arrow
+          componentsProps={{
+            tooltip: {
+              sx: {
+                bgcolor: "primary.main",
+                color: "white",
+                fontWeight: "bold",
+                fontSize: 14,
+                borderRadius: 1,
+                px: 1.5,
+                py: 0.5,
+              },
+            },
+          }}
         >
-          <FormControlLabel value="prio1" control={<Radio />} label="Prio 1" />
-          <FormControlLabel value="prio2" control={<Radio />} label="Prio 2" />
-          <FormControlLabel value="prio3" control={<Radio />} label="Prio 3" />
-        </RadioGroup>
-        <Tooltip title="You can prioritize applications by selecting a priority level">
-          <InfoIcon sx={{ color: "gray" }} />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={priority === "prio1"}
+                onChange={() => setPriority("prio1")}
+                sx={{
+                  width: 32,
+                  height: 32,
+                  "& .MuiSvgIcon-root": { fontSize: 32 },
+                }}
+              />
+            }
+            label={
+              <Typography sx={{ fontWeight: "bold", fontSize: 24 }}>
+                🔥
+              </Typography>
+            }
+          />
+        </Tooltip>
+        <Tooltip
+          title="Maybe, maybe not"
+          arrow
+          componentsProps={{
+            tooltip: {
+              sx: {
+                bgcolor: "primary.main",
+                color: "white",
+                fontWeight: "bold",
+                fontSize: 14,
+                borderRadius: 1,
+                px: 1.5,
+                py: 0.5,
+              },
+            },
+          }}
+        >
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={priority === "prio2"}
+                onChange={() => setPriority("prio2")}
+                sx={{
+                  width: 32,
+                  height: 32,
+                  "& .MuiSvgIcon-root": { fontSize: 32 },
+                }}
+              />
+            }
+            label={
+              <Typography sx={{ fontWeight: "bold", fontSize: 24 }}>
+                🤷
+              </Typography>
+            }
+          />
+        </Tooltip>
+        <Tooltip
+          title="Ahh, I don't know"
+          arrow
+          componentsProps={{
+            tooltip: {
+              sx: {
+                bgcolor: "primary.main",
+                color: "white",
+                fontWeight: "bold",
+                fontSize: 14,
+                borderRadius: 1,
+                px: 1.5,
+                py: 0.5,
+              },
+            },
+          }}
+        >
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={priority === "prio3"}
+                onChange={() => setPriority("prio3")}
+                sx={{
+                  width: 32,
+                  height: 32,
+                  "& .MuiSvgIcon-root": { fontSize: 32 },
+                }}
+              />
+            }
+            label={
+              <Typography sx={{ fontWeight: "bold", fontSize: 24 }}>
+                🤦
+              </Typography>
+            }
+          />
+        </Tooltip>
+        <Tooltip
+          title="You can prioritize applications by selecting a priority level"
+          arrow
+          componentsProps={{
+            tooltip: {
+              sx: {
+                bgcolor: "primary.main",
+                color: "white",
+                fontWeight: "bold",
+                fontSize: 14,
+                borderRadius: 1,
+                px: 1.5,
+                py: 0.5,
+              },
+            },
+          }}
+        >
+          <InfoIcon sx={{ color: "primary.main" }} />
         </Tooltip>
       </Box>
 
@@ -238,6 +358,7 @@ const AddApplications = () => {
 
       {/* Drag & Drop kvadrat */}
       <Paper
+        {...getRootProps()}
         variant="outlined"
         sx={{
           width: 300,
@@ -246,7 +367,7 @@ const AddApplications = () => {
           justifyContent: "center",
           alignItems: "center",
           borderStyle: "dashed",
-          borderColor: "gray",
+          borderColor: isDragActive ? "primary.main" : "gray",
           cursor: "pointer",
           m: "0 auto",
           textAlign: "center",
@@ -254,40 +375,29 @@ const AddApplications = () => {
           p: 1,
         }}
       >
-        <Box
-          {...getRootProps()}
-          sx={{
-            width: "100%",
-            height: "100%",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <input {...getInputProps()} />
-          <Typography>
-            {isDragActive ? "Drop files here..." : "Drag & Drop files"}
-          </Typography>
+        <input {...getInputProps()} />
 
-          {files.length > 0 && (
-            <Box
-              sx={{
-                mt: 1,
-                display: "flex",
-                flexDirection: "column",
-                gap: 0.5,
-                overflowY: "auto",
-                maxHeight: "50%",
-                width: "90%",
-              }}
-            >
-              {files.map((file, idx) => (
-                <Chip key={idx} label={file.name} size="small" />
-              ))}
-            </Box>
-          )}
-        </Box>
+        <Typography>
+          {isDragActive ? "Drop files here..." : "Drag & Drop files"}
+        </Typography>
+
+        {files.length > 0 && (
+          <Box
+            sx={{
+              mt: 1,
+              display: "flex",
+              flexDirection: "column",
+              gap: 0.5,
+              overflowY: "auto",
+              maxHeight: "50%",
+              width: "90%",
+            }}
+          >
+            {files.map((file, idx) => (
+              <Chip key={idx} label={file.name} size="small" />
+            ))}
+          </Box>
+        )}
       </Paper>
 
       {/* Location */}
