@@ -192,7 +192,8 @@ const AuthSkelleton = ({ mode = "signup" }) => {
         sx={{
           display: "flex",
           flexDirection: "column",
-          gap: 2,
+          gap: 1,
+          // gap: 2,
         }}
         autoComplete="off"
       >
