@@ -1,25 +1,127 @@
+// import "./App.css";
+// import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
+// import LogInSignUp from "../pages/LogInSignUp/LogInSignUp";
+// import LogIn from "../components/LogIn/LogIn";
+// import SignUp from "../components/SignUp/SignUp";
+// function App() {
+//   return (
+//     <BrowserRouter>
+//       <Routes>
+//         {/* Redirect root / till /auth (visar login) */}
+//         <Route path="/" element={<Navigate to="/auth" replace />} />
+
+//         {/* Parent layout */}
+//         <Route path="/auth" element={<LogInSignUp />}>
+//           {/* Child routes */}
+//           <Route index element={<LogIn />} /> {/* /auth */}
+//           <Route path="login" element={<LogIn />} /> {/* /auth/login */}
+//           <Route path="signup" element={<SignUp />} /> {/* /auth/signup */}
+//         </Route>
+
+//         {/* Wildcard fallback */}
+//         <Route path="*" element={<Navigate to="/auth" replace />} />
+//       </Routes>
+//     </BrowserRouter>
+//   );
+// }
+
+// export default App;
+
+// import "./App.css";
+// import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
+// import LogInSignUp from "../pages/LogInSignUp/LogInSignUp";
+// import LogIn from "../components/LogIn/LogIn";
+// import SignUp from "../components/SignUp/SignUp";
+// function App() {
+//   return (
+//     <BrowserRouter>
+//       <Routes>
+//         {/* Redirect root / till /auth (visar login) */}
+//         <Route path="/" element={<Navigate to="/auth" replace />} />
+
+//         {/* Parent layout */}
+//         <Route path="/auth" element={<LogInSignUp />}>
+//           {/* Child routes */}
+//           <Route index element={<LogIn />} /> {/* /auth */}
+//           <Route path="login" element={<LogIn />} /> {/* /auth/login */}
+//           <Route path="signup" element={<SignUp />} /> {/* /auth/signup */}
+//         </Route>
+
+//         {/* Wildcard fallback */}
+//         <Route path="*" element={<Navigate to="/auth" replace />} />
+//       </Routes>
+//     </BrowserRouter>
+//   );
+// }
+
+// export default App;
+
 import "./App.css";
-import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+
+// Layouts
 import LogInSignUp from "../pages/LogInSignUp/LogInSignUp";
+import MainLayout from "../components/Layouts/MainLayout/MainLayout";
+// Auth pages
 import LogIn from "../components/LogIn/LogIn";
 import SignUp from "../components/SignUp/SignUp";
+
+// Private pages
+import MyApplications from "../pages/MyApplications/MyApplications";
+import AddApplications from "../pages/AddApplications/AddApplications.";
+import StatisticReports from "../pages/StatisticReports/StatisticReports";
+import MapView from "../pages/MapView/MapView";
+import EditProfile from "../pages/EditProfile/EditProfile";
+
 function App() {
+  const isLoggedIn = true; // Här kan du använda context/state senare
+
   return (
     <BrowserRouter>
       <Routes>
-        {/* Redirect root / till /auth (visar login) */}
-        <Route path="/" element={<Navigate to="/auth" replace />} />
+        {/* === Public routes (login/signup) === */}
+        {!isLoggedIn && (
+          <Route path="/auth" element={<LogInSignUp />}>
+            <Route index element={<LogIn />} />
+            <Route path="login" element={<LogIn />} />
+            <Route path="signup" element={<SignUp />} />
+          </Route>
+        )}
 
-        {/* Parent layout */}
-        <Route path="/auth" element={<LogInSignUp />}>
-          {/* Child routes */}
-          <Route index element={<LogIn />} /> {/* /auth */}
-          <Route path="login" element={<LogIn />} /> {/* /auth/login */}
-          <Route path="signup" element={<SignUp />} /> {/* /auth/signup */}
-        </Route>
+        {/* Redirect root / */}
+        <Route
+          path="/"
+          element={
+            isLoggedIn ? (
+              <Navigate to="/home" replace />
+            ) : (
+              <Navigate to="/auth" replace />
+            )
+          }
+        />
+
+        {/* === Private routes (inloggad användare) === */}
+        {isLoggedIn && (
+          <Route path="/" element={<MainLayout />}>
+            <Route path="home" element={<MyApplications />} />
+            <Route path="add" element={<AddApplications />} />
+            <Route path="stats" element={<StatisticReports />} />
+            <Route path="map" element={<MapView />} />
+            <Route path="profile" element={<EditProfile />} />
+          </Route>
+        )}
 
         {/* Wildcard fallback */}
-        <Route path="*" element={<Navigate to="/auth" replace />} />
+        <Route
+          path="*"
+          element={
+            isLoggedIn ? (
+              <Navigate to="/home" replace />
+            ) : (
+              <Navigate to="/auth" replace />
+            )
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
