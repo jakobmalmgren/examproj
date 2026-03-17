@@ -1,4 +1,8 @@
 import { useState } from "react";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
 import {
   Box,
   TextField,
@@ -341,18 +345,26 @@ const AddApplications = () => {
           />
 
           {/* Custom date */}
-          <TextField
-            type="date"
-            label="Custom Date"
-            InputLabelProps={{ shrink: true }}
-            value={customDate}
-            onChange={(e) => setCustomDate(e.target.value)}
-            sx={{
-              minWidth: 150,
-              opacity: reminderDays ? 0.5 : 1,
-              pointerEvents: reminderDays ? "none" : "auto",
-            }}
-          />
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              label="Custom Date"
+              value={customDate ? dayjs(customDate) : null}
+              onChange={(newValue) => {
+                setCustomDate(newValue ? newValue.format("YYYY-MM-DD") : "");
+              }}
+              disabled={!!reminderDays}
+              slotProps={{
+                textField: {
+                  fullWidth: true,
+                  sx: {
+                    minWidth: 150,
+                    opacity: reminderDays ? 0.5 : 1,
+                    pointerEvents: reminderDays ? "none" : "auto",
+                  },
+                },
+              }}
+            />
+          </LocalizationProvider>
         </Box>
       )}
 
