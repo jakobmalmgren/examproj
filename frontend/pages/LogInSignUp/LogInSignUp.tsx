@@ -1,15 +1,13 @@
 import "./LogInSignUp.css";
-import { useMatch } from "react-router-dom";
-import AuthSkelleton from "../../components/AuthSkelleton/AuthSkelleton";
+// import AuthSkelleton from "../../components/AuthSkelleton/AuthSkelleton";
+import { Outlet } from "react-router-dom";
 const LogInSignUp = () => {
-  const loginMatch = useMatch("/login/*");
-
-  const mode = loginMatch ? "login" : "signup";
   return (
     <div className="loginSignup">
       <div className="loginSignup__container">
         <div className="loginSignup__form">
-          <AuthSkelleton mode={mode} />
+          {/* <AuthSkelleton /> */}
+          <Outlet />
         </div>
         <div className="loginSignup__hero"></div>
       </div>

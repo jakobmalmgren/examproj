@@ -1,21 +1,27 @@
 import "./App.css";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 import LogInSignUp from "../pages/LogInSignUp/LogInSignUp";
+import LogIn from "../components/LogIn/LogIn";
+import SignUp from "../components/SignUp/SignUp";
 function App() {
   return (
-    <Router>
+    <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Navigate to="/login" replace />} />
-        <Route path="/login" element={<LogInSignUp />} />
-        <Route path="/signup" element={<LogInSignUp />} />
-        <Route path="*" element={<LogInSignUp />} /> {/* default till signup */}
+        {/* Redirect root / till /auth (visar login) */}
+        <Route path="/" element={<Navigate to="/auth" replace />} />
+
+        {/* Parent layout */}
+        <Route path="/auth" element={<LogInSignUp />}>
+          {/* Child routes */}
+          <Route index element={<LogIn />} /> {/* /auth */}
+          <Route path="login" element={<LogIn />} /> {/* /auth/login */}
+          <Route path="signup" element={<SignUp />} /> {/* /auth/signup */}
+        </Route>
+
+        {/* Wildcard fallback */}
+        <Route path="*" element={<Navigate to="/auth" replace />} />
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
 }
 
