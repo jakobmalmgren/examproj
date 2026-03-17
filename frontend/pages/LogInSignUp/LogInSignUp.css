@@ -1,0 +1,36 @@
+.loginSignup {
+  height: 100vh;
+  padding: 10px;
+  /* background-color: darkblue; */
+}
+.loginSignup__container {
+  /* background-color: red; */
+  height: 100%;
+  width: 100%;
+  display: flex;
+}
+.loginSignup__form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 50%;
+  /* background-color: rgba(201, 80, 175, 0.534); */
+}
+
+.loginSignup__hero {
+  height: 100%;
+  width: 50%;
+  background-color: grey;
+  background-image: url("../../public/images/hero.avif");
+}
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+  -webkit-text-fill-color: black !important;
+}
+
+.MuiInputBase-input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+  -webkit-text-fill-color: black !important;
+}
