@@ -67,6 +67,7 @@ import LogIn from "../components/LogIn/LogIn";
 import SignUp from "../components/SignUp/SignUp";
 
 // Private pages
+import AboutUs from "../pages/AboutUs/AboutUs";
 import MyApplications from "../pages/MyApplications/MyApplications";
 import AddApplications from "../pages/AddApplications/AddApplications.";
 import StatisticReports from "../pages/StatisticReports/StatisticReports";
@@ -108,6 +109,7 @@ function App() {
             <Route path="stats" element={<StatisticReports />} />
             <Route path="map" element={<MapView />} />
             <Route path="profile" element={<EditProfile />} />
+            <Route path="about" element={<AboutUs />} />
           </Route>
         )}
 

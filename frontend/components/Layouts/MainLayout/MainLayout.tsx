@@ -99,14 +99,14 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import HomeIcon from "@mui/icons-material/Home";
 import AddIcon from "@mui/icons-material/Add";
 import BarChartIcon from "@mui/icons-material/BarChart";
-import MapIcon from "@mui/icons-material/Map";
+import PeopleIcon from "@mui/icons-material/People";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import RoomIcon from "@mui/icons-material/Room";
 
 import "./MainLayout.css";
 
@@ -114,8 +114,9 @@ const navItems = [
   { text: "My Applications", icon: <HomeIcon />, path: "/home" },
   { text: "Add Application", icon: <AddIcon />, path: "/add" },
   { text: "Statistics", icon: <BarChartIcon />, path: "/stats" },
-  { text: "Map", icon: <MapIcon />, path: "/map" },
+  { text: "Map", icon: <RoomIcon />, path: "/map" },
   { text: "Profile", icon: <AccountCircleIcon />, path: "/profile" },
+  { text: "AboutUs", icon: <PeopleIcon />, path: "/about" },
 ];
 
 const MainLayout = () => {
