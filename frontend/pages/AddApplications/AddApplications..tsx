@@ -26,6 +26,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 
 const AddApplications = () => {
+  const [category, setCategory] = useState("IT & Tech");
   const [extraInfo, setExtraInfo] = useState<string[]>([""]);
   const [priority, setPriority] = useState("prio1");
   const [reminder, setReminder] = useState(false);
@@ -91,7 +92,6 @@ const AddApplications = () => {
         }}
         sx={{ width: "100%" }}
       />
-
       {/* Extra Info Fields */}
       {extraInfo.map((val, idx) => (
         <Box key={idx} sx={{ position: "relative", width: "100%", mb: 1 }}>
@@ -124,11 +124,27 @@ const AddApplications = () => {
           </IconButton>
         </Box>
       ))}
-
       <Button startIcon={<AddIcon />} onClick={addExtraField}>
         Add Extra Info
       </Button>
-
+      <Box sx={{ width: "100%", mt: 2 }}>
+        <TextField
+          select
+          label="Category"
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          fullWidth
+        >
+          <MenuItem value="IT & Tech">IT & Tech</MenuItem>
+          <MenuItem value="Education">Education</MenuItem>
+          <MenuItem value="Healthcare">Healthcare</MenuItem>
+          <MenuItem value="Finance">Finance</MenuItem>
+          <MenuItem value="Marketing">Marketing</MenuItem>
+          <MenuItem value="Engineering">Engineering</MenuItem>
+          <MenuItem value="Support">Support</MenuItem>
+          <MenuItem value="Other">Other</MenuItem>
+        </TextField>
+      </Box>
       {/* Priority med checkboxar */}
       <Box
         sx={{
@@ -266,7 +282,6 @@ const AddApplications = () => {
           <InfoIcon sx={{ color: "primary.main" }} />
         </Tooltip>
       </Box>
-
       <FormControlLabel
         control={
           <Switch
@@ -367,7 +382,6 @@ const AddApplications = () => {
           </LocalizationProvider>
         </Box>
       )}
-
       {/* Drag & Drop kvadrat */}
       <Paper
         {...getRootProps()}
@@ -411,7 +425,6 @@ const AddApplications = () => {
           </Box>
         )}
       </Paper>
-
       {/* Location */}
       <TextField
         fullWidth
@@ -428,7 +441,6 @@ const AddApplications = () => {
         }}
         sx={{ width: "100%" }}
       />
-
       {/* Submit */}
       <Button variant="contained" fullWidth onClick={handleSubmit}>
         Submit
