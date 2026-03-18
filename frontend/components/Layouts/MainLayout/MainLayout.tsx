@@ -5,13 +5,11 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
-import Tooltip from "@mui/material/Tooltip";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import HomeIcon from "@mui/icons-material/Home";
@@ -20,8 +18,9 @@ import BarChartIcon from "@mui/icons-material/BarChart";
 import PeopleIcon from "@mui/icons-material/People";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import RoomIcon from "@mui/icons-material/Room";
-
-import "./MainLayout.css";
+import LogoutIcon from "@mui/icons-material/Logout";
+import Tooltip from "@mui/material/Tooltip";
+import { useTheme } from "@mui/material/styles";
 
 const navItems = [
   { text: "My Applications", icon: <HomeIcon />, path: "/home" },
@@ -34,18 +33,25 @@ const navItems = [
 
 const MainLayout = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const theme = useTheme();
 
   return (
     <div className="mainLayout">
-      {/* AppBar */}
       <AppBar position="static">
-        <Toolbar sx={{ justifyContent: "space-between" }}>
-          {/* Left: Brand */}
-          <Typography variant="h6" sx={{ flexGrow: 0 }}>
+        <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Typography
+            variant="h6"
+            component={RouterLink}
+            to="/home"
+            sx={{
+              color: "inherit",
+              textDecoration: "none",
+              cursor: "pointer",
+            }}
+          >
             RMA
           </Typography>
 
-          {/* Center: Desktop icons */}
           <Box
             sx={{
               display: { xs: "none", md: "flex" },
@@ -68,56 +74,96 @@ const MainLayout = () => {
             ))}
           </Box>
 
-          {/* Right: Hamburger for mobile/tablet */}
-          <IconButton
-            edge="end"
-            color="inherit"
-            aria-label="menu"
-            onClick={() => setDrawerOpen(true)}
-            sx={{ display: { xs: "flex", md: "none" } }}
-          >
-            <MenuIcon />
-          </IconButton>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+            <Tooltip title="Log Out" arrow>
+              <IconButton
+                sx={{
+                  color: "inherit",
+                }}
+                onClick={() => console.log("Log out")}
+              >
+                <LogoutIcon />
+              </IconButton>
+            </Tooltip>
+
+            <IconButton
+              color="inherit"
+              edge="end"
+              onClick={() => setDrawerOpen(true)}
+              sx={{ display: { xs: "flex", md: "none" } }}
+            >
+              <MenuIcon />
+            </IconButton>
+          </Box>
         </Toolbar>
       </AppBar>
 
-      {/* Drawer (slides in from right) */}
       <Drawer
         anchor="right"
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
+        transitionDuration={{ enter: 300, exit: 300 }}
         PaperProps={{
           sx: {
-            width: 250,
-            transition: "transform 0.3s ease-in-out",
+            width: 80,
+            bgcolor: "white",
           },
         }}
       >
-        {/* Close button */}
-        <Box sx={{ display: "flex", justifyContent: "flex-start", p: 1 }}>
-          <IconButton onClick={() => setDrawerOpen(false)}>
+        <Box sx={{ display: "flex", justifyContent: "flex-start", p: 0 }}>
+          <IconButton
+            onClick={() => setDrawerOpen(false)}
+            sx={{
+              color: theme.palette.primary.main,
+            }}
+          >
             <CloseIcon />
           </IconButton>
         </Box>
 
-        {/* Drawer nav items */}
-        <List>
+        <List
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            mt: 2,
+          }}
+        >
           {navItems.map((item) => (
-            <ListItem key={item.text} disablePadding>
-              <ListItemButton
-                component={RouterLink}
-                to={item.path}
-                onClick={() => setDrawerOpen(false)}
-              >
-                <ListItemIcon>{item.icon}</ListItemIcon>
-                <ListItemText primary={item.text} />
-              </ListItemButton>
+            <ListItem key={item.text} disablePadding sx={{ width: "100%" }}>
+              <Tooltip title={item.text} arrow placement="right">
+                <ListItemButton
+                  component={RouterLink}
+                  to={item.path}
+                  onClick={() => setDrawerOpen(false)}
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    color: theme.palette.primary.main,
+                    bgcolor: "transparent",
+                    "&:hover": {
+                      bgcolor: theme.palette.primary.main,
+                      color: "white",
+                    },
+                    borderRadius: 1,
+                  }}
+                >
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      justifyContent: "center",
+                      color: "inherit",
+                    }}
+                  >
+                    {item.icon}
+                  </ListItemIcon>
+                </ListItemButton>
+              </Tooltip>
             </ListItem>
           ))}
         </List>
       </Drawer>
 
-      {/* Page content */}
       <div className="mainLayout__content">
         <Outlet />
       </div>
