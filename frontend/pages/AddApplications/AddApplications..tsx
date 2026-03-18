@@ -2,6 +2,7 @@ import { useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import dayjs from "dayjs";
 import {
   Box,
@@ -279,7 +280,7 @@ const AddApplications = () => {
             },
           }}
         >
-          <InfoIcon sx={{ color: "primary.main" }} />
+          <InfoOutlinedIcon fontSize="small" sx={{ color: "primary.main" }} />
         </Tooltip>
       </Box>
       <FormControlLabel
