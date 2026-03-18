@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Tooltip } from "@mui/material";
 import {
   Box,
   TextField,
@@ -15,6 +16,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 
 const MyApplicationCard = () => {
+  const [responded, setResponded] = useState(false);
   const [title, setTitle] = useState("Teacher");
   const [priority, setPriority] = useState("prio1");
   const [reminderDate, setReminderDate] = useState("2026-06-06");
@@ -128,6 +130,12 @@ const MyApplicationCard = () => {
         </Typography>
         <Typography variant="body2">2025-06-06</Typography>
       </Box>
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+        <Typography variant="body2" sx={{ fontWeight: "bold" }}>
+          Category:
+        </Typography>
+        <Typography variant="body2">Education</Typography>
+      </Box>
 
       <Typography sx={{ fontWeight: "bold", mt: 0.5, fontSize: 12 }}>
         Attachments:
@@ -147,34 +155,108 @@ const MyApplicationCard = () => {
           />
         ))}
       </Box>
-
       <Box
         sx={{
           position: "absolute",
           bottom: 8,
           right: 8,
           display: "flex",
-          gap: 1,
+          gap: 0.5,
+          alignItems: "center",
         }}
       >
-        <IconButton
-          onClick={handleDelete}
-          sx={{
-            bgcolor: "rgba(255,255,255,0.7)",
-            "&:hover": { bgcolor: "primary.main", color: "white" },
+        {/* Responded Button */}
+        <Tooltip
+          title="Responded"
+          arrow
+          componentsProps={{
+            tooltip: {
+              sx: {
+                bgcolor: "primary.main",
+                color: "white",
+                fontWeight: "bold",
+                fontSize: 14,
+                borderRadius: 1,
+                px: 1.5,
+                py: 0.5,
+              },
+            },
           }}
         >
-          <DeleteIcon />
-        </IconButton>
-        <IconButton
-          onClick={() => setIsEditing(!isEditing)}
-          sx={{
-            bgcolor: "rgba(255,255,255,0.7)",
-            "&:hover": { bgcolor: "primary.main", color: "white" },
+          <IconButton onClick={() => setResponded(!responded)} size="small">
+            {responded ? (
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="green"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z" />
+              </svg>
+            ) : (
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="red"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M18.3 5.71L12 12.01 5.7 5.71 4.29 7.12 10.59 13.42 4.29 19.71 5.7 21.12 12 14.82 18.3 21.12 19.71 19.71 13.41 13.42 19.71 7.12 18.3 5.71z" />
+              </svg>
+            )}
+          </IconButton>
+        </Tooltip>
+
+        {/* Delete Button */}
+        <Tooltip
+          title="Delete"
+          arrow
+          componentsProps={{
+            tooltip: {
+              sx: {
+                bgcolor: "primary.main",
+                color: "white",
+                fontWeight: "bold",
+                fontSize: 14,
+                borderRadius: 1,
+                px: 1.5,
+                py: 0.5,
+              },
+            },
           }}
         >
-          {isEditing ? <SaveIcon /> : <EditIcon />}
-        </IconButton>
+          <IconButton onClick={handleDelete} size="small">
+            <DeleteIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
+
+        {/* Edit / Save Button */}
+        <Tooltip
+          title={isEditing ? "Save" : "Edit"}
+          arrow
+          componentsProps={{
+            tooltip: {
+              sx: {
+                bgcolor: "primary.main",
+                color: "white",
+                fontWeight: "bold",
+                fontSize: 14,
+                borderRadius: 1,
+                px: 1.5,
+                py: 0.5,
+              },
+            },
+          }}
+        >
+          <IconButton onClick={() => setIsEditing(!isEditing)} size="small">
+            {isEditing ? (
+              <SaveIcon fontSize="small" />
+            ) : (
+              <EditIcon fontSize="small" />
+            )}
+          </IconButton>
+        </Tooltip>
       </Box>
     </Paper>
   );
