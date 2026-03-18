@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW X6 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="100%" height="100%" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 500 500"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .fil5 {fill:#0078C8}
+    .fil4 {fill:#008EED}
+    .fil2 {fill:#17A2FF}
+    .fil3 {fill:#707070}
+    .fil1 {fill:#BEBEBE}
+   ]]>
+  </style>
+ </defs>
+ <g id="Layer_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <polygon class="fil1" points="234,283 266,283 266,436 250,484 234,437 "/>
+  <path class="fil2" d="M254 283l-136 0c-3,0 -5,-2 -5,-5l0 -5c0,-44 35,-80 79,-80l5 0 0 -126 -10 0c-22,0 -39,-16 -42,-37 -1,-1 0,-3 1,-4 1,-1 2,-2 4,-2l104 0c0,86 0,172 0,259z"/>
+  <polygon class="fil3" points="234,283 266,283 266,299 234,299 "/>
+  <path class="fil4" d="M250 283l132 0c3,0 5,-2 5,-5l0 -5c0,-44 -35,-80 -79,-80l-5 0 0 -126 10 0c22,0 39,-16 42,-37 1,-1 0,-3 -1,-4 -1,-1 -2,-2 -4,-2l-100 0c0,87 0,173 0,259z"/>
+  <path class="fil5" d="M197 180l106 0 0 13 -106 0 0 -13zm0 -114l106 0 0 10 -106 0 0 -10z"/>
+ </g>
+</svg>
