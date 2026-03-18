@@ -19,6 +19,10 @@
 }
 
 .loginSignup__hero {
+  padding-bottom: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: end;
   height: 100%;
   width: 50%;
   background-color: grey;
