@@ -74,7 +74,7 @@ import MapView from "../pages/MapView/MapView";
 import EditProfile from "../pages/EditProfile/EditProfile";
 
 function App() {
-  const isLoggedIn = false; // Här kan du använda context/state senare
+  const isLoggedIn = true; // Här kan du använda context/state senare
 
   return (
     <BrowserRouter>
