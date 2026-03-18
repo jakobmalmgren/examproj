@@ -122,6 +122,12 @@ const MyApplicationCard = () => {
         onChange={(e) => setLocation(e.target.value)}
         InputProps={{ readOnly: !isEditing }}
       />
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+        <Typography variant="body2" sx={{ fontWeight: "bold" }}>
+          Applied:
+        </Typography>
+        <Typography variant="body2">2025-06-06</Typography>
+      </Box>
 
       <Typography sx={{ fontWeight: "bold", mt: 0.5, fontSize: 12 }}>
         Attachments:
