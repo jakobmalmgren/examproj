@@ -22,7 +22,7 @@ const SignUp = () => {
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <AlternateEmailIcon />
+                <AlternateEmailIcon color="primary" />
               </InputAdornment>
             ),
           }}
@@ -34,7 +34,7 @@ const SignUp = () => {
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <PersonIcon />
+                <PersonIcon color="primary" />
               </InputAdornment>
             ),
           }}
@@ -48,7 +48,7 @@ const SignUp = () => {
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
-              <EmailIcon />
+              <EmailIcon color="primary" />
             </InputAdornment>
           ),
         }}
@@ -61,12 +61,13 @@ const SignUp = () => {
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
-              <LockIcon />
+              <LockIcon color="primary" />
             </InputAdornment>
           ),
           endAdornment: (
             <InputAdornment position="end">
               <IconButton
+                color="primary"
                 onClick={() => setShowPassword(!showPassword)}
                 edge="end"
               >
@@ -84,12 +85,13 @@ const SignUp = () => {
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
-              <LockIcon />
+              <LockIcon color="primary" />
             </InputAdornment>
           ),
           endAdornment: (
             <InputAdornment position="end">
               <IconButton
+                color="primary"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 edge="end"
               >

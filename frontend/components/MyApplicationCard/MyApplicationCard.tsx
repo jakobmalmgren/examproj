@@ -20,6 +20,9 @@ const MyApplicationCard = () => {
   const [title, setTitle] = useState("Teacher");
   const [priority, setPriority] = useState("prio1");
   const [reminderDate, setReminderDate] = useState("2026-06-06");
+  // can toggle on an off to visualize for now if there are reminders or not
+  // can change the text later from Reminder to maybe a clock?
+  //    const [reminderDate, setReminderDate] = useState("");
   const [location, setLocation] = useState("Stockholm");
   const [extraInfoEmail, setExtraInfoEmail] = useState("test@example.com");
   const [extraInfoPhone, setExtraInfoPhone] = useState("0707-060606");
@@ -54,6 +57,7 @@ const MyApplicationCard = () => {
         fullWidth
         size="small"
         variant="outlined"
+        label="Position / Role"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         InputProps={{ readOnly: !isEditing }}
@@ -126,6 +130,28 @@ const MyApplicationCard = () => {
       />
       <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
         <Typography variant="body2" sx={{ fontWeight: "bold" }}>
+          Reminder:
+        </Typography>
+        {reminderDate ? (
+          <Typography
+            variant="body2"
+            sx={{
+              color: "green",
+              display: "flex",
+              alignItems: "center",
+              gap: 0.5,
+            }}
+          >
+            ✅ {reminderDate}
+          </Typography>
+        ) : (
+          <Typography variant="body2" sx={{ color: "red" }}>
+            No reminder
+          </Typography>
+        )}
+      </Box>
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+        <Typography variant="body2" sx={{ fontWeight: "bold" }}>
           Applied:
         </Typography>
         <Typography variant="body2">2025-06-06</Typography>
@@ -174,7 +200,6 @@ const MyApplicationCard = () => {
               sx: {
                 bgcolor: "primary.main",
                 color: "white",
-                fontWeight: "bold",
                 fontSize: 14,
                 borderRadius: 1,
                 px: 1.5,
@@ -217,7 +242,6 @@ const MyApplicationCard = () => {
               sx: {
                 bgcolor: "primary.main",
                 color: "white",
-                fontWeight: "bold",
                 fontSize: 14,
                 borderRadius: 1,
                 px: 1.5,
@@ -226,7 +250,7 @@ const MyApplicationCard = () => {
             },
           }}
         >
-          <IconButton onClick={handleDelete} size="small">
+          <IconButton onClick={handleDelete} size="small" color="primary">
             <DeleteIcon fontSize="small" />
           </IconButton>
         </Tooltip>
@@ -240,7 +264,6 @@ const MyApplicationCard = () => {
               sx: {
                 bgcolor: "primary.main",
                 color: "white",
-                fontWeight: "bold",
                 fontSize: 14,
                 borderRadius: 1,
                 px: 1.5,
@@ -251,9 +274,9 @@ const MyApplicationCard = () => {
         >
           <IconButton onClick={() => setIsEditing(!isEditing)} size="small">
             {isEditing ? (
-              <SaveIcon fontSize="small" />
+              <SaveIcon fontSize="small" color="primary" />
             ) : (
-              <EditIcon fontSize="small" />
+              <EditIcon fontSize="small" color="primary" />
             )}
           </IconButton>
         </Tooltip>

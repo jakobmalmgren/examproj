@@ -1,5 +1,6 @@
 import "./MapView.css";
 import "leaflet/dist/leaflet.css";
+import { useTheme } from "@mui/material/styles";
 import { MapContainer, TileLayer, Marker, Tooltip } from "react-leaflet";
 import L from "leaflet";
 const pinImage = "/images/pinflat_105979.svg";
@@ -21,6 +22,7 @@ const jobs = [
 ];
 
 function MapView() {
+  const theme = useTheme();
   const customIcon = L.icon({
     iconUrl: pinImage,
     iconSize: [30, 30],
@@ -40,7 +42,10 @@ function MapView() {
         <Marker key={index} position={[job.lat, job.lng]} icon={customIcon}>
           {/* 🖱️ Hover tooltip */}
           <Tooltip direction="top" offset={[0, -10]} opacity={1}>
-            <div className="tooltip-box">
+            <div
+              className="tooltip-box"
+              style={{ fontFamily: theme.typography.fontFamily }}
+            >
               <strong>{job.title}</strong>
               <br />
               {job.company}

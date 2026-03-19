@@ -1,4 +1,9 @@
 import { useState } from "react";
+import EmailIcon from "@mui/icons-material/Email";
+import LockIcon from "@mui/icons-material/Lock";
+import PersonIcon from "@mui/icons-material/Person";
+// import { useTheme } from "@emotion/react";
+
 import {
   Box,
   TextField,
@@ -7,10 +12,12 @@ import {
   Avatar,
   InputAdornment,
   IconButton,
+  useTheme,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const EditProfile = () => {
+  const theme = useTheme();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
@@ -59,13 +66,22 @@ const EditProfile = () => {
           borderRadius: 2,
         }}
       >
-        <Typography variant="h6">Edit Profile</Typography>
+        <Typography variant="h6" color="primary">
+          Edit Profile
+        </Typography>
 
         <TextField
           label="Name"
           variant="outlined"
           value={name}
           onChange={(e) => setName(e.target.value)}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <PersonIcon sx={{ color: "primary.main" }} />
+              </InputAdornment>
+            ),
+          }}
         />
 
         <TextField
@@ -73,7 +89,13 @@ const EditProfile = () => {
           variant="outlined"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          type="email"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <EmailIcon sx={{ color: "primary.main" }} />
+              </InputAdornment>
+            ),
+          }}
         />
 
         {/* Current Password */}
@@ -85,11 +107,17 @@ const EditProfile = () => {
           onChange={(e) => setCurrentPassword(e.target.value)}
           required
           InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <LockIcon sx={{ color: "primary.main" }} />
+              </InputAdornment>
+            ),
             endAdornment: (
               <InputAdornment position="end">
                 <IconButton
                   onClick={() => setShowCurrentPassword((prev) => !prev)}
                   edge="end"
+                  sx={{ color: "primary.main" }}
                 >
                   {showCurrentPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
@@ -106,11 +134,17 @@ const EditProfile = () => {
           value={newPassword}
           onChange={(e) => setNewPassword(e.target.value)}
           InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <LockIcon sx={{ color: "primary.main" }} />
+              </InputAdornment>
+            ),
             endAdornment: (
               <InputAdornment position="end">
                 <IconButton
                   onClick={() => setShowNewPassword((prev) => !prev)}
                   edge="end"
+                  sx={{ color: "primary.main" }}
                 >
                   {showNewPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
@@ -119,11 +153,17 @@ const EditProfile = () => {
           }}
         />
 
-        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2, my: 4 }}>
           <Avatar
+            sx={{
+              width: 80,
+              height: 80,
+              bgcolor: "white", // ✅ korrekt primary färg
+              color: "primary.main",
+              border: `1px solid ${theme.palette.primary.main}`,
+            }}
             src={image}
             alt="Profile Image"
-            sx={{ width: 80, height: 80 }}
           />
           <Button variant="contained" component="label">
             Upload Image

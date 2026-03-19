@@ -87,7 +87,7 @@ const AddApplications = () => {
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
-              <TitleIcon />
+              <TitleIcon sx={{ color: "primary.main" }} />
             </InputAdornment>
           ),
         }}
@@ -105,7 +105,7 @@ const AddApplications = () => {
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <InfoIcon />
+                  <InfoIcon sx={{ color: "primary.main" }} />
                 </InputAdornment>
               ),
               sx: { pr: 6 }, // lämnar plats för Delete-ikonen
@@ -121,7 +121,7 @@ const AddApplications = () => {
               transform: "translateY(-50%)",
             }}
           >
-            <DeleteIcon />
+            <DeleteIcon sx={{ color: "primary.main" }} />
           </IconButton>
         </Box>
       ))}
@@ -163,11 +163,14 @@ const AddApplications = () => {
               sx: {
                 bgcolor: "primary.main",
                 color: "white",
-                fontWeight: "bold",
+
                 fontSize: 14,
                 borderRadius: 1,
                 px: 1.5,
                 py: 0.5,
+                "& .MuiTooltip-arrow": {
+                  color: "primary.main",
+                },
               },
             },
           }}
@@ -199,11 +202,14 @@ const AddApplications = () => {
               sx: {
                 bgcolor: "primary.main",
                 color: "white",
-                fontWeight: "bold",
+
                 fontSize: 14,
                 borderRadius: 1,
                 px: 1.5,
                 py: 0.5,
+                "& .MuiTooltip-arrow": {
+                  color: "primary.main",
+                },
               },
             },
           }}
@@ -235,11 +241,14 @@ const AddApplications = () => {
               sx: {
                 bgcolor: "primary.main",
                 color: "white",
-                fontWeight: "bold",
+
                 fontSize: 14,
                 borderRadius: 1,
                 px: 1.5,
                 py: 0.5,
+                "& .MuiTooltip-arrow": {
+                  color: "primary.main",
+                },
               },
             },
           }}
@@ -271,11 +280,14 @@ const AddApplications = () => {
               sx: {
                 bgcolor: "primary.main",
                 color: "white",
-                fontWeight: "bold",
+
                 fontSize: 14,
                 borderRadius: 1,
                 px: 1.5,
                 py: 0.5,
+                "& .MuiTooltip-arrow": {
+                  color: "primary.main",
+                },
               },
             },
           }}
@@ -284,6 +296,7 @@ const AddApplications = () => {
         </Tooltip>
       </Box>
       <FormControlLabel
+        sx={{ color: "primary.main" }}
         control={
           <Switch
             checked={reminder}
@@ -293,6 +306,14 @@ const AddApplications = () => {
                 setCustomDate("");
                 setReminderDays("5days");
               }
+            }}
+            sx={{
+              "& .MuiSwitch-track": {
+                backgroundColor: "primary.light",
+              },
+              "& .MuiSwitch-thumb": {
+                color: "primary.main",
+              },
             }}
           />
         }
@@ -436,7 +457,7 @@ const AddApplications = () => {
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
-              <LocationOnIcon />
+              <LocationOnIcon color="primary" />
             </InputAdornment>
           ),
         }}

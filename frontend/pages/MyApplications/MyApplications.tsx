@@ -44,6 +44,7 @@ const MyApplications = () => {
           gap: 3,
           minWidth: 700,
           borderRadius: 3,
+          border: (theme) => `1px solid ${theme.palette.primary.main}`,
         }}
       >
         {/* 🔥 Prio single-choice "checkbox" */}
@@ -56,6 +57,7 @@ const MyApplications = () => {
                 sx={{
                   width: 32,
                   height: 32,
+
                   "& .MuiSvgIcon-root": { fontSize: 32 },
                 }}
               />
@@ -93,7 +95,12 @@ const MyApplications = () => {
         </Box>
 
         {/* 🔍 Stad input med LocationOnIcon */}
-        <Box sx={{ position: "relative", width: "100%" }}>
+        <Box
+          sx={{
+            position: "relative",
+            width: "100%",
+          }}
+        >
           <TextField
             fullWidth
             label="Search city"
@@ -103,7 +110,11 @@ const MyApplications = () => {
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <LocationOnIcon />
+                  <LocationOnIcon
+                    sx={{
+                      color: "primary.main",
+                    }}
+                  />
                 </InputAdornment>
               ),
             }}
