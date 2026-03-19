@@ -14,7 +14,7 @@ const Review = ({ review }: ReviewProps) => {
         borderRadius: 2,
         p: 2,
         width: 500,
-        bgcolor: "rgba(249, 249, 249, 0.75)",
+        // bgcolor: "rgba(249, 249, 249, 0.75)",
         display: "flex",
         flexDirection: "column",
         gap: 1.5,
@@ -28,7 +28,7 @@ const Review = ({ review }: ReviewProps) => {
             width: 50,
             height: 50,
             borderRadius: "50%",
-            bgcolor: "#ccc",
+            bgcolor: "#dad6d645",
           }}
         />
 
