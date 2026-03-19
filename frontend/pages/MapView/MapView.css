@@ -14,12 +14,11 @@
   border-radius: 8px;
   padding: 6px 10px;
   font-size: 14px;
-  font-family: "Roboto", sans-serif; /* <-- ändra här */
+
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 /* Om du vill använda tooltip-box-specifik styling */
 .tooltip-box {
-  font-family: "Courier New", monospace; /* <-- annat teckensnitt */
   font-size: 13px;
 }

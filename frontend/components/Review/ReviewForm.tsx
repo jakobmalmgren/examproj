@@ -69,24 +69,6 @@ const ReviewForm = () => {
         />
 
         <Tooltip
-          title="You can prioritize applications by selecting a priority level"
-          arrow
-          componentsProps={{
-            tooltip: {
-              sx: {
-                bgcolor: "primary.main",
-                color: "white",
-                fontWeight: "bold",
-                fontSize: 14,
-                borderRadius: 1,
-                px: 1.5,
-                py: 0.5,
-              },
-            },
-          }}
-        ></Tooltip>
-
-        <Tooltip
           title='If no name is submitted, your name will be "Unknown"'
           arrow
           componentsProps={{
@@ -94,11 +76,13 @@ const ReviewForm = () => {
               sx: {
                 bgcolor: "primary.main",
                 color: "white",
-                fontWeight: "bold",
                 fontSize: 14,
                 borderRadius: 1,
                 px: 1.5,
                 py: 0.5,
+                "& .MuiTooltip-arrow": {
+                  color: "primary.main",
+                },
               },
             },
           }}

@@ -7,13 +7,20 @@ import Divider from "@mui/material/Divider";
 import Link from "@mui/material/Link";
 import GoogleIcon from "@mui/icons-material/Google";
 import { type AuthSkelletonProps } from "./types/types";
+import { useTheme } from "@mui/material/styles";
 
 const AuthSkelleton = ({ children, title }: AuthSkelletonProps) => {
   const isLogin = title.toLowerCase() === "login";
+  const theme = useTheme();
 
   return (
     <div className="authSkelleton">
-      <h1 className="authSkelleton__header">{title}</h1>
+      <h1
+        className="authSkelleton__header"
+        style={{ color: theme.palette.primary.main }}
+      >
+        {title}
+      </h1>
 
       <Box
         component="form"
@@ -40,14 +47,14 @@ const AuthSkelleton = ({ children, title }: AuthSkelletonProps) => {
           {isLogin ? (
             <>
               Don't have an account?{" "}
-              <Link component={RouterLink} to="/auth/signup">
-                Sign up
+              <Link component={RouterLink} to="/auth/signup" underline="none">
+                Signup
               </Link>
             </>
           ) : (
             <>
               Already have an account?{" "}
-              <Link component={RouterLink} to="/auth/login">
+              <Link component={RouterLink} to="/auth/login" underline="none">
                 Login
               </Link>
             </>

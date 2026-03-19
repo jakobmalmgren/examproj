@@ -21,6 +21,8 @@ import RoomIcon from "@mui/icons-material/Room";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Tooltip from "@mui/material/Tooltip";
 import { useTheme } from "@mui/material/styles";
+import { Avatar } from "@mui/material";
+import PersonIcon from "@mui/icons-material/Person";
 
 const navItems = [
   { text: "My Applications", icon: <HomeIcon />, path: "/home" },
@@ -28,7 +30,7 @@ const navItems = [
   { text: "Statistics", icon: <BarChartIcon />, path: "/stats" },
   { text: "Map", icon: <RoomIcon />, path: "/map" },
   { text: "Profile", icon: <AccountCircleIcon />, path: "/profile" },
-  { text: "AboutUs", icon: <PeopleIcon />, path: "/about" },
+  { text: "About", icon: <PeopleIcon />, path: "/about" },
 ];
 
 const MainLayout = () => {
@@ -61,7 +63,26 @@ const MainLayout = () => {
             }}
           >
             {navItems.map((item) => (
-              <Tooltip key={item.text} title={item.text} arrow>
+              <Tooltip
+                key={item.text}
+                title={item.text}
+                arrow
+                componentsProps={{
+                  tooltip: {
+                    sx: {
+                      bgcolor: "primary.main",
+                      color: "white",
+                      fontSize: 14,
+                      borderRadius: 1,
+                      px: 1.5,
+                      py: 0.5,
+                      "& .MuiTooltip-arrow": {
+                        color: "primary.main",
+                      },
+                    },
+                  },
+                }}
+              >
                 <IconButton
                   component={RouterLink}
                   to={item.path}
@@ -74,18 +95,27 @@ const MainLayout = () => {
             ))}
           </Box>
 
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-            <Tooltip title="Log Out" arrow>
-              <IconButton
-                sx={{
-                  color: "inherit",
-                }}
-                onClick={() => console.log("Log out")}
-              >
-                <LogoutIcon />
-              </IconButton>
-            </Tooltip>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+            {/* Avatar */}
+            <Avatar
+              sx={{
+                width: 40,
+                height: 40,
+                bgcolor: "white",
+                color: "primary.main",
+              }}
+            >
+              <PersonIcon />
+            </Avatar>
 
+            <IconButton
+              sx={{ color: "inherit" }}
+              onClick={() => console.log("Log out")}
+            >
+              <LogoutIcon />
+            </IconButton>
+
+            {/* Menu Icon (xs only) */}
             <IconButton
               color="inherit"
               edge="end"
@@ -131,7 +161,26 @@ const MainLayout = () => {
         >
           {navItems.map((item) => (
             <ListItem key={item.text} disablePadding sx={{ width: "100%" }}>
-              <Tooltip title={item.text} arrow placement="right">
+              <Tooltip
+                title={item.text}
+                arrow
+                placement="right"
+                componentsProps={{
+                  tooltip: {
+                    sx: {
+                      bgcolor: "primary.main",
+                      color: "white",
+                      fontSize: 14,
+                      borderRadius: 1,
+                      px: 1.5,
+                      py: 0.5,
+                      "& .MuiTooltip-arrow": {
+                        color: "primary.main",
+                      },
+                    },
+                  },
+                }}
+              >
                 <ListItemButton
                   component={RouterLink}
                   to={item.path}
