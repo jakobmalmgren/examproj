@@ -1,4 +1,5 @@
 import { useState } from "react";
+import FileViewerModal from "../../components/FileViewerModal/FileViewerModal";
 import { Tooltip } from "@mui/material";
 import {
   Box,
@@ -16,6 +17,21 @@ import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 
 const MyApplicationCard = () => {
+  // inne i MyApplicationCard
+  const [modalOpen, setModalOpen] = useState(false);
+  const [currentFileUrl, setCurrentFileUrl] = useState("");
+  const [currentFileType, setCurrentFileType] = useState<"pdf" | "docx">("pdf");
+
+  const handleOpenFile = (fileName: string) => {
+    const url = `/uploads/${fileName}`; // ändra till rätt path
+    const type = fileName.endsWith(".pdf") ? "pdf" : "docx";
+    setCurrentFileUrl(url);
+    setCurrentFileType(type);
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => setModalOpen(false);
+
   const [responded, setResponded] = useState(false);
   const [title, setTitle] = useState("Teacher");
   const [priority, setPriority] = useState("prio1");
@@ -33,7 +49,6 @@ const MyApplicationCard = () => {
   const priorityEmoji =
     priority === "prio1" ? "🔥" : priority === "prio2" ? "🤷" : "🤦";
 
-  const handleFileClick = (fileName: string) => alert(`Open file: ${fileName}`);
   const handleDelete = () => alert("Delete this application");
 
   return (
@@ -166,7 +181,7 @@ const MyApplicationCard = () => {
       <Typography sx={{ fontWeight: "bold", mt: 0.5, fontSize: 12 }}>
         Attachments:
       </Typography>
-      <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
+      {/* <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
         {files.map((file, idx) => (
           <Chip
             key={idx}
@@ -180,7 +195,29 @@ const MyApplicationCard = () => {
             }}
           />
         ))}
+      </Box> */}
+      <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
+        {files.map((file, idx) => (
+          <Chip
+            key={idx}
+            label={file}
+            size="small"
+            clickable
+            onClick={() => handleOpenFile(file)}
+            sx={{
+              "&:hover": { bgcolor: "#bbdefb", transform: "scale(1.05)" },
+              transition: "transform 0.2s, background-color 0.2s",
+            }}
+          />
+        ))}
       </Box>
+
+      <FileViewerModal
+        open={modalOpen}
+        onClose={handleCloseModal}
+        fileUrl={currentFileUrl}
+        fileType={currentFileType}
+      />
       <Box
         sx={{
           position: "absolute",

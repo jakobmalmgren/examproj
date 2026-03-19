@@ -54,7 +54,7 @@ const MainLayout = () => {
             <img
               src="../../../public/images/iconimg.png" // byt till din bildfil
               alt="RMA Logo"
-              style={{ height: "40px", width: "auto", borderRadius: "50%" }} // justera storlek
+              style={{ height: "40px", width: "40px", borderRadius: "50%" }} // justera storlek
             />
           </Typography>
 
