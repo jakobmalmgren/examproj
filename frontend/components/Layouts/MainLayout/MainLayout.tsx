@@ -51,7 +51,11 @@ const MainLayout = () => {
               cursor: "pointer",
             }}
           >
-            RMA
+            <img
+              src="../../../public/images/iconimg.png" // byt till din bildfil
+              alt="RMA Logo"
+              style={{ height: "40px", width: "auto", borderRadius: "50%" }} // justera storlek
+            />
           </Typography>
 
           <Box

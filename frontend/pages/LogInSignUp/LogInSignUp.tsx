@@ -9,6 +9,11 @@ const LogInSignUp = () => {
           <Outlet />
         </div>
         <div className="loginSignup__hero">
+          <img
+            className="loginSignup__img"
+            src="../../public/images/rma.png"
+            alt=""
+          />
           <Carousel></Carousel>
         </div>
       </div>
