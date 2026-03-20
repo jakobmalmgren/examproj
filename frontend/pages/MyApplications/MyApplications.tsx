@@ -103,7 +103,7 @@ const MyApplications = () => {
         >
           <TextField
             fullWidth
-            label="Search city"
+            label="City"
             variant="outlined"
             value={city}
             onChange={(e) => setCity(e.target.value)}

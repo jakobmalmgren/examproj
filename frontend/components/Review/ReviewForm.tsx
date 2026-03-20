@@ -62,12 +62,15 @@ const ReviewForm = () => {
         display: "flex",
         flexDirection: "column",
         gap: 2,
-        border: "1px solid #ccc",
         borderRadius: 2,
         bgcolor: "#e3f2fd",
       }}
     >
-      <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
+      <Typography
+        color="primary"
+        variant="subtitle1"
+        sx={{ fontWeight: "bold" }}
+      >
         How was your experience?
       </Typography>
 
