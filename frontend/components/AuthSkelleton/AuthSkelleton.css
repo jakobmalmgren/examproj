@@ -3,6 +3,5 @@
 }
 .authSkelleton__header {
   margin: 30px 0px;
-
-  font-family: ui-monospace;
+  font-family: "Kelly Slab", sans-serif !important;
 }
