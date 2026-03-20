@@ -15,7 +15,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import HomeIcon from "@mui/icons-material/Home";
 import AddIcon from "@mui/icons-material/Add";
 import BarChartIcon from "@mui/icons-material/BarChart";
-import PeopleIcon from "@mui/icons-material/People";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import RoomIcon from "@mui/icons-material/Room";
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -23,6 +22,7 @@ import Tooltip from "@mui/material/Tooltip";
 import { useTheme } from "@mui/material/styles";
 import { Avatar } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
+import ReviewDrawer from "../../Review/ReviewDrawer";
 
 const navItems = [
   { text: "My Applications", icon: <HomeIcon />, path: "/home" },
@@ -30,7 +30,6 @@ const navItems = [
   { text: "Statistics", icon: <BarChartIcon />, path: "/stats" },
   { text: "Map", icon: <RoomIcon />, path: "/map" },
   { text: "Profile", icon: <AccountCircleIcon />, path: "/profile" },
-  { text: "About", icon: <PeopleIcon />, path: "/about" },
 ];
 
 const MainLayout = () => {
@@ -130,6 +129,7 @@ const MainLayout = () => {
             </IconButton>
           </Box>
         </Toolbar>
+        <ReviewDrawer></ReviewDrawer>
       </AppBar>
 
       <Drawer
