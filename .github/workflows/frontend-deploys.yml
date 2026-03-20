@@ -145,7 +145,7 @@ jobs:
         run: |
           cd frontend
           npm install
-
+      #ändrade
       # - name: Run tests with coverage
       #   run: |
       #     cd frontend
