@@ -1,0 +1,9 @@
+.MuiToolbar-root {
+  min-height: 64px !important; /* t.ex. desktop */
+}
+
+@media (max-width: 600px) {
+  .MuiToolbar-root {
+    min-height: 64px !important; /* behåll samma höjd även på små skärmar */
+  }
+}
