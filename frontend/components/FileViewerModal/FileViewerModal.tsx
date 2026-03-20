@@ -4,15 +4,15 @@ import CloseIcon from "@mui/icons-material/Close";
 interface FileViewerModalProps {
   open: boolean;
   onClose: () => void;
-  fileUrl: string;
-  fileType?: "pdf" | "docx"; // för olika typer
+  //   fileUrl: string;
+  //   fileType?: "pdf" | "docx"; // för olika typer
 }
 
 const FileViewerModal = ({
   open,
   onClose,
-  fileUrl,
-  fileType = "pdf",
+  //   fileUrl,
+  //   fileType = "pdf",
 }: FileViewerModalProps) => {
   return (
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
@@ -26,7 +26,7 @@ const FileViewerModal = ({
         </IconButton>
       </DialogTitle>
       <DialogContent>
-        {fileType === "pdf" ? (
+        {/* {fileType === "pdf" ? (
           <iframe
             src={fileUrl}
             width="100%"
@@ -42,7 +42,14 @@ const FileViewerModal = ({
             title="Word Dokument"
             style={{ border: "none" }}
           />
-        )}
+        )} */}
+        <iframe
+          //   src={`https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(fileUrl)}`}
+          width="100%"
+          height="600px"
+          title="Word Dokument"
+          style={{ border: "none" }}
+        />
       </DialogContent>
     </Dialog>
   );

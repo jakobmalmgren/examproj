@@ -19,14 +19,14 @@ import SaveIcon from "@mui/icons-material/Save";
 const MyApplicationCard = () => {
   // inne i MyApplicationCard
   const [modalOpen, setModalOpen] = useState(false);
-  const [currentFileUrl, setCurrentFileUrl] = useState("");
-  const [currentFileType, setCurrentFileType] = useState<"pdf" | "docx">("pdf");
+  //   const [currentFileUrl, setCurrentFileUrl] = useState("");
+  //   const [currentFileType, setCurrentFileType] = useState<"pdf" | "docx">("pdf");
 
-  const handleOpenFile = (fileName: string) => {
-    const url = `/uploads/${fileName}`; // ändra till rätt path
-    const type = fileName.endsWith(".pdf") ? "pdf" : "docx";
-    setCurrentFileUrl(url);
-    setCurrentFileType(type);
+  const handleOpenFile = () => {
+    // const url = `/uploads/${fileName}`; // ändra till rätt path
+    // const type = fileName.endsWith(".pdf") ? "pdf" : "docx";
+    // setCurrentFileUrl(url);
+    // setCurrentFileType(type);
     setModalOpen(true);
   };
 
@@ -203,7 +203,7 @@ const MyApplicationCard = () => {
             label={file}
             size="small"
             clickable
-            onClick={() => handleOpenFile(file)}
+            onClick={() => handleOpenFile()}
             sx={{
               "&:hover": { bgcolor: "#bbdefb", transform: "scale(1.05)" },
               transition: "transform 0.2s, background-color 0.2s",
@@ -215,8 +215,8 @@ const MyApplicationCard = () => {
       <FileViewerModal
         open={modalOpen}
         onClose={handleCloseModal}
-        fileUrl={currentFileUrl}
-        fileType={currentFileType}
+        // fileUrl={currentFileUrl}
+        // fileType={currentFileType}
       />
       <Box
         sx={{
