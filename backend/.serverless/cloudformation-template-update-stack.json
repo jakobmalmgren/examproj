@@ -19,7 +19,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "serverless-framework-deployments-eu-north-1-ba886c44-ebde",
-          "S3Key": "serverless/remember-my-application/dev/1774278927445-2026-03-23T15:15:27.445Z/remember-my-application.zip"
+          "S3Key": "serverless/remember-my-application/dev/1774282772792-2026-03-23T16:19:32.792Z/remember-my-application.zip"
         },
         "Handler": "functions/users/signup/index.handler",
         "Runtime": "nodejs20.x",
@@ -42,7 +42,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "serverless-framework-deployments-eu-north-1-ba886c44-ebde",
-          "S3Key": "serverless/remember-my-application/dev/1774278927445-2026-03-23T15:15:27.445Z/remember-my-application.zip"
+          "S3Key": "serverless/remember-my-application/dev/1774282772792-2026-03-23T16:19:32.792Z/remember-my-application.zip"
         },
         "Handler": "functions/users/login/index.handler",
         "Runtime": "nodejs20.x",
@@ -60,24 +60,24 @@
         "LoginLogGroup"
       ]
     },
-    "CreateUserLambdaVersioniRxWeXiFXNNQEv1LhycdQ7zt37sQ1VOLjIhJWmxQoc": {
+    "CreateUserLambdaVersion9pktjhBzK4OYaiS1sdIHaxJ3WQmg3HM52bYRK7pYXg": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "CreateUserLambdaFunction"
         },
-        "CodeSha256": "qy8J+nE4YsG1p13RGpHKDXXE37YVbx57qG4xQSjT+vY="
+        "CodeSha256": "0nKN13ox1hpa9XlP3SkbwH2e6l1JYJ/NHrc1xG6mHf4="
       }
     },
-    "LoginLambdaVersionB4qNilc564V0ZehW61Smf4BiYpUPRDlmEXVWiMFotC8": {
+    "LoginLambdaVersioncg6UTotNBmvgY9vLgewEZsAVsvP5nqj8PkpNc7BUlI": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "LoginLambdaFunction"
         },
-        "CodeSha256": "qy8J+nE4YsG1p13RGpHKDXXE37YVbx57qG4xQSjT+vY="
+        "CodeSha256": "0nKN13ox1hpa9XlP3SkbwH2e6l1JYJ/NHrc1xG6mHf4="
       }
     },
     "HttpApi": {
@@ -306,7 +306,7 @@
     "CreateUserLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "CreateUserLambdaVersioniRxWeXiFXNNQEv1LhycdQ7zt37sQ1VOLjIhJWmxQoc"
+        "Ref": "CreateUserLambdaVersion9pktjhBzK4OYaiS1sdIHaxJ3WQmg3HM52bYRK7pYXg"
       },
       "Export": {
         "Name": "sls-remember-my-application-dev-CreateUserLambdaFunctionQualifiedArn"
@@ -315,7 +315,7 @@
     "LoginLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "LoginLambdaVersionB4qNilc564V0ZehW61Smf4BiYpUPRDlmEXVWiMFotC8"
+        "Ref": "LoginLambdaVersioncg6UTotNBmvgY9vLgewEZsAVsvP5nqj8PkpNc7BUlI"
       },
       "Export": {
         "Name": "sls-remember-my-application-dev-LoginLambdaFunctionQualifiedArn"

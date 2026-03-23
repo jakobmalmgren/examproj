@@ -6,10 +6,11 @@ import {
 import { PutItemCommand } from "@aws-sdk/client-dynamodb";
 import { client } from "../../../config/dj";
 import middy from "@middy/core";
+import { transpileSchema } from "@middy/validator/transpile";
+import validator from "@middy/validator";
 import httpJsonBodyParser from "@middy/http-json-body-parser";
-
+import { signUpSchema } from "../../../middlewares/schemas/signUpSchema";
 const signUpHandler = async (event) => {
-  // Middy + httpJsonBodyParser gör att event.body är redan ett objekt
   const { username, email, password, confirmPassword } = event.body;
 
   if (password !== confirmPassword) {
@@ -67,5 +68,18 @@ const signUpHandler = async (event) => {
   }
 };
 
-export const handler = middy(signUpHandler).use(httpJsonBodyParser());
-// module.exports.handler = middy(signUpHandler).use(httpJsonBodyParser());
+// export const handler = middy(signUpHandler).use(httpJsonBodyParser());
+export const handler = middy(signUpHandler)
+  .use(httpJsonBodyParser()) // parse JSON body
+  .use(validator({ eventSchema: transpileSchema(signUpSchema) })) // validera inputs
+  .onError((request) => {
+    // request.error innehåller validator-felet
+    request.response = {
+      statusCode: 400,
+      body: JSON.stringify({
+        success: false,
+        message: "Input validation failed",
+        details: request.error?.details || request.error?.message,
+      }),
+    };
+  });

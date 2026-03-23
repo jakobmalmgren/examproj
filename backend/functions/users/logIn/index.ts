@@ -1,25 +1,20 @@
-// import dotenv from "dotenv";
-// dotenv.config(); // läser .env-filen
-// import { Buffer } from "buffer";
-// globalThis.Buffer = Buffer;
-// import httpJsonBodyParser from "@middy/http-json-body-parser";
-// import middy from "@middy/core";
-// import jwt from "jsonwebtoken";
-// import { findUser } from "../../../services/users/userService";
-// import { comparePassword } from "../../../utils/bcrypt/bcrypt";
-const { Buffer } = require("buffer"); // buffer är inbyggt
-globalThis.Buffer = Buffer;
-const middy = require("@middy/core");
-const httpJsonBodyParser = require("@middy/http-json-body-parser");
-const jwt = require("jsonwebtoken");
-const { findUser } = require("../../../services/users/userService");
-const { comparePassword } = require("../../../utils/bcrypt/bcrypt");
+import httpJsonBodyParser from "@middy/http-json-body-parser";
+import middy from "@middy/core";
+import { SignJWT } from "jose";
+import { findUser } from "../../../services/users/userService.js";
+import { comparePassword } from "../../../utils/bcrypt/bcrypt.js";
+import { transpileSchema } from "@middy/validator/transpile";
+import { loginSchema } from "../../../middlewares/schemas/loginSchema.js";
+import validator from "@middy/validator";
 
 const loginHandler = async (event) => {
   const { username, password } = event.body;
+  const secret = process.env.JWT_SECRET;
 
   try {
+    // Hämta användaren från DynamoDB
     const user = await findUser(username);
+    console.log("USER!!", user);
 
     if (!user) {
       return {
@@ -28,8 +23,8 @@ const loginHandler = async (event) => {
       };
     }
 
-    const matchedPassword = await comparePassword(password, user.password);
-
+    // Jämför lösenord
+    const matchedPassword = await comparePassword(password, user.password.S);
     if (!matchedPassword) {
       return {
         statusCode: 401,
@@ -37,21 +32,22 @@ const loginHandler = async (event) => {
       };
     }
 
-    const payload = {
+    // Skapa token med jose
+    const token = await new SignJWT({
       username: user.username,
       email: user.email,
       name: user.name,
-    };
-
-    const token = jwt.sign(payload, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
+    })
+      .setProtectedHeader({ alg: "HS256" })
+      .setExpirationTime("1h")
+      .sign(new TextEncoder().encode(secret));
 
     return {
       statusCode: 200,
       body: JSON.stringify({
         message: "Login successful",
-        token: token,
+        success: true,
+        token,
         user: { username: user.username, name: user.name, email: user.email },
       }),
     };
@@ -63,5 +59,18 @@ const loginHandler = async (event) => {
     };
   }
 };
-// export const handler = middy(loginHandler).use(httpJsonBodyParser());
-module.exports.handler = middy(loginHandler).use(httpJsonBodyParser());
+
+export const handler = middy(loginHandler)
+  .use(httpJsonBodyParser()) // parse JSON body
+  .use(validator({ eventSchema: transpileSchema(loginSchema) })) // validera inputs
+  .onError((request) => {
+    // request.error innehåller validator-felet
+    request.response = {
+      statusCode: 400,
+      body: JSON.stringify({
+        success: false,
+        message: "Input validation failed",
+        details: request.error?.details || request.error?.message,
+      }),
+    };
+  });
