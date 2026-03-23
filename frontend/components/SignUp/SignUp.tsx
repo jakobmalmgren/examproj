@@ -28,7 +28,7 @@ const SignUp = () => {
           }}
         />
 
-        <TextField
+        {/* <TextField
           label="Name"
           variant="outlined"
           InputProps={{
@@ -38,7 +38,7 @@ const SignUp = () => {
               </InputAdornment>
             ),
           }}
-        />
+        /> */}
       </>
 
       <TextField

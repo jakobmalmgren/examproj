@@ -26,7 +26,7 @@ const LogIn = () => {
         }}
       />
 
-      <TextField
+      {/* <TextField
         label="Name"
         variant="outlined"
         InputProps={{
@@ -36,7 +36,7 @@ const LogIn = () => {
             </InputAdornment>
           ),
         }}
-      />
+      /> */}
 
       <TextField
         label="Password"
