@@ -1,0 +1,44 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: jakobjavascript24
+service: remember-my-application
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: eu-north-1
+  role: arn:aws:iam::136191772737:role/adminrole
+  httpApi:
+    cors: true
+
+functions:
+  createUser:
+    handler: functions/users/signup/index.handler
+    events:
+      - httpApi:
+          path: /api/user/signup
+          method: post
+
+  login:
+    handler: functions/users/login/index.handler
+    events:
+      - httpApi:
+          path: /api/user/login
+          method: post
+
+resources:
+  Resources:
+    EventsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ApplicationsTable
+        AttributeDefinitions:
+          - AttributeName: pk
+            AttributeType: S
+          - AttributeName: sk
+            AttributeType: S
+        KeySchema:
+          - AttributeName: pk
+            KeyType: HASH
+          - AttributeName: sk
+            KeyType: RANGE
+        BillingMode: PAY_PER_REQUEST
