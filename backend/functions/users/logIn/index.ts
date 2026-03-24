@@ -64,6 +64,7 @@ export const handler = middy(loginHandler)
   .use(httpJsonBodyParser()) // parse JSON body
   .use(validator({ eventSchema: transpileSchema(loginSchema) })) // validera inputs
   .onError((request) => {
+    console.log("reg!!", request);
     // request.error innehåller validator-felet
     request.response = {
       statusCode: 400,

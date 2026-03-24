@@ -12880,6 +12880,7 @@ var loginHandler = async (event) => {
   }
 };
 var handler = core_default(loginHandler).use(http_json_body_parser_default()).use(validator_default({ eventSchema: transpileSchema(loginSchema) })).onError((request) => {
+  console.log("reg!!", request);
   request.response = {
     statusCode: 400,
     body: JSON.stringify({
