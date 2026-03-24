@@ -1,0 +1,477 @@
+{
+  "service": {
+    "service": "remember-my-application",
+    "serviceObject": {
+      "name": "remember-my-application"
+    },
+    "provider": {
+      "name": "aws",
+      "runtime": "nodejs20.x",
+      "region": "eu-north-1",
+      "role": "arn:aws:iam::136191772737:role/adminrole",
+      "httpApi": {
+        "cors": true
+      },
+      "stage": "dev",
+      "versionFunctions": true,
+      "compiledCloudFormationTemplate": {
+        "AWSTemplateFormatVersion": "2010-09-09",
+        "Description": "The AWS CloudFormation template for this Serverless application",
+        "Resources": {
+          "CreateUserLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/remember-my-application-dev-createUser"
+            }
+          },
+          "LoginLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/remember-my-application-dev-login"
+            }
+          },
+          "CreateUserLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": "serverless-framework-deployments-eu-north-1-ba886c44-ebde",
+                "S3Key": "serverless/remember-my-application/dev/1774351243351-2026-03-24T11:20:43.351Z/remember-my-application.zip"
+              },
+              "Handler": "functions/users/signup/index.handler",
+              "Runtime": "nodejs20.x",
+              "FunctionName": "remember-my-application-dev-createUser",
+              "MemorySize": 1024,
+              "Timeout": 6,
+              "Environment": {
+                "Variables": {
+                  "NODE_OPTIONS": "--enable-source-maps"
+                }
+              },
+              "Role": "arn:aws:iam::136191772737:role/adminrole"
+            },
+            "DependsOn": [
+              "CreateUserLogGroup"
+            ]
+          },
+          "LoginLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": "serverless-framework-deployments-eu-north-1-ba886c44-ebde",
+                "S3Key": "serverless/remember-my-application/dev/1774351243351-2026-03-24T11:20:43.351Z/remember-my-application.zip"
+              },
+              "Handler": "functions/users/login/index.handler",
+              "Runtime": "nodejs20.x",
+              "FunctionName": "remember-my-application-dev-login",
+              "MemorySize": 1024,
+              "Timeout": 6,
+              "Environment": {
+                "Variables": {
+                  "NODE_OPTIONS": "--enable-source-maps"
+                }
+              },
+              "Role": "arn:aws:iam::136191772737:role/adminrole"
+            },
+            "DependsOn": [
+              "LoginLogGroup"
+            ]
+          },
+          "CreateUserLambdaVersionokNxISY6SPpAG1ANbOk1k1vLvHPZkha1ROnfUYteXbE": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "CreateUserLambdaFunction"
+              },
+              "CodeSha256": "bPkTtfHkyS3/OAmX9BoQi7umRWVgg8r5F4lPLu011Zc="
+            }
+          },
+          "LoginLambdaVersioni2w4hsMkIfk2ltb7zicKLzLyYSMcDKZxswxnbPoSQQ": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "LoginLambdaFunction"
+              },
+              "CodeSha256": "bPkTtfHkyS3/OAmX9BoQi7umRWVgg8r5F4lPLu011Zc="
+            }
+          },
+          "HttpApi": {
+            "Type": "AWS::ApiGatewayV2::Api",
+            "Properties": {
+              "Name": "dev-remember-my-application",
+              "ProtocolType": "HTTP",
+              "CorsConfiguration": {
+                "AllowHeaders": [
+                  "Content-Type",
+                  "X-Amz-Date",
+                  "Authorization",
+                  "X-Api-Key",
+                  "X-Amz-Security-Token",
+                  "X-Amz-User-Agent",
+                  "X-Amzn-Trace-Id"
+                ],
+                "AllowMethods": [
+                  "OPTIONS",
+                  "POST"
+                ],
+                "AllowOrigins": [
+                  "*"
+                ]
+              }
+            }
+          },
+          "HttpApiStage": {
+            "Type": "AWS::ApiGatewayV2::Stage",
+            "Properties": {
+              "ApiId": {
+                "Ref": "HttpApi"
+              },
+              "StageName": "$default",
+              "AutoDeploy": true,
+              "DefaultRouteSettings": {
+                "DetailedMetricsEnabled": false
+              }
+            }
+          },
+          "CreateUserLambdaPermissionHttpApi": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "CreateUserLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "HttpApi"
+                    },
+                    "/*"
+                  ]
+                ]
+              }
+            }
+          },
+          "HttpApiIntegrationCreateUser": {
+            "Type": "AWS::ApiGatewayV2::Integration",
+            "Properties": {
+              "ApiId": {
+                "Ref": "HttpApi"
+              },
+              "IntegrationType": "AWS_PROXY",
+              "IntegrationUri": {
+                "$ref": "$[\"service\"][\"provider\"][\"compiledCloudFormationTemplate\"][\"Resources\"][\"CreateUserLambdaPermissionHttpApi\"][\"Properties\"][\"FunctionName\"]"
+              },
+              "PayloadFormatVersion": "2.0",
+              "TimeoutInMillis": 30000
+            }
+          },
+          "HttpApiRoutePostApiUserSignup": {
+            "Type": "AWS::ApiGatewayV2::Route",
+            "Properties": {
+              "ApiId": {
+                "Ref": "HttpApi"
+              },
+              "RouteKey": "POST /api/user/signup",
+              "Target": {
+                "Fn::Join": [
+                  "/",
+                  [
+                    "integrations",
+                    {
+                      "Ref": "HttpApiIntegrationCreateUser"
+                    }
+                  ]
+                ]
+              }
+            },
+            "DependsOn": "HttpApiIntegrationCreateUser"
+          },
+          "LoginLambdaPermissionHttpApi": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "LoginLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "HttpApi"
+                    },
+                    "/*"
+                  ]
+                ]
+              }
+            }
+          },
+          "HttpApiIntegrationLogin": {
+            "Type": "AWS::ApiGatewayV2::Integration",
+            "Properties": {
+              "ApiId": {
+                "Ref": "HttpApi"
+              },
+              "IntegrationType": "AWS_PROXY",
+              "IntegrationUri": {
+                "$ref": "$[\"service\"][\"provider\"][\"compiledCloudFormationTemplate\"][\"Resources\"][\"LoginLambdaPermissionHttpApi\"][\"Properties\"][\"FunctionName\"]"
+              },
+              "PayloadFormatVersion": "2.0",
+              "TimeoutInMillis": 30000
+            }
+          },
+          "HttpApiRoutePostApiUserLogin": {
+            "Type": "AWS::ApiGatewayV2::Route",
+            "Properties": {
+              "ApiId": {
+                "Ref": "HttpApi"
+              },
+              "RouteKey": "POST /api/user/login",
+              "Target": {
+                "Fn::Join": [
+                  "/",
+                  [
+                    "integrations",
+                    {
+                      "Ref": "HttpApiIntegrationLogin"
+                    }
+                  ]
+                ]
+              }
+            },
+            "DependsOn": "HttpApiIntegrationLogin"
+          },
+          "EventsTable": {
+            "Type": "AWS::DynamoDB::Table",
+            "Properties": {
+              "TableName": "ApplicationsTable",
+              "AttributeDefinitions": [
+                {
+                  "AttributeName": "pk",
+                  "AttributeType": "S"
+                },
+                {
+                  "AttributeName": "sk",
+                  "AttributeType": "S"
+                }
+              ],
+              "KeySchema": [
+                {
+                  "AttributeName": "pk",
+                  "KeyType": "HASH"
+                },
+                {
+                  "AttributeName": "sk",
+                  "KeyType": "RANGE"
+                }
+              ],
+              "BillingMode": "PAY_PER_REQUEST"
+            }
+          }
+        },
+        "Outputs": {
+          "ServerlessDeploymentBucketName": {
+            "Value": "serverless-framework-deployments-eu-north-1-ba886c44-ebde",
+            "Export": {
+              "Name": "sls-remember-my-application-dev-ServerlessDeploymentBucketName"
+            }
+          },
+          "CreateUserLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "CreateUserLambdaVersionokNxISY6SPpAG1ANbOk1k1vLvHPZkha1ROnfUYteXbE"
+            },
+            "Export": {
+              "Name": "sls-remember-my-application-dev-CreateUserLambdaFunctionQualifiedArn"
+            }
+          },
+          "LoginLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "LoginLambdaVersioni2w4hsMkIfk2ltb7zicKLzLyYSMcDKZxswxnbPoSQQ"
+            },
+            "Export": {
+              "Name": "sls-remember-my-application-dev-LoginLambdaFunctionQualifiedArn"
+            }
+          },
+          "HttpApiId": {
+            "Description": "Id of the HTTP API",
+            "Value": {
+              "Ref": "HttpApi"
+            },
+            "Export": {
+              "Name": "sls-remember-my-application-dev-HttpApiId"
+            }
+          },
+          "HttpApiUrl": {
+            "Description": "URL of the HTTP API",
+            "Value": {
+              "Fn::Join": [
+                "",
+                [
+                  "https://",
+                  {
+                    "Ref": "HttpApi"
+                  },
+                  ".execute-api.",
+                  {
+                    "Ref": "AWS::Region"
+                  },
+                  ".",
+                  {
+                    "Ref": "AWS::URLSuffix"
+                  }
+                ]
+              ]
+            },
+            "Export": {
+              "Name": "sls-remember-my-application-dev-HttpApiUrl"
+            }
+          }
+        }
+      },
+      "vpc": {}
+    },
+    "pluginsData": {},
+    "functions": {
+      "createUser": {
+        "handler": "functions/users/signup/index.handler",
+        "events": [
+          {
+            "httpApi": {
+              "path": "/api/user/signup",
+              "method": "post"
+            },
+            "resolvedMethod": "POST",
+            "resolvedPath": "/api/user/signup"
+          }
+        ],
+        "name": "remember-my-application-dev-createUser",
+        "environment": {
+          "NODE_OPTIONS": "--enable-source-maps"
+        },
+        "package": {},
+        "memory": 1024,
+        "timeout": 6,
+        "runtime": "nodejs20.x",
+        "vpc": {},
+        "versionLogicalId": "CreateUserLambdaVersionokNxISY6SPpAG1ANbOk1k1vLvHPZkha1ROnfUYteXbE"
+      },
+      "login": {
+        "handler": "functions/users/login/index.handler",
+        "events": [
+          {
+            "httpApi": {
+              "path": "/api/user/login",
+              "method": "post"
+            },
+            "resolvedMethod": "POST",
+            "resolvedPath": "/api/user/login"
+          }
+        ],
+        "name": "remember-my-application-dev-login",
+        "environment": {
+          "NODE_OPTIONS": "--enable-source-maps"
+        },
+        "package": {},
+        "memory": 1024,
+        "timeout": 6,
+        "runtime": "nodejs20.x",
+        "vpc": {},
+        "versionLogicalId": "LoginLambdaVersioni2w4hsMkIfk2ltb7zicKLzLyYSMcDKZxswxnbPoSQQ"
+      }
+    },
+    "resources": {
+      "Resources": {
+        "EventsTable": {
+          "Type": "AWS::DynamoDB::Table",
+          "Properties": {
+            "TableName": "ApplicationsTable",
+            "AttributeDefinitions": [
+              {
+                "AttributeName": "pk",
+                "AttributeType": "S"
+              },
+              {
+                "AttributeName": "sk",
+                "AttributeType": "S"
+              }
+            ],
+            "KeySchema": [
+              {
+                "AttributeName": "pk",
+                "KeyType": "HASH"
+              },
+              {
+                "AttributeName": "sk",
+                "KeyType": "RANGE"
+              }
+            ],
+            "BillingMode": "PAY_PER_REQUEST"
+          }
+        }
+      },
+      "Outputs": {}
+    },
+    "configValidationMode": "warn",
+    "serviceFilename": "serverless",
+    "initialServerlessConfig": {
+      "org": "jakobjavascript24",
+      "service": "remember-my-application",
+      "provider": {
+        "$ref": "$[\"service\"][\"provider\"]"
+      },
+      "functions": {
+        "$ref": "$[\"service\"][\"functions\"]"
+      },
+      "resources": {
+        "$ref": "$[\"service\"][\"resources\"]"
+      }
+    },
+    "appId": null,
+    "org": "jakobjavascript24",
+    "orgId": null,
+    "layers": {}
+  },
+  "package": {
+    "artifactDirectoryName": "serverless/remember-my-application/dev/1774351243351-2026-03-24T11:20:43.351Z",
+    "artifact": "remember-my-application.zip"
+  }
+}

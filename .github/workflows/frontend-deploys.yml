@@ -40,7 +40,6 @@ jobs:
           cd frontend
           npm install
 
-
       - name: Build project
         run: |
           cd frontend
