@@ -57,7 +57,7 @@ const signUpHandler = async (event) => {
 
     return {
       statusCode: 201,
-      body: JSON.stringify({ message: "User created successfully" }),
+      body: JSON.stringify({ message: "Account created successfully" }),
     };
   } catch (err) {
     console.error("Error creating account:", err);

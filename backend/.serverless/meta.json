@@ -37,7 +37,7 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "serverless-framework-deployments-eu-north-1-ba886c44-ebde",
-                  "S3Key": "serverless/remember-my-application/dev/1774338216861-2026-03-24T07:43:36.861Z/remember-my-application.zip"
+                  "S3Key": "serverless/remember-my-application/dev/1774351243351-2026-03-24T11:20:43.351Z/remember-my-application.zip"
                 },
                 "Handler": "functions/users/signup/index.handler",
                 "Runtime": "nodejs20.x",
@@ -60,7 +60,7 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "serverless-framework-deployments-eu-north-1-ba886c44-ebde",
-                  "S3Key": "serverless/remember-my-application/dev/1774338216861-2026-03-24T07:43:36.861Z/remember-my-application.zip"
+                  "S3Key": "serverless/remember-my-application/dev/1774351243351-2026-03-24T11:20:43.351Z/remember-my-application.zip"
                 },
                 "Handler": "functions/users/login/index.handler",
                 "Runtime": "nodejs20.x",
@@ -78,24 +78,24 @@
                 "LoginLogGroup"
               ]
             },
-            "CreateUserLambdaVersionH8SKAm0UKnK4nI0sgKZZpn4eICyKfG6Bqo4r3hKxQ": {
+            "CreateUserLambdaVersionokNxISY6SPpAG1ANbOk1k1vLvHPZkha1ROnfUYteXbE": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "CreateUserLambdaFunction"
                 },
-                "CodeSha256": "Fe1FVB/am1VoXKkcQcltPrqvbtFU2qjFRkOSin8YiFk="
+                "CodeSha256": "bPkTtfHkyS3/OAmX9BoQi7umRWVgg8r5F4lPLu011Zc="
               }
             },
-            "LoginLambdaVersionenUYCDV3PzD12OB8S66hv8HjsycDFp5ujr64p7wLRGM": {
+            "LoginLambdaVersioni2w4hsMkIfk2ltb7zicKLzLyYSMcDKZxswxnbPoSQQ": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "LoginLambdaFunction"
                 },
-                "CodeSha256": "Fe1FVB/am1VoXKkcQcltPrqvbtFU2qjFRkOSin8YiFk="
+                "CodeSha256": "bPkTtfHkyS3/OAmX9BoQi7umRWVgg8r5F4lPLu011Zc="
               }
             },
             "HttpApi": {
@@ -325,7 +325,7 @@
             "CreateUserLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "CreateUserLambdaVersionH8SKAm0UKnK4nI0sgKZZpn4eICyKfG6Bqo4r3hKxQ"
+                "Ref": "CreateUserLambdaVersionokNxISY6SPpAG1ANbOk1k1vLvHPZkha1ROnfUYteXbE"
               },
               "Export": {
                 "Name": "sls-remember-my-application-dev-CreateUserLambdaFunctionQualifiedArn"
@@ -334,7 +334,7 @@
             "LoginLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "LoginLambdaVersionenUYCDV3PzD12OB8S66hv8HjsycDFp5ujr64p7wLRGM"
+                "Ref": "LoginLambdaVersioni2w4hsMkIfk2ltb7zicKLzLyYSMcDKZxswxnbPoSQQ"
               },
               "Export": {
                 "Name": "sls-remember-my-application-dev-LoginLambdaFunctionQualifiedArn"
@@ -400,7 +400,7 @@
           "timeout": 6,
           "runtime": "nodejs20.x",
           "vpc": {},
-          "versionLogicalId": "CreateUserLambdaVersionH8SKAm0UKnK4nI0sgKZZpn4eICyKfG6Bqo4r3hKxQ"
+          "versionLogicalId": "CreateUserLambdaVersionokNxISY6SPpAG1ANbOk1k1vLvHPZkha1ROnfUYteXbE"
         },
         "login": {
           "handler": "functions/users/login/index.handler",
@@ -423,7 +423,7 @@
           "timeout": 6,
           "runtime": "nodejs20.x",
           "vpc": {},
-          "versionLogicalId": "LoginLambdaVersionenUYCDV3PzD12OB8S66hv8HjsycDFp5ujr64p7wLRGM"
+          "versionLogicalId": "LoginLambdaVersioni2w4hsMkIfk2ltb7zicKLzLyYSMcDKZxswxnbPoSQQ"
         }
       },
       "resources": {
@@ -490,7 +490,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-eu-north-1-ba886c44-ebde",
-                "S3Key": "serverless/remember-my-application/dev/1774338216861-2026-03-24T07:43:36.861Z/remember-my-application.zip"
+                "S3Key": "serverless/remember-my-application/dev/1774351243351-2026-03-24T11:20:43.351Z/remember-my-application.zip"
               },
               "Handler": "functions/users/signup/index.handler",
               "Runtime": "nodejs20.x",
@@ -513,7 +513,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-eu-north-1-ba886c44-ebde",
-                "S3Key": "serverless/remember-my-application/dev/1774338216861-2026-03-24T07:43:36.861Z/remember-my-application.zip"
+                "S3Key": "serverless/remember-my-application/dev/1774351243351-2026-03-24T11:20:43.351Z/remember-my-application.zip"
               },
               "Handler": "functions/users/login/index.handler",
               "Runtime": "nodejs20.x",
@@ -531,24 +531,24 @@
               "LoginLogGroup"
             ]
           },
-          "CreateUserLambdaVersionH8SKAm0UKnK4nI0sgKZZpn4eICyKfG6Bqo4r3hKxQ": {
+          "CreateUserLambdaVersionokNxISY6SPpAG1ANbOk1k1vLvHPZkha1ROnfUYteXbE": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "CreateUserLambdaFunction"
               },
-              "CodeSha256": "Fe1FVB/am1VoXKkcQcltPrqvbtFU2qjFRkOSin8YiFk="
+              "CodeSha256": "bPkTtfHkyS3/OAmX9BoQi7umRWVgg8r5F4lPLu011Zc="
             }
           },
-          "LoginLambdaVersionenUYCDV3PzD12OB8S66hv8HjsycDFp5ujr64p7wLRGM": {
+          "LoginLambdaVersioni2w4hsMkIfk2ltb7zicKLzLyYSMcDKZxswxnbPoSQQ": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "LoginLambdaFunction"
               },
-              "CodeSha256": "Fe1FVB/am1VoXKkcQcltPrqvbtFU2qjFRkOSin8YiFk="
+              "CodeSha256": "bPkTtfHkyS3/OAmX9BoQi7umRWVgg8r5F4lPLu011Zc="
             }
           },
           "HttpApi": {
@@ -778,7 +778,7 @@
           "CreateUserLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "CreateUserLambdaVersionH8SKAm0UKnK4nI0sgKZZpn4eICyKfG6Bqo4r3hKxQ"
+              "Ref": "CreateUserLambdaVersionokNxISY6SPpAG1ANbOk1k1vLvHPZkha1ROnfUYteXbE"
             },
             "Export": {
               "Name": "sls-remember-my-application-dev-CreateUserLambdaFunctionQualifiedArn"
@@ -787,7 +787,7 @@
           "LoginLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "LoginLambdaVersionenUYCDV3PzD12OB8S66hv8HjsycDFp5ujr64p7wLRGM"
+              "Ref": "LoginLambdaVersioni2w4hsMkIfk2ltb7zicKLzLyYSMcDKZxswxnbPoSQQ"
             },
             "Export": {
               "Name": "sls-remember-my-application-dev-LoginLambdaFunctionQualifiedArn"
@@ -855,12 +855,12 @@
     "serviceProviderAwsCfStackName": "remember-my-application-dev",
     "serviceProviderAwsCfStackId": "arn:aws:cloudformation:eu-north-1:136191772737:stack/remember-my-application-dev/a30a2cb0-269d-11f1-a5da-0690ea7b58f1",
     "serviceProviderAwsCfStackCreated": "2026-03-23T09:49:51.649Z",
-    "serviceProviderAwsCfStackUpdated": "2026-03-24T07:41:59.591Z",
+    "serviceProviderAwsCfStackUpdated": "2026-03-24T09:42:25.389Z",
     "serviceProviderAwsCfStackStatus": "UPDATE_COMPLETE",
     "serviceProviderAwsCfStackOutputs": [
       {
         "OutputKey": "CreateUserLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:eu-north-1:136191772737:function:remember-my-application-dev-createUser:57",
+        "OutputValue": "arn:aws:lambda:eu-north-1:136191772737:function:remember-my-application-dev-createUser:61",
         "Description": "Current Lambda function version",
         "ExportName": "sls-remember-my-application-dev-CreateUserLambdaFunctionQualifiedArn"
       },
@@ -872,7 +872,7 @@
       },
       {
         "OutputKey": "LoginLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:eu-north-1:136191772737:function:remember-my-application-dev-login:51",
+        "OutputValue": "arn:aws:lambda:eu-north-1:136191772737:function:remember-my-application-dev-login:55",
         "Description": "Current Lambda function version",
         "ExportName": "sls-remember-my-application-dev-LoginLambdaFunctionQualifiedArn"
       },
@@ -909,7 +909,7 @@
           "Properties": {
             "Code": {
               "S3Bucket": "serverless-framework-deployments-eu-north-1-ba886c44-ebde",
-              "S3Key": "serverless/remember-my-application/dev/1774338216861-2026-03-24T07:43:36.861Z/remember-my-application.zip"
+              "S3Key": "serverless/remember-my-application/dev/1774351243351-2026-03-24T11:20:43.351Z/remember-my-application.zip"
             },
             "Handler": "functions/users/signup/index.handler",
             "Runtime": "nodejs20.x",
@@ -932,7 +932,7 @@
           "Properties": {
             "Code": {
               "S3Bucket": "serverless-framework-deployments-eu-north-1-ba886c44-ebde",
-              "S3Key": "serverless/remember-my-application/dev/1774338216861-2026-03-24T07:43:36.861Z/remember-my-application.zip"
+              "S3Key": "serverless/remember-my-application/dev/1774351243351-2026-03-24T11:20:43.351Z/remember-my-application.zip"
             },
             "Handler": "functions/users/login/index.handler",
             "Runtime": "nodejs20.x",
@@ -950,24 +950,24 @@
             "LoginLogGroup"
           ]
         },
-        "CreateUserLambdaVersionH8SKAm0UKnK4nI0sgKZZpn4eICyKfG6Bqo4r3hKxQ": {
+        "CreateUserLambdaVersionokNxISY6SPpAG1ANbOk1k1vLvHPZkha1ROnfUYteXbE": {
           "Type": "AWS::Lambda::Version",
           "DeletionPolicy": "Retain",
           "Properties": {
             "FunctionName": {
               "Ref": "CreateUserLambdaFunction"
             },
-            "CodeSha256": "Fe1FVB/am1VoXKkcQcltPrqvbtFU2qjFRkOSin8YiFk="
+            "CodeSha256": "bPkTtfHkyS3/OAmX9BoQi7umRWVgg8r5F4lPLu011Zc="
           }
         },
-        "LoginLambdaVersionenUYCDV3PzD12OB8S66hv8HjsycDFp5ujr64p7wLRGM": {
+        "LoginLambdaVersioni2w4hsMkIfk2ltb7zicKLzLyYSMcDKZxswxnbPoSQQ": {
           "Type": "AWS::Lambda::Version",
           "DeletionPolicy": "Retain",
           "Properties": {
             "FunctionName": {
               "Ref": "LoginLambdaFunction"
             },
-            "CodeSha256": "Fe1FVB/am1VoXKkcQcltPrqvbtFU2qjFRkOSin8YiFk="
+            "CodeSha256": "bPkTtfHkyS3/OAmX9BoQi7umRWVgg8r5F4lPLu011Zc="
           }
         },
         "HttpApi": {
@@ -1196,7 +1196,7 @@
         "CreateUserLambdaFunctionQualifiedArn": {
           "Description": "Current Lambda function version",
           "Value": {
-            "Ref": "CreateUserLambdaVersionH8SKAm0UKnK4nI0sgKZZpn4eICyKfG6Bqo4r3hKxQ"
+            "Ref": "CreateUserLambdaVersionokNxISY6SPpAG1ANbOk1k1vLvHPZkha1ROnfUYteXbE"
           },
           "Export": {
             "Name": "sls-remember-my-application-dev-CreateUserLambdaFunctionQualifiedArn"
@@ -1205,7 +1205,7 @@
         "LoginLambdaFunctionQualifiedArn": {
           "Description": "Current Lambda function version",
           "Value": {
-            "Ref": "LoginLambdaVersionenUYCDV3PzD12OB8S66hv8HjsycDFp5ujr64p7wLRGM"
+            "Ref": "LoginLambdaVersioni2w4hsMkIfk2ltb7zicKLzLyYSMcDKZxswxnbPoSQQ"
           },
           "Export": {
             "Name": "sls-remember-my-application-dev-LoginLambdaFunctionQualifiedArn"
