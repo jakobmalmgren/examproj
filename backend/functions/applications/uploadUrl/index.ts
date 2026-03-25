@@ -21,7 +21,6 @@ const getUploadUrl = async (event) => {
       Bucket: BUCKET_NAME,
       Key: fileKey,
       ContentType: fileType,
-      ACL: "public-read",
     });
 
     const uploadUrl = await getSignedUrl(s3, command, { expiresIn: 60 });

@@ -22,6 +22,8 @@ const createApplication = async (event) => {
   const user = event.user;
   const username = user.username.S;
 
+  console.log("USER", user);
+
   try {
     const putCommand = new PutItemCommand({
       TableName: "ApplicationsTable",
@@ -41,12 +43,6 @@ const createApplication = async (event) => {
         reminder: { BOOL: !!reminder },
 
         reminderDate: reminderDate ? { S: reminderDate } : { NULL: true },
-
-        // files: {
-        //   L: (files || []).map((file) => ({
-        //     S: typeof file === "string" ? file : JSON.stringify(file),
-        //   })),
-        // },
 
         files: {
           L: (files || []).map((file) => ({
@@ -99,6 +95,7 @@ const createApplication = async (event) => {
 
 export const handler = middy(createApplication)
   .use(httpJsonBodyParser())
+  //usevalidator här me nånsrans
   .use(checkAuth())
   .onError((request) => {
     request.response = {

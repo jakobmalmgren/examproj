@@ -46,6 +46,12 @@ functions:
       - httpApi:
           path: /api/applications/{id}
           method: put
+  readApplication:
+    handler: functions/applications/readApplication/index.handler
+    events:
+      - httpApi:
+          path: /api/applications
+          method: get
   uploadUrl:
     handler: functions/applications/uploadUrl/index.handler
     events:
