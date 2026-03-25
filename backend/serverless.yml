@@ -2,9 +2,13 @@
 org: jakobjavascript24
 service: remember-my-application
 
+useDotenv: true
+
 provider:
   name: aws
   runtime: nodejs20.x
+  environment:
+    JWT_SECRET: ${env:JWT_SECRET}
   region: eu-north-1
   role: arn:aws:iam::136191772737:role/adminrole
   httpApi:
@@ -23,6 +27,30 @@ functions:
     events:
       - httpApi:
           path: /api/user/login
+          method: post
+  createApplication:
+    handler: functions/applications/createApplication/index.handler
+    events:
+      - httpApi:
+          path: /api/applications
+          method: post
+  deleteApplication:
+    handler: functions/applications/deleteApplication/index.handler
+    events:
+      - httpApi:
+          path: /api/applications/{id}
+          method: delete
+  updateApplication:
+    handler: functions/applications/updateApplication/index.handler
+    events:
+      - httpApi:
+          path: /api/applications/{id}
+          method: put
+  uploadUrl:
+    handler: functions/applications/uploadUrl/index.handler
+    events:
+      - httpApi:
+          path: /api/files/upload-url
           method: post
 
 resources:

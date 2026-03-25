@@ -42,6 +42,7 @@ const LogIn = ({ setIsLoggedIn }) => {
       console.log("result", result);
 
       if (result.success) {
+        localStorage.setItem("token", result.token);
         setForm({ username: "", password: "" });
         setIsLoggedIn(true); // sätt användaren som inloggad
         navigate("/home", { replace: true }); // navigera direkt
