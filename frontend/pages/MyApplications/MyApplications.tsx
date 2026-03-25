@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MyApplicationCard from "../../components/MyApplicationCard/MyApplicationCard";
 import {
   Box,
@@ -10,8 +10,12 @@ import {
   InputAdornment,
 } from "@mui/material";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import { readApplication } from "../../apis/readApplication";
 
 const MyApplications = () => {
+  const [applications, setApplications] = useState([]);
+  // const [loading, setLoading] = useState(true);
+
   const [priority, setPriority] = useState<string | null>(null);
   const [city, setCity] = useState("");
 
@@ -22,6 +26,25 @@ const MyApplications = () => {
       setPriority(val);
     }
   };
+
+  // kolla
+  useEffect(() => {
+    const fetchApplications = async () => {
+      try {
+        const res = await readApplication();
+        console.log("result from my apppl", res);
+        console.log("fjjf", res.data);
+
+        setApplications(res.data); // 👈 från din lambda
+      } catch (error) {
+        console.error("Fetch error:", error);
+      } finally {
+        // setLoading(false);
+      }
+    };
+
+    fetchApplications();
+  }, []);
 
   return (
     <Box
@@ -131,15 +154,24 @@ const MyApplications = () => {
           gap: 3,
         }}
       >
+        {applications.length === 0 ? (
+          <p>Inga applications</p>
+        ) : (
+          applications.map((data) => (
+            <MyApplicationCard key={data.sk} data={data}></MyApplicationCard>
+          ))
+        )}
+
+        {/* <MyApplicationCard />
         <MyApplicationCard />
         <MyApplicationCard />
         <MyApplicationCard />
         <MyApplicationCard />
-        <MyApplicationCard />
-        <MyApplicationCard />
+        <MyApplicationCard /> */}
       </Box>
     </Box>
   );
 };
 
 export default MyApplications;
+// ska mappa alla applications sen här o få datan o synas.
