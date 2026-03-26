@@ -9,12 +9,16 @@ import {
   FormControlLabel,
   InputAdornment,
 } from "@mui/material";
+
+import InboxIcon from "@mui/icons-material/Inbox";
+
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { readApplication } from "../../apis/readApplication";
+import { CircularProgress } from "@mui/material";
 
 const MyApplications = () => {
   const [applications, setApplications] = useState([]);
-  // const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   const [priority, setPriority] = useState<string | null>(null);
   const [city, setCity] = useState("");
@@ -31,15 +35,18 @@ const MyApplications = () => {
   useEffect(() => {
     const fetchApplications = async () => {
       try {
+        setLoading(true);
         const res = await readApplication();
+
         console.log("result from my apppl", res);
         console.log("fjjf", res.data);
 
-        setApplications(res.data); // 👈 från din lambda
+        setApplications(res.data);
+        setLoading(false);
       } catch (error) {
         console.error("Fetch error:", error);
       } finally {
-        // setLoading(false);
+        setLoading(false);
       }
     };
 
@@ -117,7 +124,6 @@ const MyApplications = () => {
           />
         </Box>
 
-        {/* 🔍 Stad input med LocationOnIcon */}
         <Box
           sx={{
             position: "relative",
@@ -145,7 +151,6 @@ const MyApplications = () => {
         </Box>
       </Paper>
 
-      {/* Korten ligger här under filtreringen */}
       <Box
         sx={{
           display: "flex",
@@ -154,8 +159,28 @@ const MyApplications = () => {
           gap: 3,
         }}
       >
-        {applications.length === 0 ? (
-          <p>Inga applications</p>
+        {loading ? (
+          <CircularProgress />
+        ) : applications.length === 0 ? (
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 2,
+              mt: 4,
+              color: "text.primary",
+            }}
+          >
+            <InboxIcon sx={{ fontSize: 60, opacity: 0.6 }} />
+            <Typography variant="h6" sx={{ color: "text.primary" }}>
+              No Applications
+            </Typography>
+            <Typography variant="h6" sx={{ color: "text.primary" }}>
+              Pssst.. You have no applications yet! But it's never too late! 😊
+            </Typography>
+          </Box>
         ) : (
           applications.map((data) => (
             <MyApplicationCard key={data.sk} data={data}></MyApplicationCard>

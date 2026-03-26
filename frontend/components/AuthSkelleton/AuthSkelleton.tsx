@@ -54,7 +54,9 @@ const AuthSkelleton = ({
             },
           }}
         >
-          {title}
+          <span style={{ visibility: loading ? "hidden" : "visible" }}>
+            {title}
+          </span>
           {loading && (
             <CircularProgress
               size={20}
