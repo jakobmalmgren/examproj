@@ -550,14 +550,27 @@ const AddApplications = () => {
               mt: 1,
               display: "flex",
               flexDirection: "column",
+              alignItems: "center",
               gap: 0.5,
-              overflowY: "auto",
-              maxHeight: "50%",
               width: "90%",
             }}
           >
             {selectedFiles.map((file, idx) => (
-              <Chip key={idx} label={file.name} size="small" />
+              <Chip
+                key={idx}
+                label={file.name}
+                size="small"
+                sx={{
+                  maxWidth: 200,
+                  px: 1,
+                  py: 0.3,
+                  "& .MuiChip-label": {
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  },
+                }}
+              />
             ))}
           </Box>
         )}

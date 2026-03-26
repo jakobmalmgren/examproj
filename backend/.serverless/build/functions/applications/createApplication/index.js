@@ -11255,7 +11255,7 @@ var createApplicationSchema = {
           required: ["city", "latitude", "longitude"],
           additionalProperties: false,
           properties: {
-            city: { type: "string" },
+            city: { type: "string", minLength: 1 },
             latitude: {
               anyOf: [{ type: "number" }, { type: "null" }]
             },

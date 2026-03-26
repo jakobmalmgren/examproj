@@ -10,6 +10,7 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import dayjs, { Dayjs } from "dayjs";
 import { getUploadUrl } from "../../apis/getUploadUrl";
 import Snackbar from "@mui/material/Snackbar";
+import CloseIcon from "@mui/icons-material/Close";
 
 import {
   Box,
@@ -302,7 +303,20 @@ const EditModal = ({ open, onClose }: EditModalProps) => {
   return (
     <>
       <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-        <DialogTitle>Edit application</DialogTitle>
+        {/* <DialogTitle>Edit application</DialogTitle> */}
+        <DialogTitle
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            pr: 1,
+          }}
+        >
+          Edit application
+          <IconButton onClick={onClose} size="small">
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
 
         <DialogContent>
           <Box
