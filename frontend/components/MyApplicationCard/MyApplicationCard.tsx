@@ -3,68 +3,54 @@ import FileViewerModal from "../../components/FileViewerModal/FileViewerModal";
 import { Tooltip } from "@mui/material";
 import {
   Box,
-  TextField,
+  // TextField,
   Paper,
   Typography,
   Chip,
   IconButton,
-  Select,
-  MenuItem,
+  // Select,
+  // MenuItem,
 } from "@mui/material";
+import EditModal from "../EditModal/EditModal";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import SaveIcon from "@mui/icons-material/Save";
+// import SaveIcon from "@mui/icons-material/Save";
 
-// Day.js DatePicker
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import dayjs from "dayjs";
+// import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+// import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+// import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+// import dayjs from "dayjs";
 
-const MyApplicationCard = () => {
+const MyApplicationCard = ({ data }: { data: any }) => {
+  console.log("caaardloggdata", data);
+
+  const {
+    category,
+    extraInfo = [],
+    files = [],
+    location,
+    priority,
+    reminder,
+    reminderDate,
+    applicationDate,
+    title,
+  } = data;
+
+  const city = location?.city || "";
+
+  const [editOpen, setEditOpen] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<any | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
-  const handleOpenFile = () => setModalOpen(true);
-  const handleCloseModal = () => setModalOpen(false);
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setSelectedFile(null);
+  };
 
   const [responded, setResponded] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
 
-  // Editable fields
-  const [title, setTitle] = useState("Teacher");
-  const [priority, setPriority] = useState("prio1");
-  const [extraInfoEmail, setExtraInfoEmail] = useState("test@example.com");
-  const [extraInfoPhone, setExtraInfoPhone] = useState("0707-060606");
-  const [reminderDate, setReminderDate] = useState("");
-  const [customDate, setCustomDate] = useState("");
-  const [location, setLocation] = useState("Stockholm");
-  const [category, setCategory] = useState("Education");
-
-  const [files, setFiles] = useState(["CV.pdf", "Portfolio.zip"]);
-
-  const priorityEmoji =
-    priority === "prio1" ? "🔥" : priority === "prio2" ? "🤷" : "🤦";
+  const priorityEmoji = priority === 1 ? "🔥" : priority === 2 ? "🤷" : "🤦";
 
   const handleDelete = () => alert("Delete this application");
-  const handleDeleteField = (field) => {
-    switch (field) {
-      case "extraEmail":
-        setExtraInfoEmail("");
-        break;
-      case "extraPhone":
-        setExtraInfoPhone("");
-        break;
-      case "reminder":
-        setReminderDate("");
-        setCustomDate("");
-        break;
-      default:
-        break;
-    }
-  };
-
-  const handleDeleteFile = (fileToDelete) => {
-    setFiles((prev) => prev.filter((file) => file !== fileToDelete));
-  };
 
   return (
     <Paper
@@ -89,22 +75,8 @@ const MyApplicationCard = () => {
           gap: 1.5,
         }}
       >
-        {/* Priority */}
-        {isEditing ? (
-          <Select
-            value={priority}
-            size="small"
-            onChange={(e) => setPriority(e.target.value)}
-          >
-            <MenuItem value="prio1">🔥 Priority 1</MenuItem>
-            <MenuItem value="prio2">🤷 Priority 2</MenuItem>
-            <MenuItem value="prio3">🤦 Priority 3</MenuItem>
-          </Select>
-        ) : (
-          <Typography sx={{ fontSize: "40px" }}>{priorityEmoji}</Typography>
-        )}
+        <Typography sx={{ fontSize: "40px" }}>{priorityEmoji}</Typography>
 
-        {/* Position / Role */}
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           <img
             src="/images/position.svg"
@@ -112,21 +84,12 @@ const MyApplicationCard = () => {
             style={{ height: 24, width: 24 }}
           />
           <Typography variant="body2" sx={{ fontWeight: "bold" }}>
-            Position / Role:
+            Application Title:
           </Typography>
-          {isEditing ? (
-            <TextField
-              size="small"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              fullWidth
-            />
-          ) : (
-            <Typography variant="body2">{title}</Typography>
-          )}
+
+          <Typography variant="body2">{title || "-"}</Typography>
         </Box>
 
-        {/* Extra Info Email */}
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           <img
             src="/images/info.svg"
@@ -136,57 +99,12 @@ const MyApplicationCard = () => {
           <Typography variant="body2" sx={{ fontWeight: "bold" }}>
             Extra Info:
           </Typography>
-          {isEditing ? (
-            <>
-              <TextField
-                size="small"
-                value={extraInfoEmail}
-                onChange={(e) => setExtraInfoEmail(e.target.value)}
-              />
-              <IconButton
-                size="small"
-                onClick={() => handleDeleteField("extraEmail")}
-                color="primary"
-              >
-                <DeleteIcon fontSize="small" />
-              </IconButton>
-            </>
-          ) : (
-            <Typography variant="body2">{extraInfoEmail}</Typography>
-          )}
-        </Box>
 
-        {/* Extra Info Phone */}
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-          <img
-            src="/images/info.svg"
-            alt="info Icon"
-            style={{ height: 24, width: 24 }}
-          />
-          <Typography variant="body2" sx={{ fontWeight: "bold" }}>
-            Extra Info:
+          <Typography variant="body2">
+            {extraInfo.length > 0 ? extraInfo.join(", ") : "-"}
           </Typography>
-          {isEditing ? (
-            <>
-              <TextField
-                size="small"
-                value={extraInfoPhone}
-                onChange={(e) => setExtraInfoPhone(e.target.value)}
-              />
-              <IconButton
-                size="small"
-                onClick={() => handleDeleteField("extraPhone")}
-                color="primary"
-              >
-                <DeleteIcon fontSize="small" />
-              </IconButton>
-            </>
-          ) : (
-            <Typography variant="body2">{extraInfoPhone}</Typography>
-          )}
         </Box>
 
-        {/* Reminder */}
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           <img
             src="/images/clock.svg"
@@ -196,73 +114,16 @@ const MyApplicationCard = () => {
           <Typography variant="body2" sx={{ fontWeight: "bold" }}>
             Reminder:
           </Typography>
-          {reminderDate ? (
-            <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
-              {isEditing ? (
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    label="Custom Date"
-                    value={customDate ? dayjs(customDate) : null}
-                    onChange={(newValue) => {
-                      const formatted = newValue
-                        ? newValue.format("YYYY-MM-DD")
-                        : "";
-                      setCustomDate(formatted);
-                      setReminderDate(formatted);
-                    }}
-                    slotProps={{
-                      textField: { size: "medium", sx: { width: 150 } },
-                    }}
-                  />
-                  <IconButton
-                    size="small"
-                    onClick={() => handleDeleteField("reminder")}
-                    color="primary"
-                  >
-                    <DeleteIcon fontSize="small" />
-                  </IconButton>
-                </LocalizationProvider>
-              ) : (
-                <Typography
-                  variant="body2"
-                  sx={{ color: "green", display: "flex", alignItems: "center" }}
-                >
-                  ✅ {reminderDate}
-                </Typography>
-              )}
-            </Box>
-          ) : isEditing ? (
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                label="Custom Date"
-                value={customDate ? dayjs(customDate) : null}
-                onChange={(newValue) => {
-                  const formatted = newValue
-                    ? newValue.format("YYYY-MM-DD")
-                    : "";
-                  setCustomDate(formatted);
-                  setReminderDate(formatted);
-                }}
-                slotProps={{
-                  textField: { size: "small", sx: { minWidth: 150 } },
-                }}
-              />
-              <IconButton
-                size="small"
-                onClick={() => handleDeleteField("reminder")}
-                color="primary"
-              >
-                <DeleteIcon fontSize="small" />
-              </IconButton>
-            </LocalizationProvider>
-          ) : (
-            <Typography variant="body2" sx={{ color: "red" }}>
-              ❌ No reminder
-            </Typography>
-          )}
+
+          <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+            {reminder ? ` ✅ ${reminderDate}` : `❌ No reminder`}
+            <Typography
+              variant="body2"
+              sx={{ color: "green", display: "flex", alignItems: "center" }}
+            ></Typography>
+          </Box>
         </Box>
 
-        {/* Location */}
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           <img
             src="/images/earth.svg"
@@ -272,19 +133,10 @@ const MyApplicationCard = () => {
           <Typography variant="body2" sx={{ fontWeight: "bold" }}>
             Location:
           </Typography>
-          {isEditing ? (
-            <TextField
-              size="small"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-              fullWidth
-            />
-          ) : (
-            <Typography variant="body2">{location}</Typography>
-          )}
+
+          <Typography variant="body2">{city || "-"}</Typography>
         </Box>
 
-        {/* Applied */}
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           <img
             src="/images/calender.svg"
@@ -292,12 +144,12 @@ const MyApplicationCard = () => {
             style={{ height: 24, width: 24 }}
           />
           <Typography variant="body2" sx={{ fontWeight: "bold" }}>
-            Applied:
+            Application Date:
           </Typography>
-          <Typography variant="body2">2025-06-06</Typography>
+
+          <Typography variant="body2">{applicationDate}</Typography>
         </Box>
 
-        {/* Category */}
         <Box sx={{ display: "flex", alignItems: "center", gap: 1, mt: 1 }}>
           <img
             src="/images/briefcase.svg"
@@ -307,29 +159,10 @@ const MyApplicationCard = () => {
           <Typography variant="body2" sx={{ fontWeight: "bold" }}>
             Category:
           </Typography>
-          {isEditing ? (
-            <TextField
-              select
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              size="small"
-              fullWidth
-            >
-              <MenuItem value="IT & Tech">IT & Tech</MenuItem>
-              <MenuItem value="Education">Education</MenuItem>
-              <MenuItem value="Healthcare">Healthcare</MenuItem>
-              <MenuItem value="Finance">Finance</MenuItem>
-              <MenuItem value="Marketing">Marketing</MenuItem>
-              <MenuItem value="Engineering">Engineering</MenuItem>
-              <MenuItem value="Support">Support</MenuItem>
-              <MenuItem value="Other">Other</MenuItem>
-            </TextField>
-          ) : (
-            <Typography variant="body2">{category}</Typography>
-          )}
+
+          <Typography variant="body2">{category || "-"}</Typography>
         </Box>
 
-        {/* Attachments */}
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           <img
             src="/images/attach.svg"
@@ -342,58 +175,55 @@ const MyApplicationCard = () => {
         </Box>
 
         <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-          {files.map((file, idx) => (
-            <Box
-              key={idx}
-              sx={{ display: "flex", alignItems: "center", gap: 1 }}
-            >
-              <Chip
-                label={file}
-                size="small"
-                clickable
-                onClick={() => handleOpenFile()}
-                sx={{
-                  flex: 1,
-                  "&:hover": { bgcolor: "#bbdefb", transform: "scale(1.05)" },
-                  transition: "transform 0.2s, background-color 0.2s",
-                }}
-              />
-              {isEditing && (
-                <IconButton
+          {files.length > 0 ? (
+            files.map((file: any, idx: number) => (
+              <Box
+                key={file.key || idx}
+                sx={{ display: "flex", alignItems: "center", gap: 1 }}
+              >
+                <Chip
+                  label={file.name}
                   size="small"
-                  onClick={() => handleDeleteFile(file)}
-                  color="primary"
-                >
-                  <DeleteIcon fontSize="small" />
-                </IconButton>
-              )}
-            </Box>
-          ))}
+                  clickable
+                  onClick={() => {
+                    setModalOpen(true);
+                    setSelectedFile(file);
+                    console.log("clicked file", file);
+                  }}
+                  sx={{
+                    display: "flex",
+                    padding: 1,
+                    mx: "auto", // 👈 centrerar horisontellt
+                    height: 22,
+                    fontSize: "0.7rem",
+                    "& .MuiChip-label": {
+                      px: 0.5,
+                    },
+                    "&:hover": {
+                      bgcolor: "#bbdefb",
+                      transform: "scale(1.05)",
+                    },
+                    transition: "transform 0.2s, background-color 0.2s",
+                  }}
+                />
+              </Box>
+            ))
+          ) : (
+            <Typography variant="body2">No attachments</Typography>
+          )}
         </Box>
 
-        <FileViewerModal open={modalOpen} onClose={handleCloseModal} />
+        <FileViewerModal
+          open={modalOpen}
+          onClose={handleCloseModal}
+          file={selectedFile}
+        />
       </Box>
 
-      {/* Bottom icons */}
       <Box
         sx={{ display: "flex", justifyContent: "flex-end", gap: 0.5, mt: 1 }}
       >
-        <Tooltip
-          title={responded ? "Responded" : "Not Responded"}
-          arrow
-          componentsProps={{
-            tooltip: {
-              sx: {
-                bgcolor: "primary.main",
-                color: "white",
-                fontSize: 14,
-                borderRadius: 1,
-                px: 1.5,
-                py: 0.5,
-              },
-            },
-          }}
-        >
+        <Tooltip title={responded ? "Responded" : "Not Responded"} arrow>
           <IconButton onClick={() => setResponded(!responded)} size="small">
             {responded ? (
               <svg width="20" height="20" viewBox="0 0 24 24" fill="green">
@@ -407,51 +237,18 @@ const MyApplicationCard = () => {
           </IconButton>
         </Tooltip>
 
-        <Tooltip
-          title="Delete"
-          arrow
-          componentsProps={{
-            tooltip: {
-              sx: {
-                bgcolor: "primary.main",
-                color: "white",
-                fontSize: 14,
-                borderRadius: 1,
-                px: 1.5,
-                py: 0.5,
-              },
-            },
-          }}
-        >
+        <Tooltip title="Delete" arrow>
           <IconButton onClick={handleDelete} size="small" color="primary">
             <DeleteIcon fontSize="small" />
           </IconButton>
         </Tooltip>
 
-        <Tooltip
-          title={isEditing ? "Save" : "Edit"}
-          arrow
-          componentsProps={{
-            tooltip: {
-              sx: {
-                bgcolor: "primary.main",
-                color: "white",
-                fontSize: 14,
-                borderRadius: 1,
-                px: 1.5,
-                py: 0.5,
-              },
-            },
-          }}
-        >
-          <IconButton onClick={() => setIsEditing(!isEditing)} size="small">
-            {isEditing ? (
-              <SaveIcon fontSize="small" color="primary" />
-            ) : (
-              <EditIcon fontSize="small" color="primary" />
-            )}
+        <Tooltip title={"Edit"} arrow>
+          <IconButton size="small" onClick={() => setEditOpen(true)}>
+            <EditIcon fontSize="small" color="primary" />
           </IconButton>
         </Tooltip>
+        <EditModal open={editOpen} onClose={() => setEditOpen(false)} />
       </Box>
     </Paper>
   );

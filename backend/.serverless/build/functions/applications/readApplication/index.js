@@ -1,5 +1,5 @@
 // node_modules/@middy/core/index.js
-import { setTimeout as setTimeout2 } from "node:timers";
+import { setTimeout } from "node:timers";
 
 // node_modules/@middy/core/executionModeStandard.js
 var executionModeStandard = ({ middyRequest, runRequest: runRequest2 }, beforeMiddlewares, lambdaHandler, afterMiddlewares, onErrorMiddlewares, plugin) => {
@@ -140,7 +140,7 @@ var runRequest = async (request, beforeMiddlewares, lambdaHandler, afterMiddlewa
             }
           };
         });
-        timeoutID = setTimeout2(
+        timeoutID = setTimeout(
           timeoutResolve,
           getRemainingTimeInMillis() - plugin.timeoutEarlyInMillis
         );
@@ -187,142 +187,9 @@ var runMiddlewares = async (request, middlewares, plugin) => {
 };
 var core_default = middy;
 
-// node_modules/@middy/util/index.js
-var decodeBody = (event) => {
-  const { body, isBase64Encoded } = event;
-  if (typeof body === "undefined" || body === null) return body;
-  return isBase64Encoded ? Buffer.from(body, "base64").toString() : body;
-};
-var createErrorRegexp = /[^a-zA-Z]/g;
-var HttpError = class extends Error {
-  constructor(code, optionalMessage, optionalOptions = {}) {
-    let message2 = optionalMessage;
-    let options = optionalOptions;
-    if (message2 && typeof message2 !== "string") {
-      options = message2;
-      message2 = void 0;
-    }
-    message2 ??= httpErrorCodes[code];
-    super(message2, options);
-    const name = httpErrorCodes[code].replace(createErrorRegexp, "");
-    this.name = !name.endsWith("Error") ? `${name}Error` : name;
-    this.status = this.statusCode = code;
-    this.expose = options.expose ?? code < 500;
-  }
-};
-var createError = (code, message2, properties = {}) => {
-  return new HttpError(code, message2, properties);
-};
-var httpErrorCodes = {
-  100: "Continue",
-  101: "Switching Protocols",
-  102: "Processing",
-  103: "Early Hints",
-  200: "OK",
-  201: "Created",
-  202: "Accepted",
-  203: "Non-Authoritative Information",
-  204: "No Content",
-  205: "Reset Content",
-  206: "Partial Content",
-  207: "Multi-Status",
-  208: "Already Reported",
-  226: "IM Used",
-  300: "Multiple Choices",
-  301: "Moved Permanently",
-  302: "Found",
-  303: "See Other",
-  304: "Not Modified",
-  305: "Use Proxy",
-  306: "(Unused)",
-  307: "Temporary Redirect",
-  308: "Permanent Redirect",
-  400: "Bad Request",
-  401: "Unauthorized",
-  402: "Payment Required",
-  403: "Forbidden",
-  404: "Not Found",
-  405: "Method Not Allowed",
-  406: "Not Acceptable",
-  407: "Proxy Authentication Required",
-  408: "Request Timeout",
-  409: "Conflict",
-  410: "Gone",
-  411: "Length Required",
-  412: "Precondition Failed",
-  413: "Payload Too Large",
-  414: "URI Too Long",
-  415: "Unsupported Media Type",
-  416: "Range Not Satisfiable",
-  417: "Expectation Failed",
-  418: "I'm a teapot",
-  421: "Misdirected Request",
-  422: "Unprocessable Entity",
-  423: "Locked",
-  424: "Failed Dependency",
-  425: "Unordered Collection",
-  426: "Upgrade Required",
-  428: "Precondition Required",
-  429: "Too Many Requests",
-  431: "Request Header Fields Too Large",
-  451: "Unavailable For Legal Reasons",
-  500: "Internal Server Error",
-  501: "Not Implemented",
-  502: "Bad Gateway",
-  503: "Service Unavailable",
-  504: "Gateway Timeout",
-  505: "HTTP Version Not Supported",
-  506: "Variant Also Negotiates",
-  507: "Insufficient Storage",
-  508: "Loop Detected",
-  509: "Bandwidth Limit Exceeded",
-  510: "Not Extended",
-  511: "Network Authentication Required"
-};
-
-// node_modules/@middy/http-json-body-parser/index.js
-var jsonContentTypePattern = /^application\/([a-z0-9.+-]+\+)?json(;|$)/i;
-var defaults = {
-  reviver: void 0,
-  disableContentTypeCheck: false,
-  disableContentTypeError: false
-};
-var httpJsonBodyParserMiddleware = (opts = {}) => {
-  const options = { ...defaults, ...opts };
-  const httpJsonBodyParserMiddlewareBefore = (request) => {
-    const { headers, body } = request.event;
-    const contentType = headers?.["content-type"] ?? headers?.["Content-Type"];
-    if (!options.disableContentTypeCheck && !jsonContentTypePattern.test(contentType)) {
-      if (options.disableContentTypeError) {
-        return;
-      }
-      throw createError(415, "Unsupported Media Type", {
-        cause: { package: "@middy/http-json-body-parser", data: contentType }
-      });
-    }
-    if (typeof body === "undefined") {
-      throw createError(422, "Invalid or malformed JSON was provided", {
-        cause: { package: "@middy/http-json-body-parser", data: body }
-      });
-    }
-    try {
-      const data = decodeBody(request.event);
-      request.event.body = JSON.parse(data, options.reviver);
-    } catch (err) {
-      throw createError(422, "Invalid or malformed JSON was provided", {
-        cause: {
-          package: "@middy/http-json-body-parser",
-          data: body,
-          message: err.message
-        }
-      });
-    }
-  };
-  return {
-    before: httpJsonBodyParserMiddlewareBefore
-  };
-};
-var http_json_body_parser_default = httpJsonBodyParserMiddleware;
+// config/dj.ts
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+var client = new DynamoDBClient({ region: "eu-north-1" });
 
 // node_modules/jose/dist/webapi/lib/buffer_utils.js
 var encoder = new TextEncoder();
@@ -1412,93 +1279,28 @@ var checkAuth = () => {
   };
 };
 
-// functions/applications/uploadUrl/index.ts
-import { PutObjectCommand } from "@aws-sdk/client-s3";
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-
-// node_modules/uuid/dist-node/stringify.js
-var byteToHex = [];
-for (let i = 0; i < 256; ++i) {
-  byteToHex.push((i + 256).toString(16).slice(1));
-}
-function unsafeStringify(arr, offset = 0) {
-  return (byteToHex[arr[offset + 0]] + byteToHex[arr[offset + 1]] + byteToHex[arr[offset + 2]] + byteToHex[arr[offset + 3]] + "-" + byteToHex[arr[offset + 4]] + byteToHex[arr[offset + 5]] + "-" + byteToHex[arr[offset + 6]] + byteToHex[arr[offset + 7]] + "-" + byteToHex[arr[offset + 8]] + byteToHex[arr[offset + 9]] + "-" + byteToHex[arr[offset + 10]] + byteToHex[arr[offset + 11]] + byteToHex[arr[offset + 12]] + byteToHex[arr[offset + 13]] + byteToHex[arr[offset + 14]] + byteToHex[arr[offset + 15]]).toLowerCase();
-}
-
-// node_modules/uuid/dist-node/rng.js
-import { randomFillSync } from "node:crypto";
-var rnds8Pool = new Uint8Array(256);
-var poolPtr = rnds8Pool.length;
-function rng() {
-  if (poolPtr > rnds8Pool.length - 16) {
-    randomFillSync(rnds8Pool);
-    poolPtr = 0;
-  }
-  return rnds8Pool.slice(poolPtr, poolPtr += 16);
-}
-
-// node_modules/uuid/dist-node/native.js
-import { randomUUID } from "node:crypto";
-var native_default = { randomUUID };
-
-// node_modules/uuid/dist-node/v4.js
-function _v4(options, buf, offset) {
-  options = options || {};
-  const rnds = options.random ?? options.rng?.() ?? rng();
-  if (rnds.length < 16) {
-    throw new Error("Random bytes length must be >= 16");
-  }
-  rnds[6] = rnds[6] & 15 | 64;
-  rnds[8] = rnds[8] & 63 | 128;
-  if (buf) {
-    offset = offset || 0;
-    if (offset < 0 || offset + 16 > buf.length) {
-      throw new RangeError(`UUID byte range ${offset}:${offset + 15} is out of buffer bounds`);
-    }
-    for (let i = 0; i < 16; ++i) {
-      buf[offset + i] = rnds[i];
-    }
-    return buf;
-  }
-  return unsafeStringify(rnds);
-}
-function v4(options, buf, offset) {
-  if (native_default.randomUUID && !buf && !options) {
-    return native_default.randomUUID();
-  }
-  return _v4(options, buf, offset);
-}
-var v4_default = v4;
-
-// config/s3Files.ts
-import { S3Client } from "@aws-sdk/client-s3";
-var s3 = new S3Client({
-  region: "eu-north-1"
-});
-
-// functions/applications/uploadUrl/index.ts
-var BUCKET_NAME = "my-app-files-123xyz-136191772737-eu-north-1-an";
-var getUploadUrl = async (event) => {
-  const { fileName, fileType } = event.body;
-  const user = event.user;
-  const username = user.username.S;
+// functions/applications/readApplication/index.ts
+import { QueryCommand } from "@aws-sdk/lib-dynamodb";
+var readApplication = async (event) => {
+  console.log("userpayload", event.user);
+  const userName = event.user.username.S;
+  console.log("EVENT!", event);
   try {
-    const cleanFileName = fileName.replace(/\s+/g, "-");
-    const fileKey = `applications/${username}/${v4_default()}-${cleanFileName}`;
-    const command = new PutObjectCommand({
-      Bucket: BUCKET_NAME,
-      Key: fileKey,
-      ContentType: fileType
+    const command = new QueryCommand({
+      TableName: "ApplicationsTable",
+      KeyConditionExpression: "pk = :pk AND begins_with(sk, :skPrefix)",
+      ExpressionAttributeValues: {
+        ":pk": `USERNAME#${userName}`,
+        ":skPrefix": "APPLICATION"
+      }
     });
-    const uploadUrl = await getSignedUrl(s3, command, { expiresIn: 60 });
-    const fileUrl = `https://${BUCKET_NAME}.s3.eu-north-1.amazonaws.com/${fileKey}`;
+    const result = await client.send(command);
     return {
       statusCode: 200,
       body: JSON.stringify({
         success: true,
-        uploadUrl,
-        fileUrl,
-        fileKey
+        message: "Application(s) recieved succesfully",
+        data: result.Items
       })
     };
   } catch (error) {
@@ -1511,12 +1313,12 @@ var getUploadUrl = async (event) => {
     };
   }
 };
-var handler = core_default(getUploadUrl).use(http_json_body_parser_default()).use(checkAuth()).onError((request) => {
+var handler = core_default(readApplication).use(checkAuth()).onError((request) => {
   request.response = {
     statusCode: 400,
     body: JSON.stringify({
       success: false,
-      message: "Failed to generate upload URL",
+      message: "Input validation failed",
       details: request.error?.details || request.error?.message
     })
   };

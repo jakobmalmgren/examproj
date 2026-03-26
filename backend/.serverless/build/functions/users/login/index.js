@@ -12770,8 +12770,8 @@ var loginSchema = {
       type: "object",
       required: ["username", "password"],
       properties: {
-        username: { type: "string", minLength: 4 },
-        password: { type: "string", minLength: 5 }
+        username: { type: "string", minLength: 1 },
+        password: { type: "string", minLength: 1 }
       }
     }
   }
@@ -12880,7 +12880,6 @@ var loginHandler = async (event) => {
   }
 };
 var handler = core_default(loginHandler).use(http_json_body_parser_default()).use(validator_default({ eventSchema: transpileSchema(loginSchema) })).onError((request) => {
-  console.log("reg!!", request);
   request.response = {
     statusCode: 400,
     body: JSON.stringify({

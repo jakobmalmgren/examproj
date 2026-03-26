@@ -6,6 +6,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import dayjs, { Dayjs } from "dayjs";
 import { getUploadUrl } from "../../apis/getUploadUrl";
+import Snackbar from "@mui/material/Snackbar";
 
 import {
   Box,
@@ -24,7 +25,7 @@ import {
   CircularProgress,
   Autocomplete,
 } from "@mui/material";
-
+import Alert from "@mui/material/Alert";
 import { useDropzone } from "react-dropzone";
 import TitleIcon from "@mui/icons-material/Title";
 import InfoIcon from "@mui/icons-material/Info";
@@ -50,6 +51,7 @@ type LocationOption = {
 const initialForm = {
   title: "",
   extraInfo: [""],
+  applicationDate: "",
   priority: 1,
   reminder: false,
   reminderDate: "",
@@ -71,6 +73,12 @@ const AddApplications = () => {
   const [locationQuery, setLocationQuery] = useState("");
   const [locationOptions, setLocationOptions] = useState<LocationOption[]>([]);
   const [loadingLocations, setLoadingLocations] = useState(false);
+
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+    severity: "success",
+  });
 
   // skickas in i utils el nåt..!!!
   const uploadFileToS3 = async (file: File) => {
@@ -144,7 +152,9 @@ const AddApplications = () => {
       extraInfo: prev.extraInfo.filter((_, i) => i !== index),
     }));
   };
-
+  const handleCloseSnackbar = () => {
+    setSnackbar((prev) => ({ ...prev, open: false }));
+  };
   const handleExtraChange = (index: number, value: string) => {
     setForm((prev) => {
       const updatedExtraInfo = [...prev.extraInfo];
@@ -223,6 +233,14 @@ const AddApplications = () => {
   }, [locationQuery]);
 
   const handleSubmit = async () => {
+    if (form.reminder && !form.reminderDate) {
+      setSnackbar({
+        open: true,
+        message: "Please select a reminder date",
+        severity: "error",
+      });
+      return;
+    }
     try {
       const uploadedFiles = await Promise.all(
         selectedFiles.map((file) => uploadFileToS3(file)),
@@ -235,10 +253,18 @@ const AddApplications = () => {
         extraInfo: form.extraInfo.filter((item) => item.trim() !== ""),
         reminderDate: form.reminder ? form.reminderDate : null,
         files: uploadedFiles,
+        applicationDate: form.applicationDate || null,
       };
 
       const res = await createApplication(cleanedForm);
       console.log("result", res);
+      if (!res.success) {
+        setSnackbar({
+          open: true,
+          message: res.message,
+          severity: "error",
+        });
+      }
 
       if (res.success) {
         setForm(initialForm);
@@ -248,6 +274,12 @@ const AddApplications = () => {
         setSelectedLocation(null);
         setLocationResetKey((prev) => prev + 1);
         setSelectedFiles([]);
+
+        setSnackbar({
+          open: true,
+          message: res.message,
+          severity: "success",
+        });
       }
     } catch (err) {
       console.log(err);
@@ -315,6 +347,25 @@ const AddApplications = () => {
       <Button startIcon={<AddIcon />} onClick={addExtraField}>
         Add Extra Info
       </Button>
+
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <DatePicker
+          label="Application date"
+          maxDate={dayjs()}
+          value={form.applicationDate ? dayjs(form.applicationDate) : null}
+          onChange={(newValue) => {
+            setForm((prev) => ({
+              ...prev,
+              applicationDate: newValue ? newValue.format("YYYY-MM-DD") : "",
+            }));
+          }}
+          slotProps={{
+            textField: {
+              fullWidth: true,
+            },
+          }}
+        />
+      </LocalizationProvider>
 
       <Box sx={{ width: "100%", mt: 2 }}>
         <TextField
@@ -456,6 +507,7 @@ const AddApplications = () => {
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               label="Reminder date"
+              minDate={dayjs().add(1, "day")}
               value={form.reminderDate ? dayjs(form.reminderDate) : null}
               onChange={handleReminderDateChange}
               slotProps={{
@@ -498,14 +550,27 @@ const AddApplications = () => {
               mt: 1,
               display: "flex",
               flexDirection: "column",
+              alignItems: "center",
               gap: 0.5,
-              overflowY: "auto",
-              maxHeight: "50%",
               width: "90%",
             }}
           >
             {selectedFiles.map((file, idx) => (
-              <Chip key={idx} label={file.name} size="small" />
+              <Chip
+                key={idx}
+                label={file.name}
+                size="small"
+                sx={{
+                  maxWidth: 200,
+                  px: 1,
+                  py: 0.3,
+                  "& .MuiChip-label": {
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  },
+                }}
+              />
             ))}
           </Box>
         )}
@@ -582,6 +647,20 @@ const AddApplications = () => {
       <Button variant="contained" fullWidth onClick={handleSubmit}>
         Submit
       </Button>
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={2000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity={snackbar.severity}
+          sx={{ width: "100%" }}
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

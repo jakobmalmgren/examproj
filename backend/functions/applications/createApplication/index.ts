@@ -3,8 +3,10 @@ import { client } from "../../../config/dj";
 import httpJsonBodyParser from "@middy/http-json-body-parser";
 import { checkAuth } from "../../../middlewares/auth/checkAuth";
 import { v4 as uuidv4 } from "uuid";
+import { transpileSchema } from "@middy/validator/transpile";
+import validator from "@middy/validator";
 import { PutItemCommand } from "@aws-sdk/client-dynamodb";
-
+import { createApplicationSchema } from "../../../middlewares/schemas/createApplicationSchema";
 const createApplication = async (event) => {
   console.log("BODY", event.body);
 
@@ -14,6 +16,7 @@ const createApplication = async (event) => {
     category,
     reminder,
     reminderDate,
+    applicationDate,
     files,
     location,
     priority,
@@ -21,6 +24,8 @@ const createApplication = async (event) => {
 
   const user = event.user;
   const username = user.username.S;
+
+  console.log("USER", user);
 
   try {
     const putCommand = new PutItemCommand({
@@ -42,12 +47,6 @@ const createApplication = async (event) => {
 
         reminderDate: reminderDate ? { S: reminderDate } : { NULL: true },
 
-        // files: {
-        //   L: (files || []).map((file) => ({
-        //     S: typeof file === "string" ? file : JSON.stringify(file),
-        //   })),
-        // },
-
         files: {
           L: (files || []).map((file) => ({
             M: {
@@ -58,6 +57,9 @@ const createApplication = async (event) => {
             },
           })),
         },
+        applicationDate: applicationDate
+          ? { S: applicationDate }
+          : { NULL: true },
 
         location: {
           M: {
@@ -83,7 +85,7 @@ const createApplication = async (event) => {
       statusCode: 200,
       body: JSON.stringify({
         success: true,
-        message: "Application created!",
+        message: "Application created successfully!",
       }),
     };
   } catch (error) {
@@ -99,6 +101,7 @@ const createApplication = async (event) => {
 
 export const handler = middy(createApplication)
   .use(httpJsonBodyParser())
+  .use(validator({ eventSchema: transpileSchema(createApplicationSchema) }))
   .use(checkAuth())
   .onError((request) => {
     request.response = {

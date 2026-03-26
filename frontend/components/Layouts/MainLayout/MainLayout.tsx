@@ -15,7 +15,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import HomeIcon from "@mui/icons-material/Home";
 import AddIcon from "@mui/icons-material/Add";
 import BarChartIcon from "@mui/icons-material/BarChart";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import RoomIcon from "@mui/icons-material/Room";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Tooltip from "@mui/material/Tooltip";
@@ -29,7 +28,6 @@ const navItems = [
   { text: "Add Application", icon: <AddIcon />, path: "/add" },
   { text: "Statistics", icon: <BarChartIcon />, path: "/stats" },
   { text: "Map", icon: <RoomIcon />, path: "/map" },
-  { text: "Profile", icon: <AccountCircleIcon />, path: "/profile" },
 ];
 
 const MainLayout = () => {
@@ -99,18 +97,6 @@ const MainLayout = () => {
           </Box>
 
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-            {/* Avatar */}
-            <Avatar
-              sx={{
-                width: 40,
-                height: 40,
-                bgcolor: "white",
-                color: "primary.main",
-              }}
-            >
-              <PersonIcon />
-            </Avatar>
-
             <IconButton
               sx={{ color: "inherit" }}
               onClick={() => console.log("Log out")}
@@ -118,7 +104,6 @@ const MainLayout = () => {
               <LogoutIcon />
             </IconButton>
 
-            {/* Menu Icon (xs only) */}
             <IconButton
               color="inherit"
               edge="end"
