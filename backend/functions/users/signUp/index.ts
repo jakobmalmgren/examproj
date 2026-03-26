@@ -73,13 +73,19 @@ export const handler = middy(signUpHandler)
   .use(httpJsonBodyParser()) // parse JSON body
   .use(validator({ eventSchema: transpileSchema(signUpSchema) })) // validera inputs
   .onError((request) => {
+    console.log(
+      "VALIDATION DETAILS:",
+      JSON.stringify(request.error?.cause?.data, null, 2),
+    );
+
     // request.error innehåller validator-felet
     request.response = {
       statusCode: 400,
       body: JSON.stringify({
         success: false,
         message: "Input validation failed",
-        details: request.error?.details || request.error?.message,
+        details: request.error?.cause?.data,
+        // details: request.error?.details || request.error?.message,
       }),
     };
   });

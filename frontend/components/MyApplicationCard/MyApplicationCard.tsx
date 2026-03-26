@@ -32,6 +32,7 @@ const MyApplicationCard = ({ data }: { data: any }) => {
     priority,
     reminder,
     reminderDate,
+    applicationDate,
     title,
   } = data;
 
@@ -197,9 +198,7 @@ const MyApplicationCard = ({ data }: { data: any }) => {
           <Typography variant="body2" sx={{ fontWeight: "bold" }}>
             Applied:
           </Typography>
-          <Typography variant="body2">
-            {createdAt ? dayjs(createdAt).format("YYYY-MM-DD") : "-"}
-          </Typography>
+          <Typography variant="body2">{applicationDate}</Typography>
         </Box>
 
         <Box sx={{ display: "flex", alignItems: "center", gap: 1, mt: 1 }}>

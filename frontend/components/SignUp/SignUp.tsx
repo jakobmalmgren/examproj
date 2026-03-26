@@ -62,7 +62,7 @@ const SignUp = () => {
       console.error("Signup error:", err);
       setSnackbar({
         open: true,
-        message: "Something went wrong. Please try again.",
+        message: err.message || "Something went wrong. Please try again.",
         severity: "error",
       });
     }

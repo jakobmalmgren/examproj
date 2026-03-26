@@ -11898,12 +11898,17 @@ var signUpHandler = async (event) => {
   }
 };
 var handler = core_default(signUpHandler).use(http_json_body_parser_default()).use(validator_default({ eventSchema: transpileSchema(signUpSchema) })).onError((request) => {
+  console.log(
+    "VALIDATION DETAILS:",
+    JSON.stringify(request.error?.cause?.data, null, 2)
+  );
   request.response = {
     statusCode: 400,
     body: JSON.stringify({
       success: false,
       message: "Input validation failed",
-      details: request.error?.details || request.error?.message
+      details: request.error?.cause?.data
+      // details: request.error?.details || request.error?.message,
     })
   };
 });
