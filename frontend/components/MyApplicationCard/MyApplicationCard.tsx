@@ -14,6 +14,7 @@ import {
 import EditModal from "../EditModal/EditModal";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+// import { deleteApplication } from "../../apis/deleteApplication";
 // import SaveIcon from "@mui/icons-material/Save";
 
 // import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -21,7 +22,8 @@ import EditIcon from "@mui/icons-material/Edit";
 // import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 // import dayjs from "dayjs";
 
-const MyApplicationCard = ({ data }: { data: any }) => {
+// const MyApplicationCard = ({ data }: { data: any }) => {
+const MyApplicationCard = ({ data, onDelete }) => {
   console.log("caaardloggdata", data);
 
   const {
@@ -50,7 +52,16 @@ const MyApplicationCard = ({ data }: { data: any }) => {
 
   const priorityEmoji = priority === 1 ? "🔥" : priority === 2 ? "🤷" : "🤦";
 
-  const handleDelete = () => alert("Delete this application");
+  // const handleDelete = async () => {
+  //   const id = data.sk.replace("APPLICATION#", "");
+  //   console.log("id", id);
+
+  //   const result = await deleteApplication(id);
+  //   console.log("delete result", result);
+  // };
+  const handleDelete = async () => {
+    await onDelete(data.sk);
+  };
 
   return (
     <Paper
@@ -188,7 +199,6 @@ const MyApplicationCard = ({ data }: { data: any }) => {
                   onClick={() => {
                     setModalOpen(true);
                     setSelectedFile(file);
-                    console.log("clicked file", file);
                   }}
                   sx={{
                     display: "flex",

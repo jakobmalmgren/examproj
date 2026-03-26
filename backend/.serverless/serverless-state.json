@@ -8,7 +8,8 @@
       "name": "aws",
       "runtime": "nodejs20.x",
       "environment": {
-        "JWT_SECRET": "83457934573459346793756739756"
+        "JWT_SECRET": "83457934573459346793756739756",
+        "SES_FROM_EMAIL": "naslundelli@gmail.com"
       },
       "region": "eu-north-1",
       "role": "arn:aws:iam::136191772737:role/adminrole",
@@ -63,12 +64,18 @@
               "LogGroupName": "/aws/lambda/remember-my-application-dev-uploadUrl"
             }
           },
+          "SendEmailLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/remember-my-application-dev-sendEmail"
+            }
+          },
           "CreateUserLambdaFunction": {
             "Type": "AWS::Lambda::Function",
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-eu-north-1-ba886c44-ebde",
-                "S3Key": "serverless/remember-my-application/dev/1774518272731-2026-03-26T09:44:32.731Z/remember-my-application.zip"
+                "S3Key": "serverless/remember-my-application/dev/1774534847615-2026-03-26T14:20:47.615Z/remember-my-application.zip"
               },
               "Handler": "functions/users/signup/index.handler",
               "Runtime": "nodejs20.x",
@@ -78,6 +85,7 @@
               "Environment": {
                 "Variables": {
                   "JWT_SECRET": "83457934573459346793756739756",
+                  "SES_FROM_EMAIL": "naslundelli@gmail.com",
                   "NODE_OPTIONS": "--enable-source-maps"
                 }
               },
@@ -92,7 +100,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-eu-north-1-ba886c44-ebde",
-                "S3Key": "serverless/remember-my-application/dev/1774518272731-2026-03-26T09:44:32.731Z/remember-my-application.zip"
+                "S3Key": "serverless/remember-my-application/dev/1774534847615-2026-03-26T14:20:47.615Z/remember-my-application.zip"
               },
               "Handler": "functions/users/login/index.handler",
               "Runtime": "nodejs20.x",
@@ -102,6 +110,7 @@
               "Environment": {
                 "Variables": {
                   "JWT_SECRET": "83457934573459346793756739756",
+                  "SES_FROM_EMAIL": "naslundelli@gmail.com",
                   "NODE_OPTIONS": "--enable-source-maps"
                 }
               },
@@ -116,7 +125,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-eu-north-1-ba886c44-ebde",
-                "S3Key": "serverless/remember-my-application/dev/1774518272731-2026-03-26T09:44:32.731Z/remember-my-application.zip"
+                "S3Key": "serverless/remember-my-application/dev/1774534847615-2026-03-26T14:20:47.615Z/remember-my-application.zip"
               },
               "Handler": "functions/applications/createApplication/index.handler",
               "Runtime": "nodejs20.x",
@@ -126,6 +135,7 @@
               "Environment": {
                 "Variables": {
                   "JWT_SECRET": "83457934573459346793756739756",
+                  "SES_FROM_EMAIL": "naslundelli@gmail.com",
                   "NODE_OPTIONS": "--enable-source-maps"
                 }
               },
@@ -140,7 +150,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-eu-north-1-ba886c44-ebde",
-                "S3Key": "serverless/remember-my-application/dev/1774518272731-2026-03-26T09:44:32.731Z/remember-my-application.zip"
+                "S3Key": "serverless/remember-my-application/dev/1774534847615-2026-03-26T14:20:47.615Z/remember-my-application.zip"
               },
               "Handler": "functions/applications/deleteApplication/index.handler",
               "Runtime": "nodejs20.x",
@@ -150,6 +160,7 @@
               "Environment": {
                 "Variables": {
                   "JWT_SECRET": "83457934573459346793756739756",
+                  "SES_FROM_EMAIL": "naslundelli@gmail.com",
                   "NODE_OPTIONS": "--enable-source-maps"
                 }
               },
@@ -164,7 +175,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-eu-north-1-ba886c44-ebde",
-                "S3Key": "serverless/remember-my-application/dev/1774518272731-2026-03-26T09:44:32.731Z/remember-my-application.zip"
+                "S3Key": "serverless/remember-my-application/dev/1774534847615-2026-03-26T14:20:47.615Z/remember-my-application.zip"
               },
               "Handler": "functions/applications/updateApplication/index.handler",
               "Runtime": "nodejs20.x",
@@ -173,7 +184,8 @@
               "Timeout": 6,
               "Environment": {
                 "Variables": {
-                  "JWT_SECRET": "83457934573459346793756739756"
+                  "JWT_SECRET": "83457934573459346793756739756",
+                  "SES_FROM_EMAIL": "naslundelli@gmail.com"
                 }
               },
               "Role": "arn:aws:iam::136191772737:role/adminrole"
@@ -187,7 +199,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-eu-north-1-ba886c44-ebde",
-                "S3Key": "serverless/remember-my-application/dev/1774518272731-2026-03-26T09:44:32.731Z/remember-my-application.zip"
+                "S3Key": "serverless/remember-my-application/dev/1774534847615-2026-03-26T14:20:47.615Z/remember-my-application.zip"
               },
               "Handler": "functions/applications/readApplication/index.handler",
               "Runtime": "nodejs20.x",
@@ -197,6 +209,7 @@
               "Environment": {
                 "Variables": {
                   "JWT_SECRET": "83457934573459346793756739756",
+                  "SES_FROM_EMAIL": "naslundelli@gmail.com",
                   "NODE_OPTIONS": "--enable-source-maps"
                 }
               },
@@ -211,7 +224,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-eu-north-1-ba886c44-ebde",
-                "S3Key": "serverless/remember-my-application/dev/1774518272731-2026-03-26T09:44:32.731Z/remember-my-application.zip"
+                "S3Key": "serverless/remember-my-application/dev/1774534847615-2026-03-26T14:20:47.615Z/remember-my-application.zip"
               },
               "Handler": "functions/applications/uploadUrl/index.handler",
               "Runtime": "nodejs20.x",
@@ -221,6 +234,7 @@
               "Environment": {
                 "Variables": {
                   "JWT_SECRET": "83457934573459346793756739756",
+                  "SES_FROM_EMAIL": "naslundelli@gmail.com",
                   "NODE_OPTIONS": "--enable-source-maps"
                 }
               },
@@ -230,74 +244,109 @@
               "UploadUrlLogGroup"
             ]
           },
-          "CreateUserLambdaVersionG9j2Ts46L3bxZaENDAA7J5UXXfUBTgop2bElNLYc": {
+          "SendEmailLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": "serverless-framework-deployments-eu-north-1-ba886c44-ebde",
+                "S3Key": "serverless/remember-my-application/dev/1774534847615-2026-03-26T14:20:47.615Z/remember-my-application.zip"
+              },
+              "Handler": "functions/email/index.handler",
+              "Runtime": "nodejs20.x",
+              "FunctionName": "remember-my-application-dev-sendEmail",
+              "MemorySize": 1024,
+              "Timeout": 6,
+              "Environment": {
+                "Variables": {
+                  "JWT_SECRET": "83457934573459346793756739756",
+                  "SES_FROM_EMAIL": "naslundelli@gmail.com",
+                  "NODE_OPTIONS": "--enable-source-maps"
+                }
+              },
+              "Role": "arn:aws:iam::136191772737:role/adminrole"
+            },
+            "DependsOn": [
+              "SendEmailLogGroup"
+            ]
+          },
+          "CreateUserLambdaVersionHn0TKomfpqfA2CoqdZiItB8kKs2DMyhAZPPXZAURo": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "CreateUserLambdaFunction"
               },
-              "CodeSha256": "kpHQo+Vg7z5CYpw2IEEPSHkQChrJd5OCnwkiPdPJi2k="
+              "CodeSha256": "od9UEGJ1Prq+CzaFwyzGS77ojqDCqy3sGPXSlYE72uE="
             }
           },
-          "LoginLambdaVersionZRPkEQStx22WMNasv1BVt9ALJtKY09UWExjdq5scVL4": {
+          "LoginLambdaVersionFMIk41iD713DRkC8oq85ZQOCDcY7vFViRRIIMM6bs": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "LoginLambdaFunction"
               },
-              "CodeSha256": "kpHQo+Vg7z5CYpw2IEEPSHkQChrJd5OCnwkiPdPJi2k="
+              "CodeSha256": "od9UEGJ1Prq+CzaFwyzGS77ojqDCqy3sGPXSlYE72uE="
             }
           },
-          "CreateApplicationLambdaVersionjL7uoc7P5YGa82aw4X8ydi26C9BnHEm1ajQAWHA0": {
+          "CreateApplicationLambdaVersionGZxlLFaSuTdSXTjyvLI40r5zYEApOoFRqPyg0blMPRc": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "CreateApplicationLambdaFunction"
               },
-              "CodeSha256": "kpHQo+Vg7z5CYpw2IEEPSHkQChrJd5OCnwkiPdPJi2k="
+              "CodeSha256": "od9UEGJ1Prq+CzaFwyzGS77ojqDCqy3sGPXSlYE72uE="
             }
           },
-          "DeleteApplicationLambdaVersion2aWTPZcSDeMpLtclg9nfVeaatM5hh9PSO8xAxUblo": {
+          "DeleteApplicationLambdaVersionOon89QDCKxCnUQeMu4BukV1sVIr6qKQKRyoEAgjoiVo": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "DeleteApplicationLambdaFunction"
               },
-              "CodeSha256": "kpHQo+Vg7z5CYpw2IEEPSHkQChrJd5OCnwkiPdPJi2k="
+              "CodeSha256": "od9UEGJ1Prq+CzaFwyzGS77ojqDCqy3sGPXSlYE72uE="
             }
           },
-          "UpdateApplicationLambdaVersionEO2wWI0I0KlbfGwAPNpKbV62CLxBjfzMaTT3WZFIw8": {
+          "UpdateApplicationLambdaVersionAtxnTTpm51qfAhOntuwPzNqVVaQn2nuPH6MNi1zezU": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "UpdateApplicationLambdaFunction"
               },
-              "CodeSha256": "kpHQo+Vg7z5CYpw2IEEPSHkQChrJd5OCnwkiPdPJi2k="
+              "CodeSha256": "od9UEGJ1Prq+CzaFwyzGS77ojqDCqy3sGPXSlYE72uE="
             }
           },
-          "ReadApplicationLambdaVersioni7SA56Wn6XKp4xG0yjUZ9QQ8t68QKusNwXIplzmoI": {
+          "ReadApplicationLambdaVersionGA0uXvhly3jlGyYYoObHHFZfYbeGUx1Z8geI692hc4": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "ReadApplicationLambdaFunction"
               },
-              "CodeSha256": "kpHQo+Vg7z5CYpw2IEEPSHkQChrJd5OCnwkiPdPJi2k="
+              "CodeSha256": "od9UEGJ1Prq+CzaFwyzGS77ojqDCqy3sGPXSlYE72uE="
             }
           },
-          "UploadUrlLambdaVersionnp9BE0WyOSL62YIdN66vyP3cB18ZHu3aN5ZNY4lQ": {
+          "UploadUrlLambdaVersionKEigSlYqXhgrTD9lTy2WTsBJvrdLTgPVTJscBbQCDUs": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "UploadUrlLambdaFunction"
               },
-              "CodeSha256": "kpHQo+Vg7z5CYpw2IEEPSHkQChrJd5OCnwkiPdPJi2k="
+              "CodeSha256": "od9UEGJ1Prq+CzaFwyzGS77ojqDCqy3sGPXSlYE72uE="
+            }
+          },
+          "SendEmailLambdaVersionZ8R11veOiL3jcp8SLIW2Lsvvlq0pn8o0HlYvG39w": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "SendEmailLambdaFunction"
+              },
+              "CodeSha256": "od9UEGJ1Prq+CzaFwyzGS77ojqDCqy3sGPXSlYE72uE="
             }
           },
           "HttpApi": {
@@ -845,6 +894,78 @@
             },
             "DependsOn": "HttpApiIntegrationUploadUrl"
           },
+          "SendEmailLambdaPermissionHttpApi": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "SendEmailLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "HttpApi"
+                    },
+                    "/*"
+                  ]
+                ]
+              }
+            }
+          },
+          "HttpApiIntegrationSendEmail": {
+            "Type": "AWS::ApiGatewayV2::Integration",
+            "Properties": {
+              "ApiId": {
+                "Ref": "HttpApi"
+              },
+              "IntegrationType": "AWS_PROXY",
+              "IntegrationUri": {
+                "$ref": "$[\"service\"][\"provider\"][\"compiledCloudFormationTemplate\"][\"Resources\"][\"SendEmailLambdaPermissionHttpApi\"][\"Properties\"][\"FunctionName\"]"
+              },
+              "PayloadFormatVersion": "2.0",
+              "TimeoutInMillis": 30000
+            }
+          },
+          "HttpApiRoutePostApiEmail": {
+            "Type": "AWS::ApiGatewayV2::Route",
+            "Properties": {
+              "ApiId": {
+                "Ref": "HttpApi"
+              },
+              "RouteKey": "POST /api/email",
+              "Target": {
+                "Fn::Join": [
+                  "/",
+                  [
+                    "integrations",
+                    {
+                      "Ref": "HttpApiIntegrationSendEmail"
+                    }
+                  ]
+                ]
+              }
+            },
+            "DependsOn": "HttpApiIntegrationSendEmail"
+          },
           "EventsTable": {
             "Type": "AWS::DynamoDB::Table",
             "Properties": {
@@ -883,7 +1004,7 @@
           "CreateUserLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "CreateUserLambdaVersionG9j2Ts46L3bxZaENDAA7J5UXXfUBTgop2bElNLYc"
+              "Ref": "CreateUserLambdaVersionHn0TKomfpqfA2CoqdZiItB8kKs2DMyhAZPPXZAURo"
             },
             "Export": {
               "Name": "sls-remember-my-application-dev-CreateUserLambdaFunctionQualifiedArn"
@@ -892,7 +1013,7 @@
           "LoginLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "LoginLambdaVersionZRPkEQStx22WMNasv1BVt9ALJtKY09UWExjdq5scVL4"
+              "Ref": "LoginLambdaVersionFMIk41iD713DRkC8oq85ZQOCDcY7vFViRRIIMM6bs"
             },
             "Export": {
               "Name": "sls-remember-my-application-dev-LoginLambdaFunctionQualifiedArn"
@@ -901,7 +1022,7 @@
           "CreateApplicationLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "CreateApplicationLambdaVersionjL7uoc7P5YGa82aw4X8ydi26C9BnHEm1ajQAWHA0"
+              "Ref": "CreateApplicationLambdaVersionGZxlLFaSuTdSXTjyvLI40r5zYEApOoFRqPyg0blMPRc"
             },
             "Export": {
               "Name": "sls-remember-my-application-dev-CreateApplicationLambdaFunctionQualifiedArn"
@@ -910,7 +1031,7 @@
           "DeleteApplicationLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "DeleteApplicationLambdaVersion2aWTPZcSDeMpLtclg9nfVeaatM5hh9PSO8xAxUblo"
+              "Ref": "DeleteApplicationLambdaVersionOon89QDCKxCnUQeMu4BukV1sVIr6qKQKRyoEAgjoiVo"
             },
             "Export": {
               "Name": "sls-remember-my-application-dev-DeleteApplicationLambdaFunctionQualifiedArn"
@@ -919,7 +1040,7 @@
           "UpdateApplicationLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "UpdateApplicationLambdaVersionEO2wWI0I0KlbfGwAPNpKbV62CLxBjfzMaTT3WZFIw8"
+              "Ref": "UpdateApplicationLambdaVersionAtxnTTpm51qfAhOntuwPzNqVVaQn2nuPH6MNi1zezU"
             },
             "Export": {
               "Name": "sls-remember-my-application-dev-UpdateApplicationLambdaFunctionQualifiedArn"
@@ -928,7 +1049,7 @@
           "ReadApplicationLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "ReadApplicationLambdaVersioni7SA56Wn6XKp4xG0yjUZ9QQ8t68QKusNwXIplzmoI"
+              "Ref": "ReadApplicationLambdaVersionGA0uXvhly3jlGyYYoObHHFZfYbeGUx1Z8geI692hc4"
             },
             "Export": {
               "Name": "sls-remember-my-application-dev-ReadApplicationLambdaFunctionQualifiedArn"
@@ -937,10 +1058,19 @@
           "UploadUrlLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "UploadUrlLambdaVersionnp9BE0WyOSL62YIdN66vyP3cB18ZHu3aN5ZNY4lQ"
+              "Ref": "UploadUrlLambdaVersionKEigSlYqXhgrTD9lTy2WTsBJvrdLTgPVTJscBbQCDUs"
             },
             "Export": {
               "Name": "sls-remember-my-application-dev-UploadUrlLambdaFunctionQualifiedArn"
+            }
+          },
+          "SendEmailLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "SendEmailLambdaVersionZ8R11veOiL3jcp8SLIW2Lsvvlq0pn8o0HlYvG39w"
+            },
+            "Export": {
+              "Name": "sls-remember-my-application-dev-SendEmailLambdaFunctionQualifiedArn"
             }
           },
           "HttpApiId": {
@@ -1004,7 +1134,7 @@
         "timeout": 6,
         "runtime": "nodejs20.x",
         "vpc": {},
-        "versionLogicalId": "CreateUserLambdaVersionG9j2Ts46L3bxZaENDAA7J5UXXfUBTgop2bElNLYc"
+        "versionLogicalId": "CreateUserLambdaVersionHn0TKomfpqfA2CoqdZiItB8kKs2DMyhAZPPXZAURo"
       },
       "login": {
         "handler": "functions/users/login/index.handler",
@@ -1027,7 +1157,7 @@
         "timeout": 6,
         "runtime": "nodejs20.x",
         "vpc": {},
-        "versionLogicalId": "LoginLambdaVersionZRPkEQStx22WMNasv1BVt9ALJtKY09UWExjdq5scVL4"
+        "versionLogicalId": "LoginLambdaVersionFMIk41iD713DRkC8oq85ZQOCDcY7vFViRRIIMM6bs"
       },
       "createApplication": {
         "handler": "functions/applications/createApplication/index.handler",
@@ -1050,7 +1180,7 @@
         "timeout": 6,
         "runtime": "nodejs20.x",
         "vpc": {},
-        "versionLogicalId": "CreateApplicationLambdaVersionjL7uoc7P5YGa82aw4X8ydi26C9BnHEm1ajQAWHA0"
+        "versionLogicalId": "CreateApplicationLambdaVersionGZxlLFaSuTdSXTjyvLI40r5zYEApOoFRqPyg0blMPRc"
       },
       "deleteApplication": {
         "handler": "functions/applications/deleteApplication/index.handler",
@@ -1073,7 +1203,7 @@
         "timeout": 6,
         "runtime": "nodejs20.x",
         "vpc": {},
-        "versionLogicalId": "DeleteApplicationLambdaVersion2aWTPZcSDeMpLtclg9nfVeaatM5hh9PSO8xAxUblo"
+        "versionLogicalId": "DeleteApplicationLambdaVersionOon89QDCKxCnUQeMu4BukV1sVIr6qKQKRyoEAgjoiVo"
       },
       "updateApplication": {
         "handler": "functions/applications/updateApplication/index.handler",
@@ -1093,7 +1223,7 @@
         "timeout": 6,
         "runtime": "nodejs20.x",
         "vpc": {},
-        "versionLogicalId": "UpdateApplicationLambdaVersionEO2wWI0I0KlbfGwAPNpKbV62CLxBjfzMaTT3WZFIw8"
+        "versionLogicalId": "UpdateApplicationLambdaVersionAtxnTTpm51qfAhOntuwPzNqVVaQn2nuPH6MNi1zezU"
       },
       "readApplication": {
         "handler": "functions/applications/readApplication/index.handler",
@@ -1116,7 +1246,7 @@
         "timeout": 6,
         "runtime": "nodejs20.x",
         "vpc": {},
-        "versionLogicalId": "ReadApplicationLambdaVersioni7SA56Wn6XKp4xG0yjUZ9QQ8t68QKusNwXIplzmoI"
+        "versionLogicalId": "ReadApplicationLambdaVersionGA0uXvhly3jlGyYYoObHHFZfYbeGUx1Z8geI692hc4"
       },
       "uploadUrl": {
         "handler": "functions/applications/uploadUrl/index.handler",
@@ -1139,7 +1269,30 @@
         "timeout": 6,
         "runtime": "nodejs20.x",
         "vpc": {},
-        "versionLogicalId": "UploadUrlLambdaVersionnp9BE0WyOSL62YIdN66vyP3cB18ZHu3aN5ZNY4lQ"
+        "versionLogicalId": "UploadUrlLambdaVersionKEigSlYqXhgrTD9lTy2WTsBJvrdLTgPVTJscBbQCDUs"
+      },
+      "sendEmail": {
+        "handler": "functions/email/index.handler",
+        "events": [
+          {
+            "httpApi": {
+              "path": "/api/email",
+              "method": "post"
+            },
+            "resolvedMethod": "POST",
+            "resolvedPath": "/api/email"
+          }
+        ],
+        "name": "remember-my-application-dev-sendEmail",
+        "environment": {
+          "NODE_OPTIONS": "--enable-source-maps"
+        },
+        "package": {},
+        "memory": 1024,
+        "timeout": 6,
+        "runtime": "nodejs20.x",
+        "vpc": {},
+        "versionLogicalId": "SendEmailLambdaVersionZ8R11veOiL3jcp8SLIW2Lsvvlq0pn8o0HlYvG39w"
       }
     },
     "resources": {
@@ -1196,7 +1349,7 @@
     "layers": {}
   },
   "package": {
-    "artifactDirectoryName": "serverless/remember-my-application/dev/1774518272731-2026-03-26T09:44:32.731Z",
+    "artifactDirectoryName": "serverless/remember-my-application/dev/1774534847615-2026-03-26T14:20:47.615Z",
     "artifact": "remember-my-application.zip"
   }
 }

@@ -9,6 +9,7 @@ provider:
   runtime: nodejs20.x
   environment:
     JWT_SECRET: ${env:JWT_SECRET}
+    SES_FROM_EMAIL: ${env:SES_FROM_EMAIL}
   region: eu-north-1
   role: arn:aws:iam::136191772737:role/adminrole
   httpApi:
@@ -57,6 +58,12 @@ functions:
     events:
       - httpApi:
           path: /api/files/upload-url
+          method: post
+  sendEmail:
+    handler: functions/email/index.handler
+    events:
+      - httpApi:
+          path: /api/email
           method: post
 
 resources:
