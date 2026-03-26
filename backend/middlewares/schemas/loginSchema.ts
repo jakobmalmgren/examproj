@@ -6,8 +6,8 @@ export const loginSchema = {
       type: "object",
       required: ["username", "password"],
       properties: {
-        username: { type: "string", minLength: 4 },
-        password: { type: "string", minLength: 5 },
+        username: { type: "string", minLength: 1 },
+        password: { type: "string", minLength: 1 },
       },
     },
   },

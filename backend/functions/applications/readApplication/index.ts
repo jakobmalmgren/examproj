@@ -17,11 +17,6 @@ const readApplication = async (event) => {
         ":pk": `USERNAME#${userName}`,
         ":skPrefix": "APPLICATION",
       },
-
-      // Item: {
-      //   pk:{S:`USERNAME#${userName}`}
-      //   sk: {S:}
-      // }
     });
 
     const result = await client.send(command);
@@ -46,8 +41,6 @@ const readApplication = async (event) => {
 };
 
 export const handler = middy(readApplication)
-  // .use(httpJsonBodyParser())
-  //usevalidator här me nånsrans
   .use(checkAuth())
   .onError((request) => {
     request.response = {

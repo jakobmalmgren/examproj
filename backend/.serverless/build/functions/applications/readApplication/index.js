@@ -1293,10 +1293,6 @@ var readApplication = async (event) => {
         ":pk": `USERNAME#${userName}`,
         ":skPrefix": "APPLICATION"
       }
-      // Item: {
-      //   pk:{S:`USERNAME#${userName}`}
-      //   sk: {S:}
-      // }
     });
     const result = await client.send(command);
     return {

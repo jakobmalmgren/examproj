@@ -11201,7 +11201,6 @@ var createApplicationSchema = {
         "title",
         "category",
         "priority",
-        "reminder",
         "location",
         "files",
         "extraInfo",
@@ -11234,7 +11233,8 @@ var createApplicationSchema = {
           anyOf: [{ type: "string", minLength: 1 }, { type: "null" }]
         },
         applicationDate: {
-          anyOf: [{ type: "string", minLength: 1 }, { type: "null" }]
+          type: "string",
+          minLength: 1
         },
         files: {
           type: "array",

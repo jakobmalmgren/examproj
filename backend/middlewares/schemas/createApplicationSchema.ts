@@ -8,7 +8,6 @@ export const createApplicationSchema = {
         "title",
         "category",
         "priority",
-        "reminder",
         "location",
         "files",
         "extraInfo",
@@ -41,7 +40,8 @@ export const createApplicationSchema = {
           anyOf: [{ type: "string", minLength: 1 }, { type: "null" }],
         },
         applicationDate: {
-          anyOf: [{ type: "string", minLength: 1 }, { type: "null" }],
+          type: "string",
+          minLength: 1,
         },
         files: {
           type: "array",
