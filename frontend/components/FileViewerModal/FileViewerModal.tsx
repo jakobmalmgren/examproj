@@ -1,9 +1,9 @@
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
+import CloseIcon from "@mui/icons-material/Close";
+import IconButton from "@mui/material/IconButton";
 
 type Props = {
   open: boolean;
@@ -34,7 +34,27 @@ const FileViewerModal = ({ open, onClose, file }: Props) => {
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-      <DialogTitle>{file.name}</DialogTitle>
+      <DialogTitle
+        sx={{
+          m: 0,
+          p: 2,
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        {file.name}
+
+        <IconButton
+          aria-label="close"
+          onClick={onClose}
+          sx={{
+            color: (theme) => theme.palette.grey[500],
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+      </DialogTitle>
 
       <DialogContent>
         {isPdf && (
@@ -67,16 +87,16 @@ const FileViewerModal = ({ open, onClose, file }: Props) => {
               }}
             />
 
-            <Button
+            {/* <Button
               variant="outlined"
               onClick={() => window.open(file.url, "_blank")}
             >
               Öppna bilden i ny flik
-            </Button>
+            </Button> */}
           </Box>
         )}
 
-        {!isPdf && !isImage && (
+        {/* {!isPdf && !isImage && (
           <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
             <Typography>
               Den här filtypen kan inte förhandsvisas här.
@@ -89,7 +109,7 @@ const FileViewerModal = ({ open, onClose, file }: Props) => {
               Öppna fil
             </Button>
           </Box>
-        )}
+        )} */}
       </DialogContent>
     </Dialog>
   );

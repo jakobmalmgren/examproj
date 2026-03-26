@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 
 import InboxIcon from "@mui/icons-material/Inbox";
-
+import { deleteApplication } from "../../apis/deleteApplication";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { readApplication } from "../../apis/readApplication";
 import { CircularProgress } from "@mui/material";
@@ -19,7 +19,7 @@ import { CircularProgress } from "@mui/material";
 const MyApplications = () => {
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const [refreshKey, setRefreshKey] = useState(0);
   const [priority, setPriority] = useState<string | null>(null);
   const [city, setCity] = useState("");
 
@@ -31,15 +31,21 @@ const MyApplications = () => {
     }
   };
 
+  const handleDeleteApplication = async (sk: string) => {
+    const id = sk.replace("APPLICATION#", "");
+    const result = await deleteApplication(id);
+
+    if (result.success) {
+      setRefreshKey((prev) => prev + 1);
+    }
+  };
+
   // kolla
   useEffect(() => {
     const fetchApplications = async () => {
       try {
         setLoading(true);
         const res = await readApplication();
-
-        console.log("result from my apppl", res);
-        console.log("fjjf", res.data);
 
         setApplications(res.data);
         setLoading(false);
@@ -51,7 +57,7 @@ const MyApplications = () => {
     };
 
     fetchApplications();
-  }, []);
+  }, [refreshKey]);
 
   return (
     <Box
@@ -183,7 +189,11 @@ const MyApplications = () => {
           </Box>
         ) : (
           applications.map((data) => (
-            <MyApplicationCard key={data.sk} data={data}></MyApplicationCard>
+            <MyApplicationCard
+              onDelete={handleDeleteApplication}
+              key={data.sk}
+              data={data}
+            ></MyApplicationCard>
           ))
         )}
       </Box>
