@@ -3,29 +3,29 @@ import FileViewerModal from "../../components/FileViewerModal/FileViewerModal";
 import { Tooltip } from "@mui/material";
 import {
   Box,
-  TextField,
+  // TextField,
   Paper,
   Typography,
   Chip,
   IconButton,
-  Select,
-  MenuItem,
+  // Select,
+  // MenuItem,
 } from "@mui/material";
+import EditModal from "../EditModal/EditModal";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import SaveIcon from "@mui/icons-material/Save";
+// import SaveIcon from "@mui/icons-material/Save";
 
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import dayjs from "dayjs";
+// import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+// import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+// import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+// import dayjs from "dayjs";
 
 const MyApplicationCard = ({ data }: { data: any }) => {
   console.log("caaardloggdata", data);
 
   const {
     category,
-    createdAt,
     extraInfo = [],
     files = [],
     location,
@@ -38,11 +38,15 @@ const MyApplicationCard = ({ data }: { data: any }) => {
 
   const city = location?.city || "";
 
+  const [editOpen, setEditOpen] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<any | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
-  const handleCloseModal = () => setModalOpen(false);
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setSelectedFile(null);
+  };
 
   const [responded, setResponded] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
 
   const priorityEmoji = priority === 1 ? "🔥" : priority === 2 ? "🤷" : "🤦";
 
@@ -71,15 +75,7 @@ const MyApplicationCard = ({ data }: { data: any }) => {
           gap: 1.5,
         }}
       >
-        {isEditing ? (
-          <Select value={priority} size="small">
-            <MenuItem value={1}>🔥 Priority 1</MenuItem>
-            <MenuItem value={2}>🤷 Priority 2</MenuItem>
-            <MenuItem value={3}>🤦 Priority 3</MenuItem>
-          </Select>
-        ) : (
-          <Typography sx={{ fontSize: "40px" }}>{priorityEmoji}</Typography>
-        )}
+        <Typography sx={{ fontSize: "40px" }}>{priorityEmoji}</Typography>
 
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           <img
@@ -88,13 +84,10 @@ const MyApplicationCard = ({ data }: { data: any }) => {
             style={{ height: 24, width: 24 }}
           />
           <Typography variant="body2" sx={{ fontWeight: "bold" }}>
-            Position / Role:
+            Application Title:
           </Typography>
-          {isEditing ? (
-            <TextField size="small" value={title || ""} fullWidth />
-          ) : (
-            <Typography variant="body2">{title || "-"}</Typography>
-          )}
+
+          <Typography variant="body2">{title || "-"}</Typography>
         </Box>
 
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
@@ -106,18 +99,10 @@ const MyApplicationCard = ({ data }: { data: any }) => {
           <Typography variant="body2" sx={{ fontWeight: "bold" }}>
             Extra Info:
           </Typography>
-          {isEditing ? (
-            <>
-              <TextField size="small" value={extraInfo.join(", ")} />
-              <IconButton size="small" color="primary">
-                <DeleteIcon fontSize="small" />
-              </IconButton>
-            </>
-          ) : (
-            <Typography variant="body2">
-              {extraInfo.length > 0 ? extraInfo.join(", ") : "-"}
-            </Typography>
-          )}
+
+          <Typography variant="body2">
+            {extraInfo.length > 0 ? extraInfo.join(", ") : "-"}
+          </Typography>
         </Box>
 
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
@@ -130,47 +115,13 @@ const MyApplicationCard = ({ data }: { data: any }) => {
             Reminder:
           </Typography>
 
-          {reminderDate ? (
-            <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
-              {isEditing ? (
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    label="Custom Date"
-                    value={reminderDate ? dayjs(reminderDate) : null}
-                    slotProps={{
-                      textField: { size: "medium", sx: { width: 150 } },
-                    }}
-                  />
-                  <IconButton size="small" color="primary">
-                    <DeleteIcon fontSize="small" />
-                  </IconButton>
-                </LocalizationProvider>
-              ) : (
-                <Typography
-                  variant="body2"
-                  sx={{ color: "green", display: "flex", alignItems: "center" }}
-                >
-                  ✅ {reminderDate}
-                </Typography>
-              )}
-            </Box>
-          ) : isEditing ? (
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                label="Custom Date"
-                slotProps={{
-                  textField: { size: "small", sx: { minWidth: 150 } },
-                }}
-              />
-              <IconButton size="small" color="primary">
-                <DeleteIcon fontSize="small" />
-              </IconButton>
-            </LocalizationProvider>
-          ) : (
-            <Typography variant="body2" sx={{ color: "red" }}>
-              {reminder ? "⏰ Reminder on" : "❌ No reminder"}
-            </Typography>
-          )}
+          <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+            {reminder ? ` ✅ ${reminderDate}` : `❌ No reminder`}
+            <Typography
+              variant="body2"
+              sx={{ color: "green", display: "flex", alignItems: "center" }}
+            ></Typography>
+          </Box>
         </Box>
 
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
@@ -182,11 +133,8 @@ const MyApplicationCard = ({ data }: { data: any }) => {
           <Typography variant="body2" sx={{ fontWeight: "bold" }}>
             Location:
           </Typography>
-          {isEditing ? (
-            <TextField size="small" value={city} fullWidth />
-          ) : (
-            <Typography variant="body2">{city || "-"}</Typography>
-          )}
+
+          <Typography variant="body2">{city || "-"}</Typography>
         </Box>
 
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
@@ -196,8 +144,9 @@ const MyApplicationCard = ({ data }: { data: any }) => {
             style={{ height: 24, width: 24 }}
           />
           <Typography variant="body2" sx={{ fontWeight: "bold" }}>
-            Applied:
+            Application Date:
           </Typography>
+
           <Typography variant="body2">{applicationDate}</Typography>
         </Box>
 
@@ -210,20 +159,8 @@ const MyApplicationCard = ({ data }: { data: any }) => {
           <Typography variant="body2" sx={{ fontWeight: "bold" }}>
             Category:
           </Typography>
-          {isEditing ? (
-            <TextField select value={category || ""} size="small" fullWidth>
-              <MenuItem value="IT & Tech">IT & Tech</MenuItem>
-              <MenuItem value="Education">Education</MenuItem>
-              <MenuItem value="Healthcare">Healthcare</MenuItem>
-              <MenuItem value="Finance">Finance</MenuItem>
-              <MenuItem value="Marketing">Marketing</MenuItem>
-              <MenuItem value="Engineering">Engineering</MenuItem>
-              <MenuItem value="Support">Support</MenuItem>
-              <MenuItem value="Other">Other</MenuItem>
-            </TextField>
-          ) : (
-            <Typography variant="body2">{category || "-"}</Typography>
-          )}
+
+          <Typography variant="body2">{category || "-"}</Typography>
         </Box>
 
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
@@ -248,18 +185,27 @@ const MyApplicationCard = ({ data }: { data: any }) => {
                   label={file.name}
                   size="small"
                   clickable
-                  onClick={() => setModalOpen(true)}
+                  onClick={() => {
+                    setModalOpen(true);
+                    setSelectedFile(file);
+                    console.log("clicked file", file);
+                  }}
                   sx={{
-                    flex: 1,
-                    "&:hover": { bgcolor: "#bbdefb", transform: "scale(1.05)" },
+                    display: "flex",
+                    padding: 1,
+                    mx: "auto", // 👈 centrerar horisontellt
+                    height: 22,
+                    fontSize: "0.7rem",
+                    "& .MuiChip-label": {
+                      px: 0.5,
+                    },
+                    "&:hover": {
+                      bgcolor: "#bbdefb",
+                      transform: "scale(1.05)",
+                    },
                     transition: "transform 0.2s, background-color 0.2s",
                   }}
                 />
-                {isEditing && (
-                  <IconButton size="small" color="primary">
-                    <DeleteIcon fontSize="small" />
-                  </IconButton>
-                )}
               </Box>
             ))
           ) : (
@@ -267,7 +213,11 @@ const MyApplicationCard = ({ data }: { data: any }) => {
           )}
         </Box>
 
-        <FileViewerModal open={modalOpen} onClose={handleCloseModal} />
+        <FileViewerModal
+          open={modalOpen}
+          onClose={handleCloseModal}
+          file={selectedFile}
+        />
       </Box>
 
       <Box
@@ -293,15 +243,12 @@ const MyApplicationCard = ({ data }: { data: any }) => {
           </IconButton>
         </Tooltip>
 
-        <Tooltip title={isEditing ? "Save" : "Edit"} arrow>
-          <IconButton onClick={() => setIsEditing(!isEditing)} size="small">
-            {isEditing ? (
-              <SaveIcon fontSize="small" color="primary" />
-            ) : (
-              <EditIcon fontSize="small" color="primary" />
-            )}
+        <Tooltip title={"Edit"} arrow>
+          <IconButton size="small" onClick={() => setEditOpen(true)}>
+            <EditIcon fontSize="small" color="primary" />
           </IconButton>
         </Tooltip>
+        <EditModal open={editOpen} onClose={() => setEditOpen(false)} />
       </Box>
     </Paper>
   );

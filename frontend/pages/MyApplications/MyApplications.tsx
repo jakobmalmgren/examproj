@@ -161,17 +161,9 @@ const MyApplications = () => {
             <MyApplicationCard key={data.sk} data={data}></MyApplicationCard>
           ))
         )}
-
-        {/* <MyApplicationCard />
-        <MyApplicationCard />
-        <MyApplicationCard />
-        <MyApplicationCard />
-        <MyApplicationCard />
-        <MyApplicationCard /> */}
       </Box>
     </Box>
   );
 };
 
 export default MyApplications;
-// ska mappa alla applications sen här o få datan o synas.
