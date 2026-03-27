@@ -67,7 +67,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "serverless-framework-deployments-eu-north-1-ba886c44-ebde",
-          "S3Key": "serverless/remember-my-application/dev/1774601725124-2026-03-27T08:55:25.124Z/remember-my-application.zip"
+          "S3Key": "serverless/remember-my-application/dev/1774614658141-2026-03-27T12:30:58.141Z/remember-my-application.zip"
         },
         "Handler": "functions/users/signup/index.handler",
         "Runtime": "nodejs20.x",
@@ -92,7 +92,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "serverless-framework-deployments-eu-north-1-ba886c44-ebde",
-          "S3Key": "serverless/remember-my-application/dev/1774601725124-2026-03-27T08:55:25.124Z/remember-my-application.zip"
+          "S3Key": "serverless/remember-my-application/dev/1774614658141-2026-03-27T12:30:58.141Z/remember-my-application.zip"
         },
         "Handler": "functions/users/login/index.handler",
         "Runtime": "nodejs20.x",
@@ -117,7 +117,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "serverless-framework-deployments-eu-north-1-ba886c44-ebde",
-          "S3Key": "serverless/remember-my-application/dev/1774601725124-2026-03-27T08:55:25.124Z/remember-my-application.zip"
+          "S3Key": "serverless/remember-my-application/dev/1774614658141-2026-03-27T12:30:58.141Z/remember-my-application.zip"
         },
         "Handler": "functions/applications/createApplication/index.handler",
         "Runtime": "nodejs20.x",
@@ -142,7 +142,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "serverless-framework-deployments-eu-north-1-ba886c44-ebde",
-          "S3Key": "serverless/remember-my-application/dev/1774601725124-2026-03-27T08:55:25.124Z/remember-my-application.zip"
+          "S3Key": "serverless/remember-my-application/dev/1774614658141-2026-03-27T12:30:58.141Z/remember-my-application.zip"
         },
         "Handler": "functions/applications/deleteApplication/index.handler",
         "Runtime": "nodejs20.x",
@@ -167,7 +167,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "serverless-framework-deployments-eu-north-1-ba886c44-ebde",
-          "S3Key": "serverless/remember-my-application/dev/1774601725124-2026-03-27T08:55:25.124Z/remember-my-application.zip"
+          "S3Key": "serverless/remember-my-application/dev/1774614658141-2026-03-27T12:30:58.141Z/remember-my-application.zip"
         },
         "Handler": "functions/applications/updateApplication/index.handler",
         "Runtime": "nodejs20.x",
@@ -191,7 +191,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "serverless-framework-deployments-eu-north-1-ba886c44-ebde",
-          "S3Key": "serverless/remember-my-application/dev/1774601725124-2026-03-27T08:55:25.124Z/remember-my-application.zip"
+          "S3Key": "serverless/remember-my-application/dev/1774614658141-2026-03-27T12:30:58.141Z/remember-my-application.zip"
         },
         "Handler": "functions/applications/readApplication/index.handler",
         "Runtime": "nodejs20.x",
@@ -216,7 +216,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "serverless-framework-deployments-eu-north-1-ba886c44-ebde",
-          "S3Key": "serverless/remember-my-application/dev/1774601725124-2026-03-27T08:55:25.124Z/remember-my-application.zip"
+          "S3Key": "serverless/remember-my-application/dev/1774614658141-2026-03-27T12:30:58.141Z/remember-my-application.zip"
         },
         "Handler": "functions/applications/uploadUrl/index.handler",
         "Runtime": "nodejs20.x",
@@ -241,7 +241,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "serverless-framework-deployments-eu-north-1-ba886c44-ebde",
-          "S3Key": "serverless/remember-my-application/dev/1774601725124-2026-03-27T08:55:25.124Z/remember-my-application.zip"
+          "S3Key": "serverless/remember-my-application/dev/1774614658141-2026-03-27T12:30:58.141Z/remember-my-application.zip"
         },
         "Handler": "functions/email/index.handler",
         "Runtime": "nodejs20.x",
@@ -266,7 +266,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "serverless-framework-deployments-eu-north-1-ba886c44-ebde",
-          "S3Key": "serverless/remember-my-application/dev/1774601725124-2026-03-27T08:55:25.124Z/remember-my-application.zip"
+          "S3Key": "serverless/remember-my-application/dev/1774614658141-2026-03-27T12:30:58.141Z/remember-my-application.zip"
         },
         "Handler": "functions/review/postReview/index.handler",
         "Runtime": "nodejs20.x",
@@ -291,7 +291,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "serverless-framework-deployments-eu-north-1-ba886c44-ebde",
-          "S3Key": "serverless/remember-my-application/dev/1774601725124-2026-03-27T08:55:25.124Z/remember-my-application.zip"
+          "S3Key": "serverless/remember-my-application/dev/1774614658141-2026-03-27T12:30:58.141Z/remember-my-application.zip"
         },
         "Handler": "functions/review/readReview/index.handler",
         "Runtime": "nodejs20.x",
@@ -311,104 +311,104 @@
         "GetReviewLogGroup"
       ]
     },
-    "CreateUserLambdaVersionv0PMrCscGs7CObr2cfGX2GJt9JhXH1axBxtgEIf9FHI": {
+    "CreateUserLambdaVersionjA4IdHnb1p4cZPLsGoCHi3q5v31vLXwi83cLYK3Yk": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "CreateUserLambdaFunction"
         },
-        "CodeSha256": "uEvlaIIQFqzKBYo8/BHyIxU6WSDACqwOBRhY2zTSuV0="
+        "CodeSha256": "dhJDP6LEvio8XNH22duFelekL+QKnlnE18VUOmsBUCc="
       }
     },
-    "LoginLambdaVersion338lMtQ9hBChwWY42LruyR1XBXoOZVQ3ZgOed9x1Q": {
+    "LoginLambdaVersionhWDlOkHFqFzkvKSf3iGOzI8dmtVxsOF2nPmO1LS8A": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "LoginLambdaFunction"
         },
-        "CodeSha256": "uEvlaIIQFqzKBYo8/BHyIxU6WSDACqwOBRhY2zTSuV0="
+        "CodeSha256": "dhJDP6LEvio8XNH22duFelekL+QKnlnE18VUOmsBUCc="
       }
     },
-    "CreateApplicationLambdaVersionJgVw792lLCBRixoSGpdNLQMKfg9le9c3xoFjtZsJuzo": {
+    "CreateApplicationLambdaVersiongFShck1LUKGS7R5qr2jZTmKDtHHLz0H6k2rmgdwUkk": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "CreateApplicationLambdaFunction"
         },
-        "CodeSha256": "uEvlaIIQFqzKBYo8/BHyIxU6WSDACqwOBRhY2zTSuV0="
+        "CodeSha256": "dhJDP6LEvio8XNH22duFelekL+QKnlnE18VUOmsBUCc="
       }
     },
-    "DeleteApplicationLambdaVersion6HMkx7l2okgANxYtvyuz5RXbsnzpnI8QCf6JXLnO0": {
+    "DeleteApplicationLambdaVersion4n9dHijS2P0J33CEwR36wLkOjreqX8NvHFSYhyX3vu0": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "DeleteApplicationLambdaFunction"
         },
-        "CodeSha256": "uEvlaIIQFqzKBYo8/BHyIxU6WSDACqwOBRhY2zTSuV0="
+        "CodeSha256": "dhJDP6LEvio8XNH22duFelekL+QKnlnE18VUOmsBUCc="
       }
     },
-    "UpdateApplicationLambdaVersionUlE8HWmqzkNvckRVPvjkINS6PYWnTEgAvIcSY0L46Y": {
+    "UpdateApplicationLambdaVersion5eG1tvs5KaHtu4cQxVMVV3F8RcQ8JPVOh1M4Esz8Gag": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "UpdateApplicationLambdaFunction"
         },
-        "CodeSha256": "uEvlaIIQFqzKBYo8/BHyIxU6WSDACqwOBRhY2zTSuV0="
+        "CodeSha256": "dhJDP6LEvio8XNH22duFelekL+QKnlnE18VUOmsBUCc="
       }
     },
-    "ReadApplicationLambdaVersionYLLV6hivUxuo4fPUaf0FD1GNGFuiaVwLVlf0I7Oen0": {
+    "ReadApplicationLambdaVersionU6Z59mpRtp1KpBl4vybeD1SKTnWrbxEaUVpkVJH4o": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "ReadApplicationLambdaFunction"
         },
-        "CodeSha256": "uEvlaIIQFqzKBYo8/BHyIxU6WSDACqwOBRhY2zTSuV0="
+        "CodeSha256": "dhJDP6LEvio8XNH22duFelekL+QKnlnE18VUOmsBUCc="
       }
     },
-    "UploadUrlLambdaVersion3pDaCP78OoGl3hraw0TkwqqUZZDM4ZsVduzhENlAxk": {
+    "UploadUrlLambdaVersionKivzVthAJ8k3z8o0bsAYosZ9hxOnU9DrNsDJu5f95d8": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "UploadUrlLambdaFunction"
         },
-        "CodeSha256": "uEvlaIIQFqzKBYo8/BHyIxU6WSDACqwOBRhY2zTSuV0="
+        "CodeSha256": "dhJDP6LEvio8XNH22duFelekL+QKnlnE18VUOmsBUCc="
       }
     },
-    "SendEmailLambdaVersionfpAanIT0XEubvglvKlmtbiWC0gZI6CNfduj9maBQ": {
+    "SendEmailLambdaVersionoQusBY82SxvxJ02L1NQd5E6D9KtoV5FFH9My6GBtQ9g": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "SendEmailLambdaFunction"
         },
-        "CodeSha256": "uEvlaIIQFqzKBYo8/BHyIxU6WSDACqwOBRhY2zTSuV0="
+        "CodeSha256": "dhJDP6LEvio8XNH22duFelekL+QKnlnE18VUOmsBUCc="
       }
     },
-    "PostReviewLambdaVersionMWYTepP3Ei4dVfgGq9nqFxMOwQeoYwS3Mc5CWptekU": {
+    "PostReviewLambdaVersionEy5Ae9wiJUplrjuHP01nm0LaiG2LidxKOpFwzG52eCo": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "PostReviewLambdaFunction"
         },
-        "CodeSha256": "uEvlaIIQFqzKBYo8/BHyIxU6WSDACqwOBRhY2zTSuV0="
+        "CodeSha256": "dhJDP6LEvio8XNH22duFelekL+QKnlnE18VUOmsBUCc="
       }
     },
-    "GetReviewLambdaVersionIcBqoelWwscged1swFCFxxLoXhVw1SVVxEaGtnJ8FVs": {
+    "GetReviewLambdaVersionlydLce72majsuDTgiH2GO3rWASiT6jLKeAllKMGKk": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "GetReviewLambdaFunction"
         },
-        "CodeSha256": "uEvlaIIQFqzKBYo8/BHyIxU6WSDACqwOBRhY2zTSuV0="
+        "CodeSha256": "dhJDP6LEvio8XNH22duFelekL+QKnlnE18VUOmsBUCc="
       }
     },
     "HttpApi": {
@@ -1240,7 +1240,7 @@
     "CreateUserLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "CreateUserLambdaVersionv0PMrCscGs7CObr2cfGX2GJt9JhXH1axBxtgEIf9FHI"
+        "Ref": "CreateUserLambdaVersionjA4IdHnb1p4cZPLsGoCHi3q5v31vLXwi83cLYK3Yk"
       },
       "Export": {
         "Name": "sls-remember-my-application-dev-CreateUserLambdaFunctionQualifiedArn"
@@ -1249,7 +1249,7 @@
     "LoginLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "LoginLambdaVersion338lMtQ9hBChwWY42LruyR1XBXoOZVQ3ZgOed9x1Q"
+        "Ref": "LoginLambdaVersionhWDlOkHFqFzkvKSf3iGOzI8dmtVxsOF2nPmO1LS8A"
       },
       "Export": {
         "Name": "sls-remember-my-application-dev-LoginLambdaFunctionQualifiedArn"
@@ -1258,7 +1258,7 @@
     "CreateApplicationLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "CreateApplicationLambdaVersionJgVw792lLCBRixoSGpdNLQMKfg9le9c3xoFjtZsJuzo"
+        "Ref": "CreateApplicationLambdaVersiongFShck1LUKGS7R5qr2jZTmKDtHHLz0H6k2rmgdwUkk"
       },
       "Export": {
         "Name": "sls-remember-my-application-dev-CreateApplicationLambdaFunctionQualifiedArn"
@@ -1267,7 +1267,7 @@
     "DeleteApplicationLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "DeleteApplicationLambdaVersion6HMkx7l2okgANxYtvyuz5RXbsnzpnI8QCf6JXLnO0"
+        "Ref": "DeleteApplicationLambdaVersion4n9dHijS2P0J33CEwR36wLkOjreqX8NvHFSYhyX3vu0"
       },
       "Export": {
         "Name": "sls-remember-my-application-dev-DeleteApplicationLambdaFunctionQualifiedArn"
@@ -1276,7 +1276,7 @@
     "UpdateApplicationLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "UpdateApplicationLambdaVersionUlE8HWmqzkNvckRVPvjkINS6PYWnTEgAvIcSY0L46Y"
+        "Ref": "UpdateApplicationLambdaVersion5eG1tvs5KaHtu4cQxVMVV3F8RcQ8JPVOh1M4Esz8Gag"
       },
       "Export": {
         "Name": "sls-remember-my-application-dev-UpdateApplicationLambdaFunctionQualifiedArn"
@@ -1285,7 +1285,7 @@
     "ReadApplicationLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "ReadApplicationLambdaVersionYLLV6hivUxuo4fPUaf0FD1GNGFuiaVwLVlf0I7Oen0"
+        "Ref": "ReadApplicationLambdaVersionU6Z59mpRtp1KpBl4vybeD1SKTnWrbxEaUVpkVJH4o"
       },
       "Export": {
         "Name": "sls-remember-my-application-dev-ReadApplicationLambdaFunctionQualifiedArn"
@@ -1294,7 +1294,7 @@
     "UploadUrlLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "UploadUrlLambdaVersion3pDaCP78OoGl3hraw0TkwqqUZZDM4ZsVduzhENlAxk"
+        "Ref": "UploadUrlLambdaVersionKivzVthAJ8k3z8o0bsAYosZ9hxOnU9DrNsDJu5f95d8"
       },
       "Export": {
         "Name": "sls-remember-my-application-dev-UploadUrlLambdaFunctionQualifiedArn"
@@ -1303,7 +1303,7 @@
     "SendEmailLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "SendEmailLambdaVersionfpAanIT0XEubvglvKlmtbiWC0gZI6CNfduj9maBQ"
+        "Ref": "SendEmailLambdaVersionoQusBY82SxvxJ02L1NQd5E6D9KtoV5FFH9My6GBtQ9g"
       },
       "Export": {
         "Name": "sls-remember-my-application-dev-SendEmailLambdaFunctionQualifiedArn"
@@ -1312,7 +1312,7 @@
     "PostReviewLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "PostReviewLambdaVersionMWYTepP3Ei4dVfgGq9nqFxMOwQeoYwS3Mc5CWptekU"
+        "Ref": "PostReviewLambdaVersionEy5Ae9wiJUplrjuHP01nm0LaiG2LidxKOpFwzG52eCo"
       },
       "Export": {
         "Name": "sls-remember-my-application-dev-PostReviewLambdaFunctionQualifiedArn"
@@ -1321,7 +1321,7 @@
     "GetReviewLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "GetReviewLambdaVersionIcBqoelWwscged1swFCFxxLoXhVw1SVVxEaGtnJ8FVs"
+        "Ref": "GetReviewLambdaVersionlydLce72majsuDTgiH2GO3rWASiT6jLKeAllKMGKk"
       },
       "Export": {
         "Name": "sls-remember-my-application-dev-GetReviewLambdaFunctionQualifiedArn"

@@ -23,6 +23,8 @@ const postReviewHandler = async (event) => {
       Item: {
         pk: { S: `USERNAME#${username}` },
         sk: { S: `REVIEW#${id}` },
+        gsi1pk: { S: "REVIEW" },
+        gsi1sk: { S: new Date().toISOString() },
         name: { S: name },
         reviewId: { S: id },
         comment: { S: comment },
