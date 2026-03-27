@@ -19,8 +19,6 @@ import RoomIcon from "@mui/icons-material/Room";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Tooltip from "@mui/material/Tooltip";
 import { useTheme } from "@mui/material/styles";
-import { Avatar } from "@mui/material";
-import PersonIcon from "@mui/icons-material/Person";
 import ReviewDrawer from "../../Review/ReviewDrawer";
 
 const navItems = [
@@ -33,6 +31,12 @@ const navItems = [
 const MainLayout = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const theme = useTheme();
+
+  // måste ha samma state som finns
+  // const handleLogout = () => {
+  //   localStorage.removeItem("token"); // ❌ ta bort token
+  //   setIsLoggedIn(false); // ❌ sätt state
+  // };
 
   return (
     <div className="mainLayout">

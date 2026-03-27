@@ -20,6 +20,10 @@ function App() {
   // State för inloggad status
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  // const [isLoggedIn, setIsLoggedIn] = useState(() => {
+  //   return !!localStorage.getItem("token");
+  // });
+
   return (
     <BrowserRouter>
       <Routes>
