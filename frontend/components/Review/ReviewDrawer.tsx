@@ -222,7 +222,7 @@ const ReviewDrawer = () => {
           <CloseIcon />
         </IconButton>
 
-        <ReviewForm />
+        <ReviewForm open={open} />
       </Box>
     </>
   );

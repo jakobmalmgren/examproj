@@ -111,7 +111,9 @@ const MainLayout = () => {
             <IconButton
               color="inherit"
               edge="end"
-              onClick={() => setDrawerOpen(true)}
+              onClick={() => {
+                setDrawerOpen(true);
+              }}
               sx={{ display: { xs: "flex", md: "none" } }}
             >
               <MenuIcon />
@@ -124,7 +126,9 @@ const MainLayout = () => {
       <Drawer
         anchor="right"
         open={drawerOpen}
-        onClose={() => setDrawerOpen(false)}
+        onClose={() => {
+          setDrawerOpen(false);
+        }}
         transitionDuration={{ enter: 300, exit: 300 }}
         PaperProps={{
           sx: {
