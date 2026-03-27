@@ -1,10 +1,9 @@
 const API_BASE_URL = "https://b33x42qde1.execute-api.eu-north-1.amazonaws.com";
-
-export const deleteApplication = async (id) => {
+export const readReview = async () => {
   try {
     const token = localStorage.getItem("token");
-    const response = await fetch(`${API_BASE_URL}/api/applications/${id}`, {
-      method: "DELETE",
+    const response = await fetch(`${API_BASE_URL}/api/review`, {
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -18,17 +17,15 @@ export const deleteApplication = async (id) => {
         message: resData.message,
       };
     }
-
-    // varför ...resdata o inte bara message: resData?
     return {
       success: true,
       ...resData,
     };
-  } catch (err) {
+  } catch (error) {
     return {
       success: false,
       message: "Network or server error",
-      error: err,
+      error: error,
     };
   }
 };

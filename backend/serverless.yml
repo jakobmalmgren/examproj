@@ -65,6 +65,18 @@ functions:
       - httpApi:
           path: /api/email
           method: post
+  postReview:
+    handler: functions/review/postReview/index.handler
+    events:
+      - httpApi:
+          path: /api/review
+          method: post
+  getReview:
+    handler: functions/review/readReview/index.handler
+    events:
+      - httpApi:
+          path: /api/review
+          method: get
 
 resources:
   Resources:
