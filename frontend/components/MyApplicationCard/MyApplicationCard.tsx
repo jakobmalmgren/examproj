@@ -24,8 +24,6 @@ import EditIcon from "@mui/icons-material/Edit";
 
 // const MyApplicationCard = ({ data }: { data: any }) => {
 const MyApplicationCard = ({ data, onDelete }) => {
-  console.log("caaardloggdata", data);
-
   const {
     category,
     extraInfo = [],
