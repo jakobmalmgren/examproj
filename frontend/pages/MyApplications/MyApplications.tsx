@@ -46,8 +46,10 @@ const MyApplications = () => {
       try {
         setLoading(true);
         const res = await readApplication();
-
+        console.log("APPPPPPPPPPPPP", res);
         setApplications(res.data);
+        console.log("APPPPPPPPPPPPP", applications);
+
         setLoading(false);
       } catch (error) {
         console.error("Fetch error:", error);
@@ -59,17 +61,29 @@ const MyApplications = () => {
     fetchApplications();
   }, [refreshKey]);
 
+  const filteredApplications = applications.filter((app) => {
+    const matchesPriority =
+      !priority ||
+      (priority === "prio1" && Number(app.priority) === 1) ||
+      (priority === "prio2" && Number(app.priority) === 2) ||
+      (priority === "prio3" && Number(app.priority) === 3);
+
+    const matchesCity =
+      !city || app.location.city?.toLowerCase().includes(city.toLowerCase());
+
+    return matchesPriority && matchesCity;
+  });
+
   return (
     <Box
       sx={{
         display: "flex",
-        flexDirection: "column", // kolumnlayout så filter överst, kort under
+        flexDirection: "column",
         alignItems: "center",
         mt: 8,
-        gap: 4, // lite mellanrum mellan filter och kort
+        gap: 4,
       }}
     >
-      {/* Filterpanel */}
       <Paper
         elevation={3}
         sx={{
@@ -188,7 +202,7 @@ const MyApplications = () => {
             </Typography>
           </Box>
         ) : (
-          applications.map((data) => (
+          filteredApplications.map((data) => (
             <MyApplicationCard
               onDelete={handleDeleteApplication}
               key={data.sk}
