@@ -35,7 +35,7 @@ const readReviewHandler = async (event) => {
 };
 
 export const handler = middy(readReviewHandler)
-  .use(checkAuth())
+  // .use(checkAuth())
   .onError((request) => {
     console.log(
       "VALIDATION DETAILS:",

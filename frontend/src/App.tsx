@@ -18,11 +18,11 @@ import MapView from "../pages/MapView/MapView";
 
 function App() {
   // State för inloggad status
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // const [isLoggedIn, setIsLoggedIn] = useState(() => {
-  //   return !!localStorage.getItem("token");
-  // });
+  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+    return !!localStorage.getItem("token");
+  });
 
   return (
     <BrowserRouter>
@@ -53,7 +53,10 @@ function App() {
 
         {/* === Private routes (inloggad användare) === */}
         {isLoggedIn && (
-          <Route path="/" element={<MainLayout />}>
+          <Route
+            path="/"
+            element={<MainLayout setIsLoggedIn={setIsLoggedIn} />}
+          >
             <Route path="home" element={<MyApplications />} />
             <Route path="add" element={<AddApplications />} />
             <Route path="stats" element={<StatisticReports />} />

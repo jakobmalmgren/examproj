@@ -28,15 +28,15 @@ const navItems = [
   { text: "Map", icon: <RoomIcon />, path: "/map" },
 ];
 
-const MainLayout = () => {
+const MainLayout = ({ setIsLoggedIn }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const theme = useTheme();
 
   // måste ha samma state som finns
-  // const handleLogout = () => {
-  //   localStorage.removeItem("token"); // ❌ ta bort token
-  //   setIsLoggedIn(false); // ❌ sätt state
-  // };
+  const handleLogout = () => {
+    localStorage.removeItem("token"); // ❌ ta bort token
+    setIsLoggedIn(false); // ❌ sätt state
+  };
 
   return (
     <div className="mainLayout">
@@ -101,10 +101,7 @@ const MainLayout = () => {
           </Box>
 
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-            <IconButton
-              sx={{ color: "inherit" }}
-              onClick={() => console.log("Log out")}
-            >
+            <IconButton sx={{ color: "inherit" }} onClick={handleLogout}>
               <LogoutIcon />
             </IconButton>
 
