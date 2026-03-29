@@ -48,7 +48,6 @@ const MyApplications = () => {
         const res = await readApplication();
         console.log("APPPPPPPPPPPPP", res);
         setApplications(res.data);
-        console.log("APPPPPPPPPPPPP", applications);
 
         setLoading(false);
       } catch (error) {

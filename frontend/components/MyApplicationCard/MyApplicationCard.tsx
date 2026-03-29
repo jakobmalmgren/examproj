@@ -1,29 +1,14 @@
 import { useState } from "react";
 import FileViewerModal from "../../components/FileViewerModal/FileViewerModal";
 import { Tooltip } from "@mui/material";
-import {
-  Box,
-  // TextField,
-  Paper,
-  Typography,
-  Chip,
-  IconButton,
-  // Select,
-  // MenuItem,
-} from "@mui/material";
+import { Box, Paper, Typography, Chip, IconButton } from "@mui/material";
 import EditModal from "../EditModal/EditModal";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-// import { deleteApplication } from "../../apis/deleteApplication";
-// import SaveIcon from "@mui/icons-material/Save";
 
-// import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-// import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-// import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-// import dayjs from "dayjs";
-
-// const MyApplicationCard = ({ data }: { data: any }) => {
 const MyApplicationCard = ({ data, onDelete }) => {
+  const id = data.sk.split("#")[1];
+
   const {
     category,
     extraInfo = [],
@@ -46,17 +31,8 @@ const MyApplicationCard = ({ data, onDelete }) => {
     setSelectedFile(null);
   };
 
-  const [responded, setResponded] = useState(false);
-
   const priorityEmoji = priority === 1 ? "🔥" : priority === 2 ? "🤷" : "🤦";
 
-  // const handleDelete = async () => {
-  //   const id = data.sk.replace("APPLICATION#", "");
-  //   console.log("id", id);
-
-  //   const result = await deleteApplication(id);
-  //   console.log("delete result", result);
-  // };
   const handleDelete = async () => {
     await onDelete(data.sk);
   };
@@ -125,11 +101,9 @@ const MyApplicationCard = ({ data, onDelete }) => {
           </Typography>
 
           <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
-            {reminder ? ` ✅ ${reminderDate}` : `❌ No reminder`}
-            <Typography
-              variant="body2"
-              sx={{ color: "green", display: "flex", alignItems: "center" }}
-            ></Typography>
+            <Typography variant="body2">
+              {reminder ? `✅ ${reminderDate}` : `❌ No reminder`}
+            </Typography>
           </Box>
         </Box>
 
@@ -231,20 +205,6 @@ const MyApplicationCard = ({ data, onDelete }) => {
       <Box
         sx={{ display: "flex", justifyContent: "flex-end", gap: 0.5, mt: 1 }}
       >
-        <Tooltip title={responded ? "Responded" : "Not Responded"} arrow>
-          <IconButton onClick={() => setResponded(!responded)} size="small">
-            {responded ? (
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="green">
-                <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z" />
-              </svg>
-            ) : (
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="red">
-                <path d="M18.3 5.71L12 12.01 5.7 5.71 4.29 7.12 10.59 13.42 4.29 19.71 5.7 21.12 12 14.82 18.3 21.12 19.71 19.71 13.41 13.42 19.71 7.12 18.3 5.71z" />
-              </svg>
-            )}
-          </IconButton>
-        </Tooltip>
-
         <Tooltip title="Delete" arrow>
           <IconButton onClick={handleDelete} size="small" color="primary">
             <DeleteIcon fontSize="small" />
@@ -256,7 +216,12 @@ const MyApplicationCard = ({ data, onDelete }) => {
             <EditIcon fontSize="small" color="primary" />
           </IconButton>
         </Tooltip>
-        <EditModal open={editOpen} onClose={() => setEditOpen(false)} />
+        <EditModal
+          data={data}
+          id={id}
+          open={editOpen}
+          onClose={() => setEditOpen(false)}
+        />
       </Box>
     </Paper>
   );

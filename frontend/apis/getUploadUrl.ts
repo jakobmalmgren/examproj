@@ -1,5 +1,5 @@
-const API_BASE_URL = "https://b33x42qde1.execute-api.eu-north-1.amazonaws.com";
-
+// const API_BASE_URL = "https://b33x42qde1.execute-api.eu-north-1.amazonaws.com";
+const API_BASE_URL = "https://x7nm2264aj.execute-api.eu-north-1.amazonaws.com";
 export const getUploadUrl = async ({
   fileName,
   fileType,
