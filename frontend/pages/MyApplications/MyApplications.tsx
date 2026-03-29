@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MyApplicationCard from "../../components/MyApplicationCard/MyApplicationCard";
 import {
   Box,
@@ -9,9 +9,17 @@ import {
   FormControlLabel,
   InputAdornment,
 } from "@mui/material";
+
+import InboxIcon from "@mui/icons-material/Inbox";
+import { deleteApplication } from "../../apis/deleteApplication";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import { readApplication } from "../../apis/readApplication";
+import { CircularProgress } from "@mui/material";
 
 const MyApplications = () => {
+  const [applications, setApplications] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [refreshKey, setRefreshKey] = useState(0);
   const [priority, setPriority] = useState<string | null>(null);
   const [city, setCity] = useState("");
 
@@ -23,17 +31,58 @@ const MyApplications = () => {
     }
   };
 
+  const handleDeleteApplication = async (sk: string) => {
+    const id = sk.replace("APPLICATION#", "");
+    const result = await deleteApplication(id);
+
+    if (result.success) {
+      setRefreshKey((prev) => prev + 1);
+    }
+  };
+
+  // kolla
+  useEffect(() => {
+    const fetchApplications = async () => {
+      try {
+        setLoading(true);
+        const res = await readApplication();
+        console.log("APPPPPPPPPPPPP", res);
+        setApplications(res.data);
+
+        setLoading(false);
+      } catch (error) {
+        console.error("Fetch error:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchApplications();
+  }, [refreshKey]);
+
+  const filteredApplications = applications.filter((app) => {
+    const matchesPriority =
+      !priority ||
+      (priority === "prio1" && Number(app.priority) === 1) ||
+      (priority === "prio2" && Number(app.priority) === 2) ||
+      (priority === "prio3" && Number(app.priority) === 3);
+
+    const matchesCity =
+      !city || app.location.city?.toLowerCase().includes(city.toLowerCase());
+
+    return matchesPriority && matchesCity;
+  });
+
   return (
     <Box
       sx={{
         display: "flex",
-        flexDirection: "column", // kolumnlayout så filter överst, kort under
+        flexDirection: "column",
         alignItems: "center",
         mt: 8,
-        gap: 4, // lite mellanrum mellan filter och kort
+        gap: 4,
       }}
     >
-      {/* Filterpanel */}
       <Paper
         elevation={3}
         sx={{
@@ -94,7 +143,6 @@ const MyApplications = () => {
           />
         </Box>
 
-        {/* 🔍 Stad input med LocationOnIcon */}
         <Box
           sx={{
             position: "relative",
@@ -122,7 +170,6 @@ const MyApplications = () => {
         </Box>
       </Paper>
 
-      {/* Korten ligger här under filtreringen */}
       <Box
         sx={{
           display: "flex",
@@ -131,12 +178,37 @@ const MyApplications = () => {
           gap: 3,
         }}
       >
-        <MyApplicationCard />
-        <MyApplicationCard />
-        <MyApplicationCard />
-        <MyApplicationCard />
-        <MyApplicationCard />
-        <MyApplicationCard />
+        {loading ? (
+          <CircularProgress />
+        ) : applications.length === 0 ? (
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 2,
+              mt: 4,
+              color: "text.primary",
+            }}
+          >
+            <InboxIcon sx={{ fontSize: 60, opacity: 0.6 }} />
+            <Typography variant="h6" sx={{ color: "text.primary" }}>
+              No Applications
+            </Typography>
+            <Typography variant="h6" sx={{ color: "text.primary" }}>
+              Pssst.. You have no applications yet! But it's never too late! 😊
+            </Typography>
+          </Box>
+        ) : (
+          filteredApplications.map((data) => (
+            <MyApplicationCard
+              onDelete={handleDeleteApplication}
+              key={data.sk}
+              data={data}
+            ></MyApplicationCard>
+          ))
+        )}
       </Box>
     </Box>
   );

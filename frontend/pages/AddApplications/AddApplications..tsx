@@ -1,9 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { createApplication } from "../../apis/createApplication";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
+import { getUploadUrl } from "../../apis/getUploadUrl";
+import Snackbar from "@mui/material/Snackbar";
+
 import {
   Box,
   TextField,
@@ -18,7 +22,10 @@ import {
   Paper,
   Chip,
   Checkbox,
+  CircularProgress,
+  Autocomplete,
 } from "@mui/material";
+import Alert from "@mui/material/Alert";
 import { useDropzone } from "react-dropzone";
 import TitleIcon from "@mui/icons-material/Title";
 import InfoIcon from "@mui/icons-material/Info";
@@ -26,47 +33,258 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 
+const GEOAPIFY_API_KEY = import.meta.env.VITE_GEOAPIFY_API_KEY;
+type UploadFile = {
+  name: string;
+  url: string;
+  key: string;
+  contentType: string;
+};
+
+type LocationOption = {
+  label: string;
+  city: string;
+  latitude: number;
+  longitude: number;
+};
+
+const initialForm = {
+  title: "",
+  extraInfo: [""],
+  applicationDate: "",
+  priority: 1,
+  reminder: false,
+  reminderDate: "",
+  files: [] as UploadFile[],
+  location: {
+    city: "",
+    latitude: null as number | null,
+    longitude: null as number | null,
+  },
+  category: "",
+};
+
 const AddApplications = () => {
-  const [category, setCategory] = useState("IT & Tech");
-  const [extraInfo, setExtraInfo] = useState<string[]>([""]);
-  const [priority, setPriority] = useState("prio1");
-  const [reminder, setReminder] = useState(false);
-  const [reminderDays, setReminderDays] = useState("5days");
-  const [customDate, setCustomDate] = useState("");
-  const [files, setFiles] = useState<File[]>([]);
-  const [location, setLocation] = useState("");
-  const [title, setTitle] = useState("");
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [form, setForm] = useState(initialForm);
+  const [selectedLocation, setSelectedLocation] =
+    useState<LocationOption | null>(null);
+  const [locationResetKey, setLocationResetKey] = useState(0);
+  const [locationQuery, setLocationQuery] = useState("");
+  const [locationOptions, setLocationOptions] = useState<LocationOption[]>([]);
+  const [loadingLocations, setLoadingLocations] = useState(false);
 
-  // Extra info handlers
-  const addExtraField = () => setExtraInfo([...extraInfo, ""]);
-  const removeExtraField = (index: number) =>
-    setExtraInfo(extraInfo.filter((_, i) => i !== index));
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+    severity: "success",
+  });
+
+  // skickas in i utils el nåt..!!!
+  const uploadFileToS3 = async (file: File) => {
+    const { uploadUrl, fileUrl, fileKey } = await getUploadUrl({
+      fileName: file.name,
+      fileType: file.type,
+    });
+
+    const uploadResponse = await fetch(uploadUrl, {
+      method: "PUT",
+      headers: {
+        "Content-Type": file.type,
+      },
+      body: file,
+    });
+
+    if (!uploadResponse.ok) {
+      throw new Error(`Failed to upload file: ${file.name}`);
+    }
+
+    return {
+      name: file.name,
+      url: fileUrl,
+      key: fileKey,
+      contentType: file.type,
+    };
+  };
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const { name, value, type } = e.target as HTMLInputElement;
+    const finalValue =
+      type === "checkbox" ? (e.target as HTMLInputElement).checked : value;
+
+    if (name.includes(".")) {
+      const [parent, child] = name.split(".");
+
+      setForm((prev) => ({
+        ...prev,
+        [parent]: {
+          ...(prev[parent as keyof typeof prev] as object),
+          [child]: finalValue,
+        },
+      }));
+      return;
+    }
+
+    setForm((prev) => ({
+      ...prev,
+      [name]: finalValue,
+    }));
+  };
+
+  const handlePriorityChange = (value: number) => {
+    setForm((prev) => ({
+      ...prev,
+      priority: value,
+    }));
+  };
+
+  const addExtraField = () => {
+    setForm((prev) => ({
+      ...prev,
+      extraInfo: [...prev.extraInfo, ""],
+    }));
+  };
+
+  const removeExtraField = (index: number) => {
+    setForm((prev) => ({
+      ...prev,
+      extraInfo: prev.extraInfo.filter((_, i) => i !== index),
+    }));
+  };
+  const handleCloseSnackbar = () => {
+    setSnackbar((prev) => ({ ...prev, open: false }));
+  };
   const handleExtraChange = (index: number, value: string) => {
-    const newArr = [...extraInfo];
-    newArr[index] = value;
-    setExtraInfo(newArr);
+    setForm((prev) => {
+      const updatedExtraInfo = [...prev.extraInfo];
+      updatedExtraInfo[index] = value;
+
+      return {
+        ...prev,
+        extraInfo: updatedExtraInfo,
+      };
+    });
   };
 
-  // Dropzone
-  const onDrop = (acceptedFiles: File[]) => {
-    setFiles([...files, ...acceptedFiles]);
+  const handleReminderDateChange = (newValue: Dayjs | null) => {
+    setForm((prev) => ({
+      ...prev,
+      reminderDate: newValue ? newValue.format("YYYY-MM-DD") : "",
+    }));
   };
+
+  //varför File..??
+
+  const onDrop = (acceptedFiles: File[]) => {
+    setSelectedFiles((prev) => [...prev, ...acceptedFiles]);
+  };
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
-  const handleSubmit = () => {
-    const data = {
-      title,
-      extraInfo,
-      priority,
-      reminder,
-      reminderDays: reminder ? reminderDays : null,
-      customDate: reminder ? customDate : null,
-      files,
-      location,
-    };
-    console.log("Submit:", data);
-  };
+  useEffect(() => {
+    const controller = new AbortController();
 
+    const fetchLocations = async () => {
+      if (!locationQuery.trim() || locationQuery.trim().length < 2) {
+        setLocationOptions([]);
+        return;
+      }
+
+      try {
+        setLoadingLocations(true);
+
+        const response = await fetch(
+          `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(
+            locationQuery,
+          )}&type=city&lang=sv&limit=5&apiKey=${GEOAPIFY_API_KEY}`,
+          { signal: controller.signal },
+        );
+
+        const data = await response.json();
+
+        const options: LocationOption[] =
+          data?.features?.map((feature: any) => ({
+            label: feature.properties.formatted,
+            city:
+              feature.properties.city ||
+              feature.properties.name ||
+              feature.properties.formatted,
+            latitude: feature.properties.lat,
+            longitude: feature.properties.lon,
+          })) || [];
+
+        setLocationOptions(options);
+      } catch (error: any) {
+        if (error.name !== "AbortError") {
+          console.log("Location autocomplete error:", error);
+        }
+      } finally {
+        setLoadingLocations(false);
+      }
+    };
+
+    const timeout = setTimeout(fetchLocations, 300);
+
+    return () => {
+      clearTimeout(timeout);
+      controller.abort();
+    };
+  }, [locationQuery]);
+
+  const handleSubmit = async () => {
+    if (form.reminder && !form.reminderDate) {
+      setSnackbar({
+        open: true,
+        message: "Please select a reminder date",
+        severity: "error",
+      });
+      return;
+    }
+    try {
+      const uploadedFiles = await Promise.all(
+        selectedFiles.map((file) => uploadFileToS3(file)),
+      );
+
+      const cleanedForm = {
+        ...form,
+        title: form.title.trim(),
+        category: form.category.trim(),
+        extraInfo: form.extraInfo.filter((item) => item.trim() !== ""),
+        reminderDate: form.reminder ? form.reminderDate : null,
+        files: uploadedFiles,
+        applicationDate: form.applicationDate || null,
+      };
+
+      const res = await createApplication(cleanedForm);
+      console.log("result", res);
+      if (!res.success) {
+        setSnackbar({
+          open: true,
+          message: res.message,
+          severity: "error",
+        });
+      }
+
+      if (res.success) {
+        setForm(initialForm);
+        setSelectedFiles([]);
+        setLocationQuery("");
+        setLocationOptions([]);
+        setSelectedLocation(null);
+        setLocationResetKey((prev) => prev + 1);
+        setSelectedFiles([]);
+
+        setSnackbar({
+          open: true,
+          message: res.message,
+          severity: "success",
+        });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <Box
       sx={{
@@ -78,12 +296,12 @@ const AddApplications = () => {
         margin: "0 auto",
       }}
     >
-      {/* Application Title */}
       <TextField
         label="Application Title"
+        name="title"
         variant="outlined"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
+        value={form.title}
+        onChange={handleChange}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
@@ -93,12 +311,12 @@ const AddApplications = () => {
         }}
         sx={{ width: "100%" }}
       />
-      {/* Extra Info Fields */}
-      {extraInfo.map((val, idx) => (
+
+      {form.extraInfo.map((val, idx) => (
         <Box key={idx} sx={{ position: "relative", width: "100%", mb: 1 }}>
           <TextField
             fullWidth
-            label={`Extra info`}
+            label="Extra info"
             variant="outlined"
             value={val}
             onChange={(e) => handleExtraChange(idx, e.target.value)}
@@ -108,7 +326,7 @@ const AddApplications = () => {
                   <InfoIcon sx={{ color: "primary.main" }} />
                 </InputAdornment>
               ),
-              sx: { pr: 6 }, // lämnar plats för Delete-ikonen
+              sx: { pr: 6 },
             }}
             sx={{ width: "100%" }}
           />
@@ -125,17 +343,42 @@ const AddApplications = () => {
           </IconButton>
         </Box>
       ))}
+
       <Button startIcon={<AddIcon />} onClick={addExtraField}>
         Add Extra Info
       </Button>
+
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <DatePicker
+          label="Application date"
+          maxDate={dayjs()}
+          value={form.applicationDate ? dayjs(form.applicationDate) : null}
+          onChange={(newValue) => {
+            setForm((prev) => ({
+              ...prev,
+              applicationDate: newValue ? newValue.format("YYYY-MM-DD") : "",
+            }));
+          }}
+          slotProps={{
+            textField: {
+              fullWidth: true,
+            },
+          }}
+        />
+      </LocalizationProvider>
+
       <Box sx={{ width: "100%", mt: 2 }}>
         <TextField
           select
           label="Category"
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
+          name="category"
+          value={form.category}
+          onChange={handleChange}
           fullWidth
         >
+          <MenuItem value="">
+            <em>Choose category</em>
+          </MenuItem>
           <MenuItem value="IT & Tech">IT & Tech</MenuItem>
           <MenuItem value="Education">Education</MenuItem>
           <MenuItem value="Healthcare">Healthcare</MenuItem>
@@ -146,7 +389,7 @@ const AddApplications = () => {
           <MenuItem value="Other">Other</MenuItem>
         </TextField>
       </Box>
-      {/* Priority med checkboxar */}
+
       <Box
         sx={{
           display: "flex",
@@ -155,31 +398,12 @@ const AddApplications = () => {
           justifyContent: "center",
         }}
       >
-        <Tooltip
-          title="I want this!!"
-          arrow
-          componentsProps={{
-            tooltip: {
-              sx: {
-                bgcolor: "primary.main",
-                color: "white",
-
-                fontSize: 14,
-                borderRadius: 1,
-                px: 1.5,
-                py: 0.5,
-                "& .MuiTooltip-arrow": {
-                  color: "primary.main",
-                },
-              },
-            },
-          }}
-        >
+        <Tooltip title="I want this!!" arrow>
           <FormControlLabel
             control={
               <Checkbox
-                checked={priority === "prio1"}
-                onChange={() => setPriority("prio1")}
+                checked={form.priority === 1}
+                onChange={() => handlePriorityChange(1)}
                 sx={{
                   width: 32,
                   height: 32,
@@ -194,31 +418,13 @@ const AddApplications = () => {
             }
           />
         </Tooltip>
-        <Tooltip
-          title="Maybe, maybe not"
-          arrow
-          componentsProps={{
-            tooltip: {
-              sx: {
-                bgcolor: "primary.main",
-                color: "white",
 
-                fontSize: 14,
-                borderRadius: 1,
-                px: 1.5,
-                py: 0.5,
-                "& .MuiTooltip-arrow": {
-                  color: "primary.main",
-                },
-              },
-            },
-          }}
-        >
+        <Tooltip title="Maybe, maybe not" arrow>
           <FormControlLabel
             control={
               <Checkbox
-                checked={priority === "prio2"}
-                onChange={() => setPriority("prio2")}
+                checked={form.priority === 2}
+                onChange={() => handlePriorityChange(2)}
                 sx={{
                   width: 32,
                   height: 32,
@@ -233,31 +439,13 @@ const AddApplications = () => {
             }
           />
         </Tooltip>
-        <Tooltip
-          title="Ahh, I don't know"
-          arrow
-          componentsProps={{
-            tooltip: {
-              sx: {
-                bgcolor: "primary.main",
-                color: "white",
 
-                fontSize: 14,
-                borderRadius: 1,
-                px: 1.5,
-                py: 0.5,
-                "& .MuiTooltip-arrow": {
-                  color: "primary.main",
-                },
-              },
-            },
-          }}
-        >
+        <Tooltip title="Ahh, I don't know" arrow>
           <FormControlLabel
             control={
               <Checkbox
-                checked={priority === "prio3"}
-                onChange={() => setPriority("prio3")}
+                checked={form.priority === 3}
+                onChange={() => handlePriorityChange(3)}
                 sx={{
                   width: 32,
                   height: 32,
@@ -272,41 +460,28 @@ const AddApplications = () => {
             }
           />
         </Tooltip>
+
         <Tooltip
           title="You can prioritize applications by selecting a priority level"
           arrow
-          componentsProps={{
-            tooltip: {
-              sx: {
-                bgcolor: "primary.main",
-                color: "white",
-
-                fontSize: 14,
-                borderRadius: 1,
-                px: 1.5,
-                py: 0.5,
-                "& .MuiTooltip-arrow": {
-                  color: "primary.main",
-                },
-              },
-            },
-          }}
         >
           <InfoOutlinedIcon fontSize="small" sx={{ color: "primary.main" }} />
         </Tooltip>
       </Box>
+
       <FormControlLabel
         sx={{ color: "primary.main" }}
         control={
           <Switch
-            checked={reminder}
-            onChange={(e) => {
-              setReminder(e.target.checked);
-              if (!e.target.checked) {
-                setCustomDate("");
-                setReminderDays("5days");
-              }
-            }}
+            name="reminder"
+            checked={form.reminder}
+            onChange={(e) =>
+              setForm((prev) => ({
+                ...prev,
+                reminder: e.target.checked,
+                reminderDate: e.target.checked ? prev.reminderDate : "",
+              }))
+            }
             sx={{
               "& .MuiSwitch-track": {
                 backgroundColor: "primary.light",
@@ -319,7 +494,8 @@ const AddApplications = () => {
         }
         label="Set Reminder"
       />
-      {reminder && (
+
+      {form.reminder && (
         <Box
           sx={{
             display: "flex",
@@ -328,83 +504,22 @@ const AddApplications = () => {
             alignItems: "center",
           }}
         >
-          {/* Checkbox för preset */}
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={!!reminderDays}
-                onChange={(e) => {
-                  if (e.target.checked) {
-                    setReminderDays("5days");
-                    setCustomDate("");
-                  } else {
-                    setReminderDays("");
-                  }
-                }}
-              />
-            }
-            label="Default"
-          />
-
-          {/* Preset dropdown */}
-          <TextField
-            select
-            label="Reminder Time"
-            value={reminderDays}
-            onChange={(e) => setReminderDays(e.target.value)}
-            sx={{
-              minWidth: 150,
-              opacity: customDate ? 0.5 : 1,
-              pointerEvents: customDate ? "none" : "auto",
-            }}
-          >
-            <MenuItem value="5days">5 days</MenuItem>
-            <MenuItem value="10days">10 days</MenuItem>
-            <MenuItem value="2weeks">2 weeks</MenuItem>
-          </TextField>
-
-          {/* Checkbox för custom date */}
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={!!customDate}
-                onChange={(e) => {
-                  if (e.target.checked) {
-                    setCustomDate(new Date().toISOString().split("T")[0]);
-                    setReminderDays("");
-                  } else {
-                    setCustomDate("");
-                  }
-                }}
-              />
-            }
-            label="Custom"
-          />
-
-          {/* Custom date */}
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
-              label="Custom Date"
-              value={customDate ? dayjs(customDate) : null}
-              onChange={(newValue) => {
-                setCustomDate(newValue ? newValue.format("YYYY-MM-DD") : "");
-              }}
-              disabled={!!reminderDays}
+              label="Reminder date"
+              minDate={dayjs().add(1, "day")}
+              value={form.reminderDate ? dayjs(form.reminderDate) : null}
+              onChange={handleReminderDateChange}
               slotProps={{
                 textField: {
                   fullWidth: true,
-                  sx: {
-                    minWidth: 150,
-                    opacity: reminderDays ? 0.5 : 1,
-                    pointerEvents: reminderDays ? "none" : "auto",
-                  },
                 },
               }}
             />
           </LocalizationProvider>
         </Box>
       )}
-      {/* Drag & Drop kvadrat */}
+
       <Paper
         {...getRootProps()}
         variant="outlined"
@@ -429,44 +544,123 @@ const AddApplications = () => {
           {isDragActive ? "Drop files here..." : "Drag & Drop files"}
         </Typography>
 
-        {files.length > 0 && (
+        {selectedFiles.length > 0 && (
           <Box
             sx={{
               mt: 1,
               display: "flex",
               flexDirection: "column",
+              alignItems: "center",
               gap: 0.5,
-              overflowY: "auto",
-              maxHeight: "50%",
               width: "90%",
             }}
           >
-            {files.map((file, idx) => (
-              <Chip key={idx} label={file.name} size="small" />
+            {selectedFiles.map((file, idx) => (
+              <Chip
+                key={idx}
+                label={file.name}
+                size="small"
+                sx={{
+                  maxWidth: 200,
+                  px: 1,
+                  py: 0.3,
+                  "& .MuiChip-label": {
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  },
+                }}
+              />
             ))}
           </Box>
         )}
       </Paper>
-      {/* Location */}
-      <TextField
+
+      <Autocomplete
+        key={locationResetKey}
         fullWidth
-        label="Location"
-        variant="outlined"
-        value={location}
-        onChange={(e) => setLocation(e.target.value)}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <LocationOnIcon color="primary" />
-            </InputAdornment>
-          ),
+        options={locationOptions}
+        loading={loadingLocations}
+        value={selectedLocation}
+        inputValue={locationQuery}
+        isOptionEqualToValue={(option, value) =>
+          option.city === value.city &&
+          option.latitude === value.latitude &&
+          option.longitude === value.longitude
+        }
+        onInputChange={(_, newInputValue) => {
+          setLocationQuery(newInputValue);
         }}
-        sx={{ width: "100%" }}
+        onChange={(_, selectedOption) => {
+          setSelectedLocation(selectedOption);
+
+          if (!selectedOption) {
+            setForm((prev) => ({
+              ...prev,
+              location: {
+                city: "",
+                latitude: null,
+                longitude: null,
+              },
+            }));
+            return;
+          }
+
+          setForm((prev) => ({
+            ...prev,
+            location: {
+              city: selectedOption.city,
+              latitude: selectedOption.latitude,
+              longitude: selectedOption.longitude,
+            },
+          }));
+
+          setLocationQuery(selectedOption.city);
+        }}
+        getOptionLabel={(option) => option.label}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label="Location"
+            variant="outlined"
+            InputProps={{
+              ...params.InputProps,
+              startAdornment: (
+                <>
+                  <InputAdornment position="start">
+                    <LocationOnIcon color="primary" />
+                  </InputAdornment>
+                  {params.InputProps.startAdornment}
+                </>
+              ),
+              endAdornment: (
+                <>
+                  {loadingLocations ? <CircularProgress size={20} /> : null}
+                  {params.InputProps.endAdornment}
+                </>
+              ),
+            }}
+          />
+        )}
       />
-      {/* Submit */}
+
       <Button variant="contained" fullWidth onClick={handleSubmit}>
         Submit
       </Button>
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={2000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity={snackbar.severity}
+          sx={{ width: "100%" }}
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

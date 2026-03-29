@@ -15,13 +15,10 @@ import CloseIcon from "@mui/icons-material/Close";
 import HomeIcon from "@mui/icons-material/Home";
 import AddIcon from "@mui/icons-material/Add";
 import BarChartIcon from "@mui/icons-material/BarChart";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import RoomIcon from "@mui/icons-material/Room";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Tooltip from "@mui/material/Tooltip";
 import { useTheme } from "@mui/material/styles";
-import { Avatar } from "@mui/material";
-import PersonIcon from "@mui/icons-material/Person";
 import ReviewDrawer from "../../Review/ReviewDrawer";
 
 const navItems = [
@@ -29,12 +26,17 @@ const navItems = [
   { text: "Add Application", icon: <AddIcon />, path: "/add" },
   { text: "Statistics", icon: <BarChartIcon />, path: "/stats" },
   { text: "Map", icon: <RoomIcon />, path: "/map" },
-  { text: "Profile", icon: <AccountCircleIcon />, path: "/profile" },
 ];
 
-const MainLayout = () => {
+const MainLayout = ({ setIsLoggedIn }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const theme = useTheme();
+
+  // måste ha samma state som finns
+  const handleLogout = () => {
+    localStorage.removeItem("token"); // ❌ ta bort token
+    setIsLoggedIn(false); // ❌ sätt state
+  };
 
   return (
     <div className="mainLayout">
@@ -51,7 +53,7 @@ const MainLayout = () => {
             }}
           >
             <img
-              src="../../../public/images/iconimg.png" // byt till din bildfil
+              src="/images/iconimg.png"
               alt="RMA Logo"
               style={{ height: "40px", width: "40px", borderRadius: "50%" }} // justera storlek
             />
@@ -99,30 +101,16 @@ const MainLayout = () => {
           </Box>
 
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-            {/* Avatar */}
-            <Avatar
-              sx={{
-                width: 40,
-                height: 40,
-                bgcolor: "white",
-                color: "primary.main",
-              }}
-            >
-              <PersonIcon />
-            </Avatar>
-
-            <IconButton
-              sx={{ color: "inherit" }}
-              onClick={() => console.log("Log out")}
-            >
+            <IconButton sx={{ color: "inherit" }} onClick={handleLogout}>
               <LogoutIcon />
             </IconButton>
 
-            {/* Menu Icon (xs only) */}
             <IconButton
               color="inherit"
               edge="end"
-              onClick={() => setDrawerOpen(true)}
+              onClick={() => {
+                setDrawerOpen(true);
+              }}
               sx={{ display: { xs: "flex", md: "none" } }}
             >
               <MenuIcon />
@@ -135,7 +123,9 @@ const MainLayout = () => {
       <Drawer
         anchor="right"
         open={drawerOpen}
-        onClose={() => setDrawerOpen(false)}
+        onClose={() => {
+          setDrawerOpen(false);
+        }}
         transitionDuration={{ enter: 300, exit: 300 }}
         PaperProps={{
           sx: {

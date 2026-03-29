@@ -8,8 +8,14 @@ import Link from "@mui/material/Link";
 import GoogleIcon from "@mui/icons-material/Google";
 import { type AuthSkelletonProps } from "./types/types";
 import { useTheme } from "@mui/material/styles";
+import { CircularProgress } from "@mui/material";
 
-const AuthSkelleton = ({ children, title }: AuthSkelletonProps) => {
+const AuthSkelleton = ({
+  children,
+  title,
+  onSubmit,
+  loading,
+}: AuthSkelletonProps) => {
   const isLogin = title.toLowerCase() === "login";
   const theme = useTheme();
 
@@ -30,11 +36,40 @@ const AuthSkelleton = ({ children, title }: AuthSkelletonProps) => {
           gap: 1.5,
         }}
         autoComplete="off"
+        onSubmit={onSubmit}
       >
         {children}
 
-        <Button variant="contained" size="large">
-          {title}
+        <Button
+          type="submit"
+          variant="contained"
+          size="large"
+          disabled={loading}
+          sx={{
+            position: "relative",
+            bgcolor: "primary.main",
+            color: "white",
+            "&:disabled": {
+              bgcolor: "primary.main",
+            },
+          }}
+        >
+          <span style={{ visibility: loading ? "hidden" : "visible" }}>
+            {title}
+          </span>
+          {loading && (
+            <CircularProgress
+              size={20}
+              color="inherit"
+              sx={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                marginTop: "-10px",
+                marginLeft: "-10px",
+              }}
+            />
+          )}
         </Button>
 
         <Divider>or login with</Divider>

@@ -1,54 +1,105 @@
-import { useState } from "react";
+import Snackbar from "@mui/material/Snackbar";
+import { jwtDecode } from "jwt-decode";
+import { useState, useEffect } from "react";
+import { postReview } from "../../apis/postReview";
+import Alert from "@mui/material/Alert";
 import {
   Box,
   TextField,
   Button,
   Typography,
   Tooltip,
-  IconButton,
   Switch,
   FormControlLabel,
 } from "@mui/material";
 import Rating from "@mui/material/Rating";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import EditIcon from "@mui/icons-material/Edit";
 
-const ReviewForm = () => {
-  const [rating, setRating] = useState(0);
-  const [name, setName] = useState("Jakob"); // default name
-  const [comment, setComment] = useState("");
-  const [isEditing, setIsEditing] = useState(false);
-  const [anonymous, setAnonymous] = useState(false);
+const ReviewForm = ({ open }) => {
+  const [toggleSwitch, setToggleSwitch] = useState(false);
 
-  const handleSubmit = (e) => {
+  const [reviewForm, setReviewForm] = useState({
+    rating: 0,
+    comment: "",
+    name: "",
+  });
+
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+    severity: "success",
+  });
+
+  const handleCloseSnackbar = () => {
+    setSnackbar((prev) => ({ ...prev, open: false }));
+  };
+  const token = localStorage.getItem("token");
+  const decoded = jwtDecode(token);
+
+  useEffect(() => {
+    if (!open || !token) return;
+
+    try {
+      setReviewForm({
+        rating: 0,
+        comment: "",
+        name: decoded.username.S,
+      });
+      setToggleSwitch(false);
+    } catch (err) {
+      console.log("Invalid token", err);
+    }
+  }, [open]);
+
+  const handleToggleSwitch = (e) => {
+    const checked = e.target.checked;
+
+    setToggleSwitch(checked);
+
+    setReviewForm((prev) => ({
+      ...prev,
+      name: checked ? "Unknown" : decoded.username.S,
+    }));
+  };
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const reviewData = {
-      name: name.trim() === "" ? "Unknown" : name,
-      rating,
-      comment,
-    };
-
-    console.log("Review submitted:", reviewData);
-
-    setRating(0);
-    setComment("");
-    setAnonymous(false);
-    setIsEditing(false);
-    setName("Jakob");
+    const result = await postReview(reviewForm);
+    // setReviewForm({
+    //   rating: 0,
+    //   comment: "",
+    //   name: decoded.username.S,
+    // });
+    setToggleSwitch(false);
+    if (result.success) {
+      setReviewForm({
+        rating: 0,
+        comment: "",
+        name: decoded.username.S,
+      });
+      setSnackbar({
+        open: true,
+        message: result.message,
+        severity: "success",
+      });
+    } else {
+      setSnackbar({
+        open: true,
+        message: result.message,
+        severity: "error",
+      });
+    }
   };
 
-  const handleToggleAnonymous = () => {
-    setAnonymous((prev) => !prev);
-    if (!anonymous) {
-      // Toggle sätts på → default "Unknown", låst tills edit
-      setName("Unknown");
-      setIsEditing(false);
-    } else {
-      // Toggle av → återställ default, låst
-      setName("Jakob");
-      setIsEditing(false);
-    }
+  console.log("fooorm", reviewForm);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setReviewForm((prev) => {
+      return {
+        ...prev,
+        [name]: value,
+      };
+    });
   };
 
   return (
@@ -75,60 +126,37 @@ const ReviewForm = () => {
       </Typography>
 
       <Rating
-        name="review-rating"
-        value={rating}
-        onChange={(event, newValue) => setRating(newValue)}
+        name="rating"
         max={5}
         size="large"
+        value={reviewForm.rating}
+        onChange={(event, newValue) => {
+          setReviewForm((prev) => ({
+            ...prev,
+            rating: newValue ?? 0,
+          }));
+        }}
       />
 
       {/* Name field + anonymous toggle */}
       <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
         <TextField
           label="Name"
+          name="name"
           variant="outlined"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          value={reviewForm.name}
+          onChange={handleChange}
           fullWidth
           InputProps={{
-            readOnly: !isEditing, // alltid låst tills man klickar på edit
+            readOnly: toggleSwitch,
           }}
         />
 
-        {/* Edit icon visas endast när anonym-toggle är på */}
-        {anonymous && (
-          <Tooltip
-            title={isEditing ? "Lock name" : "Edit name"}
-            arrow
-            componentsProps={{
-              tooltip: {
-                sx: {
-                  bgcolor: "primary.main",
-                  color: "white",
-
-                  fontSize: 14,
-                  borderRadius: 1,
-                  px: 1.5,
-                  py: 0.5,
-                  "& .MuiTooltip-arrow": {
-                    color: "primary.main",
-                  },
-                },
-              },
-            }}
-          >
-            <IconButton onClick={() => setIsEditing((prev) => !prev)}>
-              <EditIcon fontSize="small" sx={{ color: "primary.main" }} />
-            </IconButton>
-          </Tooltip>
-        )}
-
-        {/* Anonymous toggle */}
         <FormControlLabel
           control={
             <Switch
-              checked={anonymous}
-              onChange={handleToggleAnonymous}
+              checked={toggleSwitch}
+              onChange={handleToggleSwitch}
               sx={{
                 "& .MuiSwitch-track": {
                   backgroundColor: "primary.light",
@@ -141,7 +169,7 @@ const ReviewForm = () => {
           }
           label={
             <Tooltip
-              title="Enable this to be anonymous, but you can click the pen to edit name of your preference"
+              title="Enable this to be anonymous"
               arrow
               componentsProps={{
                 tooltip: {
@@ -165,17 +193,31 @@ const ReviewForm = () => {
 
       <TextField
         label="Comment"
+        value={reviewForm.comment}
+        onChange={handleChange}
+        name="comment"
         variant="outlined"
         multiline
         rows={4}
-        value={comment}
-        onChange={(e) => setComment(e.target.value)}
-        required
       />
 
       <Button type="submit" variant="contained" color="primary">
         Submit Review
       </Button>
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={2000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity={snackbar.severity}
+          sx={{ width: "100%" }}
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

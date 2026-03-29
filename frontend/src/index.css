@@ -17,3 +17,12 @@ input::-ms-clear {
 input::-webkit-credentials-auto-fill-button {
   visibility: hidden;
 }
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+  -webkit-text-fill-color: black !important;
+}
+
+.MuiInputBase-input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+  -webkit-text-fill-color: black !important;
+}
