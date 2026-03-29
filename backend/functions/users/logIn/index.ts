@@ -39,7 +39,7 @@ const loginHandler = async (event) => {
       name: user.name,
     })
       .setProtectedHeader({ alg: "HS256" })
-      .setExpirationTime("1h")
+      // .setExpirationTime("1h")
       .sign(new TextEncoder().encode(secret));
 
     return {
