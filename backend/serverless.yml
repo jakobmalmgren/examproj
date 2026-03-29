@@ -1,4 +1,100 @@
-# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+# # "org" ensures this Service is used with the correct Serverless Framework Access Key.
+# org: jakobjavascript24
+# service: remember-my-application
+
+# useDotenv: true
+
+# provider:
+#   name: aws
+#   runtime: nodejs20.x
+#   environment:
+#     JWT_SECRET: ${env:JWT_SECRET}
+#     SES_FROM_EMAIL: ${env:SES_FROM_EMAIL}
+#   region: eu-north-1
+#   role: arn:aws:iam::136191772737:role/adminrole
+#   httpApi:
+#     cors: true
+
+# functions:
+#   createUser:
+#     handler: functions/users/signup/index.handler
+#     events:
+#       - httpApi:
+#           path: /api/user/signup
+#           method: post
+
+#   login:
+#     handler: functions/users/login/index.handler
+#     events:
+#       - httpApi:
+#           path: /api/user/login
+#           method: post
+#   createApplication:
+#     handler: functions/applications/createApplication/index.handler
+#     events:
+#       - httpApi:
+#           path: /api/applications
+#           method: post
+#   deleteApplication:
+#     handler: functions/applications/deleteApplication/index.handler
+#     events:
+#       - httpApi:
+#           path: /api/applications/{id}
+#           method: delete
+#   updateApplication:
+#     handler: functions/applications/updateApplication/index.handler
+#     events:
+#       - httpApi:
+#           path: /api/applications/{id}
+#           method: patch
+#   readApplication:
+#     handler: functions/applications/readApplication/index.handler
+#     events:
+#       - httpApi:
+#           path: /api/applications
+#           method: get
+#   uploadUrl:
+#     handler: functions/applications/uploadUrl/index.handler
+#     events:
+#       - httpApi:
+#           path: /api/files/upload-url
+#           method: post
+#   sendEmail:
+#     handler: functions/email/index.handler
+#     events:
+#       - httpApi:
+#           path: /api/email
+#           method: post
+#   postReview:
+#     handler: functions/review/postReview/index.handler
+#     events:
+#       - httpApi:
+#           path: /api/review
+#           method: post
+#   getReview:
+#     handler: functions/review/readReview/index.handler
+#     events:
+#       - httpApi:
+#           path: /api/review
+#           method: get
+
+# resources:
+#   Resources:
+#     EventsTable:
+#       Type: AWS::DynamoDB::Table
+#       Properties:
+#         TableName: ApplicationsTable
+#         AttributeDefinitions:
+#           - AttributeName: pk
+#             AttributeType: S
+#           - AttributeName: sk
+#             AttributeType: S
+#         KeySchema:
+#           - AttributeName: pk
+#             KeyType: HASH
+#           - AttributeName: sk
+#             KeyType: RANGE
+#         BillingMode: PAY_PER_REQUEST
 org: jakobjavascript24
 service: remember-my-application
 
@@ -7,13 +103,27 @@ useDotenv: true
 provider:
   name: aws
   runtime: nodejs20.x
+  region: eu-north-1
+  role: arn:aws:iam::136191772737:role/adminrole
+
   environment:
     JWT_SECRET: ${env:JWT_SECRET}
     SES_FROM_EMAIL: ${env:SES_FROM_EMAIL}
-  region: eu-north-1
-  role: arn:aws:iam::136191772737:role/adminrole
+
   httpApi:
-    cors: true
+    cors:
+      allowedOrigins:
+        - http://localhost:5173
+      allowedHeaders:
+        - Content-Type
+        - Authorization
+      allowedMethods:
+        - GET
+        - POST
+        - PATCH
+        - DELETE
+        - OPTIONS
+      allowCredentials: false
 
 functions:
   createUser:
@@ -29,48 +139,56 @@ functions:
       - httpApi:
           path: /api/user/login
           method: post
+
   createApplication:
     handler: functions/applications/createApplication/index.handler
     events:
       - httpApi:
           path: /api/applications
           method: post
+
   deleteApplication:
     handler: functions/applications/deleteApplication/index.handler
     events:
       - httpApi:
           path: /api/applications/{id}
           method: delete
+
   updateApplication:
     handler: functions/applications/updateApplication/index.handler
     events:
       - httpApi:
           path: /api/applications/{id}
-          method: put
+          method: patch
+
   readApplication:
     handler: functions/applications/readApplication/index.handler
     events:
       - httpApi:
           path: /api/applications
           method: get
+
   uploadUrl:
     handler: functions/applications/uploadUrl/index.handler
     events:
       - httpApi:
           path: /api/files/upload-url
           method: post
+
   sendEmail:
     handler: functions/email/index.handler
     events:
       - httpApi:
           path: /api/email
           method: post
+
   postReview:
     handler: functions/review/postReview/index.handler
     events:
       - httpApi:
           path: /api/review
           method: post
+
   getReview:
     handler: functions/review/readReview/index.handler
     events:
