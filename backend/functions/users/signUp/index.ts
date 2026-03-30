@@ -4,7 +4,7 @@ import {
   checkEmailExists,
 } from "../../../services/users/userService";
 import { PutItemCommand } from "@aws-sdk/client-dynamodb";
-import { client } from "../../../config/dj";
+import { client } from "../../../config/db";
 import middy from "@middy/core";
 import { transpileSchema } from "@middy/validator/transpile";
 import validator from "@middy/validator";
@@ -22,7 +22,6 @@ const signUpHandler = async (event) => {
 
   try {
     const usernameExists = await checkIfUsernameExists(username);
-    console.log("Username exists?", usernameExists);
 
     if (usernameExists) {
       return {
@@ -68,7 +67,6 @@ const signUpHandler = async (event) => {
   }
 };
 
-// export const handler = middy(signUpHandler).use(httpJsonBodyParser());
 export const handler = middy(signUpHandler)
   .use(httpJsonBodyParser()) // parse JSON body
   .use(validator({ eventSchema: transpileSchema(signUpSchema) })) // validera inputs
@@ -85,7 +83,6 @@ export const handler = middy(signUpHandler)
         success: false,
         message: "Input validation failed",
         details: request.error?.cause?.data,
-        // details: request.error?.details || request.error?.message,
       }),
     };
   });

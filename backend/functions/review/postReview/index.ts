@@ -2,7 +2,7 @@ import { transpileSchema } from "@middy/validator/transpile";
 import validator from "@middy/validator";
 import httpJsonBodyParser from "@middy/http-json-body-parser";
 import middy from "@middy/core";
-import { client } from "../../../config/dj";
+import { client } from "../../../config/db";
 import { PutItemCommand } from "@aws-sdk/client-dynamodb";
 import { postReviewSchema } from "../../../middlewares/schemas/postReviewSchema";
 import { checkAuth } from "../../../middlewares/auth/checkAuth";
@@ -10,7 +10,6 @@ import { v4 as uuidv4 } from "uuid";
 
 const postReviewHandler = async (event) => {
   const user = event.user;
-  console.log("USER", user);
 
   const username = user.username.S;
   const id = uuidv4();
@@ -63,7 +62,6 @@ export const handler = middy(postReviewHandler)
         success: false,
         message: "Input validation failed",
         details: request.error?.cause?.data,
-        // details: request.error?.details || request.error?.message,
       }),
     };
   });

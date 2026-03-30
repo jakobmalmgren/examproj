@@ -5,6 +5,8 @@ import Box from "@mui/material/Box";
 import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
 
+import { Button, Typography } from "@mui/material";
+
 type Props = {
   open: boolean;
   onClose: () => void;
@@ -87,16 +89,16 @@ const FileViewerModal = ({ open, onClose, file }: Props) => {
               }}
             />
 
-            {/* <Button
+            <Button
               variant="outlined"
               onClick={() => window.open(file.url, "_blank")}
             >
               Öppna bilden i ny flik
-            </Button> */}
+            </Button>
           </Box>
         )}
 
-        {/* {!isPdf && !isImage && (
+        {!isPdf && !isImage && (
           <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
             <Typography>
               Den här filtypen kan inte förhandsvisas här.
@@ -109,7 +111,7 @@ const FileViewerModal = ({ open, onClose, file }: Props) => {
               Öppna fil
             </Button>
           </Box>
-        )} */}
+        )}
       </DialogContent>
     </Dialog>
   );

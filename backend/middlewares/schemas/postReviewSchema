@@ -13,5 +13,3 @@ export const postReviewSchema = {
     },
   },
 };
-
-// kollla på de

@@ -8,7 +8,6 @@ import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
@@ -32,15 +31,29 @@ const MainLayout = ({ setIsLoggedIn }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const theme = useTheme();
 
-  // måste ha samma state som finns
   const handleLogout = () => {
-    localStorage.removeItem("token"); // ❌ ta bort token
-    setIsLoggedIn(false); // ❌ sätt state
+    localStorage.removeItem("token");
+    setIsLoggedIn(false);
   };
 
   return (
-    <div className="mainLayout">
-      <AppBar position="static">
+    // ✅ ÄNDRING 1:
+    // Bytte från vanlig div till Box med height: 100vh
+    // så hela layouten får fast höjd och kan delas upp i:
+    // header / scrollbart content / footer
+    <Box
+      className="mainLayout"
+      sx={{
+        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        overflow: "hidden", // ✅ ÄNDRING 2: hindrar hela sidan från att scrolla
+      }}
+    >
+      {/* ✅ ÄNDRING 3:
+          position="fixed" istället för "static"
+          så navbaren alltid ligger kvar högst upp */}
+      <AppBar position="fixed">
         <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
           <Typography
             variant="h6"
@@ -55,7 +68,7 @@ const MainLayout = ({ setIsLoggedIn }) => {
             <img
               src="/images/iconimg.png"
               alt="RMA Logo"
-              style={{ height: "40px", width: "40px", borderRadius: "50%" }} // justera storlek
+              style={{ height: "40px", width: "40px", borderRadius: "50%" }}
             />
           </Typography>
 
@@ -75,15 +88,17 @@ const MainLayout = ({ setIsLoggedIn }) => {
                 componentsProps={{
                   tooltip: {
                     sx: {
-                      bgcolor: "primary.main",
+                      bgcolor: "black",
                       color: "white",
-                      fontSize: 14,
+                      fontSize: 12,
                       borderRadius: 1,
                       px: 1.5,
                       py: 0.5,
-                      "& .MuiTooltip-arrow": {
-                        color: "primary.main",
-                      },
+                    },
+                  },
+                  arrow: {
+                    sx: {
+                      color: "black",
                     },
                   },
                 }}
@@ -93,6 +108,12 @@ const MainLayout = ({ setIsLoggedIn }) => {
                   to={item.path}
                   color="inherit"
                   size="large"
+                  sx={{
+                    color: "white",
+                    "&:hover": {
+                      color: "black",
+                    },
+                  }}
                 >
                   {item.icon}
                 </IconButton>
@@ -117,11 +138,11 @@ const MainLayout = ({ setIsLoggedIn }) => {
             </IconButton>
           </Box>
         </Toolbar>
-        <ReviewDrawer></ReviewDrawer>
+        <ReviewDrawer />
       </AppBar>
 
       <Drawer
-        anchor="right"
+        anchor="top"
         open={drawerOpen}
         onClose={() => {
           setDrawerOpen(false);
@@ -129,12 +150,15 @@ const MainLayout = ({ setIsLoggedIn }) => {
         transitionDuration={{ enter: 300, exit: 300 }}
         PaperProps={{
           sx: {
-            width: 80,
+            width: "100%",
             bgcolor: "white",
+            borderBottomLeftRadius: 12,
+            borderBottomRightRadius: 12,
+            p: 1,
           },
         }}
       >
-        <Box sx={{ display: "flex", justifyContent: "flex-start", p: 0 }}>
+        <Box sx={{ display: "flex", justifyContent: "flex-end", p: 0 }}>
           <IconButton
             onClick={() => setDrawerOpen(false)}
             sx={{
@@ -148,69 +172,110 @@ const MainLayout = ({ setIsLoggedIn }) => {
         <List
           sx={{
             display: "flex",
-            flexDirection: "column",
+            justifyContent: "center",
             alignItems: "center",
-            mt: 2,
+            flexDirection: "row",
+            flexWrap: "wrap",
+            gap: 1,
+            pb: 2,
           }}
         >
           {navItems.map((item) => (
-            <ListItem key={item.text} disablePadding sx={{ width: "100%" }}>
+            <ListItem key={item.text} disablePadding sx={{ width: "auto" }}>
               <Tooltip
                 title={item.text}
                 arrow
-                placement="right"
+                placement="bottom"
                 componentsProps={{
                   tooltip: {
                     sx: {
-                      bgcolor: "primary.main",
+                      bgcolor: "black",
                       color: "white",
-                      fontSize: 14,
+                      fontSize: 12,
                       borderRadius: 1,
                       px: 1.5,
                       py: 0.5,
-                      "& .MuiTooltip-arrow": {
-                        color: "primary.main",
-                      },
+                    },
+                  },
+                  arrow: {
+                    sx: {
+                      color: "black",
                     },
                   },
                 }}
               >
-                <ListItemButton
+                <IconButton
                   component={RouterLink}
                   to={item.path}
                   onClick={() => setDrawerOpen(false)}
                   sx={{
-                    display: "flex",
-                    justifyContent: "center",
                     color: theme.palette.primary.main,
-                    bgcolor: "transparent",
                     "&:hover": {
-                      bgcolor: theme.palette.primary.main,
-                      color: "white",
+                      color: "black",
                     },
-                    borderRadius: 1,
                   }}
                 >
                   <ListItemIcon
                     sx={{
                       minWidth: 0,
-                      justifyContent: "center",
                       color: "inherit",
+                      justifyContent: "center",
                     }}
                   >
                     {item.icon}
                   </ListItemIcon>
-                </ListItemButton>
+                </IconButton>
               </Tooltip>
             </ListItem>
           ))}
         </List>
       </Drawer>
 
-      <div className="mainLayout__content">
+      {/* ✅ ÄNDRING 4:
+          Detta är nu den ENDA scrollbara delen.
+          mt = höjd för AppBar så innehållet inte hamnar bakom navbaren
+          mb = höjd för footer så innehållet inte hamnar bakom footern */}
+      <Box
+        className="mainLayout__content"
+        sx={{
+          flex: 1,
+          overflowY: "auto",
+          mt: { xs: "56px", sm: "64px" }, // plats för fixed AppBar
+          mb: "80px", // plats för fixed footer
+          // display: "flex", // ✅ NY
+          // justifyContent: "center", // ✅ NY
+          // alignItems: "center",
+        }}
+      >
         <Outlet />
-      </div>
-    </div>
+      </Box>
+
+      {/* ✅ ÄNDRING 5:
+          Footern är nu fixed längst ner
+          och har fast höjd */}
+      <Box
+        sx={{
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          width: "100%",
+          height: "80px", // fast höjd
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          px: 2,
+          textAlign: "center",
+          borderTop: "1px solid #e0e0e0",
+          bgcolor: "white",
+          zIndex: 1200, // så den ligger fint ovanpå content
+        }}
+      >
+        <Typography variant="body2" sx={{ color: "primary.main" }}>
+          © {new Date().getFullYear()} RMA — Remember My Applications Copyright
+          | By Jakob Malmgren | All Rights Reserved
+        </Typography>
+      </Box>
+    </Box>
   );
 };
 

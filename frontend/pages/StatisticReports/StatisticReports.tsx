@@ -84,16 +84,22 @@
 
 //   return (
 //     <Box sx={{ p: 3, color: "primary.main" }}>
-//       <Typography variant="h6" gutterBottom textAlign="center">
-//         Statistics Overview
-//       </Typography>
-
-//       <Box
+//       {/* <Box
 //         sx={{
 //           display: "flex",
 //           flexWrap: "wrap",
 //           justifyContent: "center",
 //           gap: 4,
+//           mt: 5,
+//         }}
+//       > */}
+//       <Box
+//         sx={{
+//           p: 3,
+//           color: "primary.main",
+//           display: "flex",
+//           justifyContent: "center",
+//           width: "100%",
 //         }}
 //       >
 //         <Box sx={{ flex: "1 1 300px", p: 2, maxWidth: 500 }}>
@@ -102,7 +108,13 @@
 //           </Typography>
 
 //           <BarChart
-//             xAxis={[{ scaleType: "band", data: categories }]}
+//             xAxis={[
+//               {
+//                 scaleType: "band",
+//                 data: categories,
+//                 tickLabelInterval: (_, index) => index % 3 === 0,
+//               },
+//             ]}
 //             series={[
 //               {
 //                 data: chartData,
@@ -119,29 +131,14 @@
 //             Priority Distribution by Category
 //           </Typography>
 
-//           {/* <BarChart
-//             xAxis={[{ scaleType: "band", data: categories }]}
-//             series={[
+//           <BarChart
+//             xAxis={[
 //               {
-//                 data: priorityByCategory.priority1,
-//                 label: "Priority 1",
-//                 color: theme.palette.primary.main,
-//               },
-//               {
-//                 data: priorityByCategory.priority2,
-//                 label: "Priority 2",
-//                 color: theme.palette.primary.light,
-//               },
-//               {
-//                 data: priorityByCategory.priority3,
-//                 label: "Priority 3",
-//                 color: theme.palette.primary.dark,
+//                 scaleType: "band",
+//                 data: categories,
+//                 tickLabelInterval: (_, index) => index % 3 === 0,
 //               },
 //             ]}
-//             height={300}
-//           /> */}
-//           <BarChart
-//             xAxis={[{ scaleType: "band", data: categories }]}
 //             series={[
 //               {
 //                 data: priorityByCategory.priority1,
@@ -253,20 +250,34 @@ const StatisticReports = () => {
   }, [applications]);
 
   return (
-    <Box sx={{ p: 3, color: "primary.main" }}>
-      <Typography variant="h6" gutterBottom textAlign="center">
-        Statistics Overview
-      </Typography>
-
+    <Box
+      sx={{
+        width: "100%",
+        display: "flex",
+        justifyContent: "center", // ✅ centrerar allt
+        pt: 6,
+      }}
+    >
       <Box
         sx={{
+          width: "100%",
+          height: "100%", // ✅ viktigt
           display: "flex",
-          flexWrap: "wrap",
-          justifyContent: "center",
-          gap: 4,
+          justifyContent: "center", // horisontellt
+          alignItems: "center", // vertikalt 👈 DETTA saknas
         }}
       >
-        <Box sx={{ flex: "1 1 300px", p: 2, maxWidth: 500 }}>
+        {/* Chart 1 */}
+        <Box
+          sx={{
+            width: "480px", // ✅ gör att de kan ligga bredvid varandra
+            maxWidth: "100%", // ✅ responsiv fallback
+            bgcolor: "white", // 🔥 snyggare card look (valfri)
+            borderRadius: 2,
+            p: 2,
+            boxShadow: 2,
+          }}
+        >
           <Typography variant="subtitle1" gutterBottom textAlign="center">
             Applications by Category
           </Typography>
@@ -290,7 +301,17 @@ const StatisticReports = () => {
           />
         </Box>
 
-        <Box sx={{ flex: "1 1 300px", p: 2, maxWidth: 600 }}>
+        {/* Chart 2 */}
+        <Box
+          sx={{
+            width: "480px",
+            maxWidth: "100%",
+            bgcolor: "white",
+            borderRadius: 2,
+            p: 2,
+            boxShadow: 2,
+          }}
+        >
           <Typography variant="subtitle1" gutterBottom textAlign="center">
             Priority Distribution by Category
           </Typography>
