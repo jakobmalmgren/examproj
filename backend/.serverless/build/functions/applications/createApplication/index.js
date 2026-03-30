@@ -11310,6 +11310,7 @@ var createApplication = async (event) => {
       Item: {
         pk: { S: `USERNAME#${username}` },
         sk: { S: `APPLICATION#${v4_default()}` },
+        send: { BOOL: false },
         title: { S: title || "" },
         category: { S: category || "" },
         extraInfo: {
