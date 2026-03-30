@@ -58,7 +58,6 @@ const SignUp = () => {
         });
       }
     } catch (err) {
-      // Fångar nätverksfel eller andra oväntade fel
       console.error("Signup error:", err);
       setSnackbar({
         open: true,

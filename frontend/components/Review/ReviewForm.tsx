@@ -64,11 +64,6 @@ const ReviewForm = ({ open }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const result = await postReview(reviewForm);
-    // setReviewForm({
-    //   rating: 0,
-    //   comment: "",
-    //   name: decoded.username.S,
-    // });
     setToggleSwitch(false);
     if (result.success) {
       setReviewForm({
@@ -138,7 +133,6 @@ const ReviewForm = ({ open }) => {
         }}
       />
 
-      {/* Name field + anonymous toggle */}
       <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
         <TextField
           label="Name"
@@ -174,18 +168,25 @@ const ReviewForm = ({ open }) => {
               componentsProps={{
                 tooltip: {
                   sx: {
-                    bgcolor: "primary.main",
+                    bgcolor: "black",
                     color: "white",
-                    fontSize: 14,
+                    fontSize: 12,
                     borderRadius: 1,
                     px: 1.5,
                     py: 0.5,
-                    "& .MuiTooltip-arrow": { color: "primary.main" },
+                  },
+                },
+                arrow: {
+                  sx: {
+                    color: "black",
                   },
                 },
               }}
             >
-              <InfoOutlinedIcon fontSize="small" sx={{ cursor: "pointer" }} />
+              <InfoOutlinedIcon
+                fontSize="small"
+                sx={{ color: "primary.main" }}
+              />
             </Tooltip>
           }
         />

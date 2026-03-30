@@ -257,7 +257,7 @@ const AddApplications = () => {
       };
 
       const res = await createApplication(cleanedForm);
-      console.log("REEEESUUULT!!!!!", res);
+      console.log("result", res);
       if (!res.success) {
         setSnackbar({
           open: true,
@@ -294,6 +294,7 @@ const AddApplications = () => {
         p: 2,
         width: "50%",
         margin: "0 auto",
+        mt: 5,
       }}
     >
       <TextField
@@ -362,6 +363,11 @@ const AddApplications = () => {
           slotProps={{
             textField: {
               fullWidth: true,
+              sx: {
+                "& .MuiSvgIcon-root": {
+                  color: "primary.main", // 🔵 gör kalender-ikonen blå
+                },
+              },
             },
           }}
         />
@@ -398,7 +404,28 @@ const AddApplications = () => {
           justifyContent: "center",
         }}
       >
-        <Tooltip title="I want this!!" arrow>
+        {" "}
+        <Tooltip
+          title="I want this"
+          arrow
+          componentsProps={{
+            tooltip: {
+              sx: {
+                bgcolor: "black",
+                color: "white",
+                fontSize: 12,
+                borderRadius: 1,
+                px: 1.5,
+                py: 0.5,
+              },
+            },
+            arrow: {
+              sx: {
+                color: "black",
+              },
+            },
+          }}
+        >
           <FormControlLabel
             control={
               <Checkbox
@@ -418,8 +445,27 @@ const AddApplications = () => {
             }
           />
         </Tooltip>
-
-        <Tooltip title="Maybe, maybe not" arrow>
+        <Tooltip
+          title="Maybe, maybe not"
+          arrow
+          componentsProps={{
+            tooltip: {
+              sx: {
+                bgcolor: "black",
+                color: "white",
+                fontSize: 12,
+                borderRadius: 1,
+                px: 1.5,
+                py: 0.5,
+              },
+            },
+            arrow: {
+              sx: {
+                color: "black",
+              },
+            },
+          }}
+        >
           <FormControlLabel
             control={
               <Checkbox
@@ -439,8 +485,27 @@ const AddApplications = () => {
             }
           />
         </Tooltip>
-
-        <Tooltip title="Ahh, I don't know" arrow>
+        <Tooltip
+          title="Ahh, I don't know"
+          arrow
+          componentsProps={{
+            tooltip: {
+              sx: {
+                bgcolor: "black",
+                color: "white",
+                fontSize: 12,
+                borderRadius: 1,
+                px: 1.5,
+                py: 0.5,
+              },
+            },
+            arrow: {
+              sx: {
+                color: "black",
+              },
+            },
+          }}
+        >
           <FormControlLabel
             control={
               <Checkbox
@@ -460,10 +525,32 @@ const AddApplications = () => {
             }
           />
         </Tooltip>
-
+        {/* <Tooltip
+          title="You can prioritize applications by selecting a priority level"
+          arrow
+        >
+          <InfoOutlinedIcon fontSize="small" sx={{ color: "primary.main" }} />
+        </Tooltip> */}
         <Tooltip
           title="You can prioritize applications by selecting a priority level"
           arrow
+          componentsProps={{
+            tooltip: {
+              sx: {
+                bgcolor: "black",
+                color: "white",
+                fontSize: 12,
+                borderRadius: 1,
+                px: 1.5,
+                py: 0.5,
+              },
+            },
+            arrow: {
+              sx: {
+                color: "black", // 🖤 pilen blir svart
+              },
+            },
+          }}
         >
           <InfoOutlinedIcon fontSize="small" sx={{ color: "primary.main" }} />
         </Tooltip>

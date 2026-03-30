@@ -6,7 +6,7 @@ import EditModal from "../EditModal/EditModal";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 
-const MyApplicationCard = ({ data, onDelete }) => {
+const MyApplicationCard = ({ data, onDelete, setRefreshKey }) => {
   const id = data.sk.split("#")[1];
 
   const {
@@ -20,6 +20,8 @@ const MyApplicationCard = ({ data, onDelete }) => {
     applicationDate,
     title,
   } = data;
+
+  const validExtraInfo = extraInfo.filter((i) => i.trim() !== "");
 
   const city = location?.city || "";
 
@@ -58,6 +60,26 @@ const MyApplicationCard = ({ data, onDelete }) => {
           display: "flex",
           flexDirection: "column",
           gap: 1.5,
+
+          // 👇 scrollbar styling
+          "&::-webkit-scrollbar": {
+            width: "8px",
+          },
+          "&::-webkit-scrollbar-track": {
+            background: "#e0e0e0",
+            borderRadius: "10px",
+          },
+          "&::-webkit-scrollbar-thumb": {
+            backgroundColor: "#000",
+            borderRadius: "10px",
+          },
+          "&::-webkit-scrollbar-thumb:hover": {
+            backgroundColor: "#333",
+          },
+
+          // Firefox
+          scrollbarColor: "#000 #e0e0e0",
+          scrollbarWidth: "thin",
         }}
       >
         <Typography sx={{ fontSize: "40px" }}>{priorityEmoji}</Typography>
@@ -75,20 +97,40 @@ const MyApplicationCard = ({ data, onDelete }) => {
           <Typography variant="body2">{title || "-"}</Typography>
         </Box>
 
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-          <img
-            src="/images/info.svg"
-            alt="info Icon"
-            style={{ height: 24, width: 24 }}
-          />
-          <Typography variant="body2" sx={{ fontWeight: "bold" }}>
-            Extra Info:
-          </Typography>
+        {validExtraInfo.length === 0 ? (
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+            <img
+              src="/images/info.svg"
+              alt="info Icon"
+              style={{ height: 24, width: 24 }}
+            />
 
-          <Typography variant="body2">
-            {extraInfo.length > 0 ? extraInfo.join(", ") : "-"}
-          </Typography>
-        </Box>
+            <Typography variant="body2" sx={{ fontWeight: "bold" }}>
+              Extra Info:
+            </Typography>
+
+            <Typography variant="body2">-</Typography>
+          </Box>
+        ) : (
+          validExtraInfo.map((item, index) => (
+            <Box
+              key={index}
+              sx={{ display: "flex", alignItems: "center", gap: 1 }}
+            >
+              <img
+                src="/images/info.svg"
+                alt="info Icon"
+                style={{ height: 24, width: 24 }}
+              />
+
+              <Typography variant="body2" sx={{ fontWeight: "bold" }}>
+                Extra Info:
+              </Typography>
+
+              <Typography variant="body2">{item}</Typography>
+            </Box>
+          ))
+        )}
 
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           <img
@@ -205,19 +247,60 @@ const MyApplicationCard = ({ data, onDelete }) => {
       <Box
         sx={{ display: "flex", justifyContent: "flex-end", gap: 0.5, mt: 1 }}
       >
-        <Tooltip title="Delete" arrow>
+        <Tooltip
+          title="Delete"
+          arrow
+          componentsProps={{
+            tooltip: {
+              sx: {
+                bgcolor: "black",
+                color: "white",
+                fontSize: 12,
+                borderRadius: 1,
+                px: 1.5,
+                py: 0.5,
+              },
+            },
+            arrow: {
+              sx: {
+                color: "black",
+              },
+            },
+          }}
+        >
           <IconButton onClick={handleDelete} size="small" color="primary">
-            <DeleteIcon fontSize="small" />
+            <DeleteIcon fontSize="small" sx={{ color: "black" }} />
           </IconButton>
         </Tooltip>
 
-        <Tooltip title={"Edit"} arrow>
+        <Tooltip
+          title="Edit"
+          arrow
+          componentsProps={{
+            tooltip: {
+              sx: {
+                bgcolor: "black",
+                color: "white",
+                fontSize: 12,
+                borderRadius: 1,
+                px: 1.5,
+                py: 0.5,
+              },
+            },
+            arrow: {
+              sx: {
+                color: "black",
+              },
+            },
+          }}
+        >
           <IconButton size="small" onClick={() => setEditOpen(true)}>
-            <EditIcon fontSize="small" color="primary" />
+            <EditIcon fontSize="small" sx={{ color: "black" }} />
           </IconButton>
         </Tooltip>
         <EditModal
           data={data}
+          setRefreshKey={setRefreshKey}
           id={id}
           open={editOpen}
           onClose={() => setEditOpen(false)}

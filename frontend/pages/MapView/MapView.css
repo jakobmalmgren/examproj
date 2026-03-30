@@ -1,24 +1,14 @@
-.tooltip-box strong {
-  font-size: 14px;
+.tooltip-box {
+  font-size: 13px;
 }
 
-/* Tar bort vit kant runt tooltip */
 .leaflet-tooltip::before {
   display: none;
 }
 
-/* Tooltip styling */
 .leaflet-tooltip {
-  background-color: #111;
-  color: #fff;
-  border-radius: 8px;
-  padding: 6px 10px;
-  font-size: 14px;
-
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-}
-
-/* Om du vill använda tooltip-box-specifik styling */
-.tooltip-box {
-  font-size: 13px;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
 }

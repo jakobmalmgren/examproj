@@ -1,4 +1,4 @@
-import "./App.css";
+// import "./App.css";
 import { useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
@@ -38,18 +38,6 @@ function App() {
             <Route path="signup" element={<SignUp />} />
           </Route>
         )}
-
-        {/* Redirect root / */}
-        {/* <Route
-          path="/"
-          element={
-            isLoggedIn ? (
-              <Navigate to="/home" replace />
-            ) : (
-              <Navigate to="/auth" replace />
-            )
-          }
-        /> */}
 
         {/* === Private routes (inloggad användare) === */}
         {isLoggedIn && (
