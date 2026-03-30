@@ -1,12 +1,11 @@
 import middy from "@middy/core";
-import { client } from "../../../config/dj";
+import { client } from "../../../config/db";
 import { checkAuth } from "../../../middlewares/auth/checkAuth";
 import { DeleteCommand } from "@aws-sdk/lib-dynamodb";
 
 const deleteApplication = async (event) => {
   const userName = event.user.username.S;
   const id = event.pathParameters.id;
-  console.log("EVENT!", event);
 
   try {
     const command = new DeleteCommand({

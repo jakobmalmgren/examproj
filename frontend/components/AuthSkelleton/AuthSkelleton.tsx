@@ -3,9 +3,7 @@ import { Link as RouterLink } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
 import Link from "@mui/material/Link";
-import GoogleIcon from "@mui/icons-material/Google";
 import { type AuthSkelletonProps } from "./types/types";
 import { useTheme } from "@mui/material/styles";
 import { CircularProgress } from "@mui/material";
@@ -72,12 +70,6 @@ const AuthSkelleton = ({
           )}
         </Button>
 
-        <Divider>or login with</Divider>
-
-        <Button variant="outlined" startIcon={<GoogleIcon />} fullWidth>
-          Login with Google
-        </Button>
-
         <Typography variant="body2" align="center">
           {isLogin ? (
             <>
@@ -97,8 +89,8 @@ const AuthSkelleton = ({
         </Typography>
 
         <Typography variant="caption" align="center" sx={{ color: "gray" }}>
-          By clicking {title} or continuing with Google, you agree to our Terms
-          of Service and Privacy Policy.
+          By clicking {title} with RMA, you agree to our Terms of Service and
+          Privacy Policy.
         </Typography>
       </Box>
     </div>

@@ -3,7 +3,7 @@ import {
   QueryCommand,
   ScanCommand,
 } from "@aws-sdk/client-dynamodb";
-import { client } from "../../config/dj";
+import { client } from "../../config/db";
 
 export const checkIfUsernameExists = async (username: string) => {
   try {
