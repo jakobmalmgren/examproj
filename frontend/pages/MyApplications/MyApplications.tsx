@@ -46,7 +46,7 @@ const MyApplications = () => {
       try {
         setLoading(true);
         const res = await readApplication();
-        console.log("APPPPPPPPPPPPP", res);
+        console.log("READAPPLICATIONS", res);
         setApplications(res.data);
 
         setLoading(false);

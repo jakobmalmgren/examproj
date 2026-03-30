@@ -33,6 +33,7 @@ const createApplication = async (event) => {
       Item: {
         pk: { S: `USERNAME#${username}` },
         sk: { S: `APPLICATION#${uuidv4()}` },
+        send: { BOOL: false },
 
         title: { S: title || "" },
         category: { S: category || "" },

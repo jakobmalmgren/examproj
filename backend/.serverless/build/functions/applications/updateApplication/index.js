@@ -1485,6 +1485,8 @@ var updateApplication = async (event) => {
       );
     }
     const updatedAt = (/* @__PURE__ */ new Date()).toISOString();
+    const finalReminder = !!reminder;
+    const finalReminderDate = finalReminder ? reminderDate || null : null;
     await client.send(
       new UpdateCommand({
         TableName: "ApplicationsTable",
@@ -1499,6 +1501,7 @@ var updateApplication = async (event) => {
               priority = :priority,
               reminder = :reminder,
               reminderDate = :reminderDate,
+              send = :send,
               files = :files,
               #location = :location,
               category = :category,
@@ -1508,19 +1511,20 @@ var updateApplication = async (event) => {
           "#location": "location"
         },
         ExpressionAttributeValues: {
-          ":title": title.trim(),
+          ":title": title?.trim() || "",
           ":extraInfo": extraInfo || [],
           ":applicationDate": applicationDate || null,
           ":priority": priority ?? 1,
-          ":reminder": reminder ?? false,
-          ":reminderDate": reminder ? reminderDate || null : null,
+          ":reminder": finalReminder,
+          ":reminderDate": finalReminderDate,
+          ":send": false,
           ":files": files || [],
           ":location": location || {
             city: "",
             latitude: null,
             longitude: null
           },
-          ":category": category.trim(),
+          ":category": category?.trim() || "",
           ":updatedAt": updatedAt
         }
       })
