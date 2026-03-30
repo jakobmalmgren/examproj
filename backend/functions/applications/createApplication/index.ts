@@ -1,5 +1,5 @@
 import middy from "@middy/core";
-import { client } from "../../../config/dj";
+import { client } from "../../../config/db";
 import httpJsonBodyParser from "@middy/http-json-body-parser";
 import { checkAuth } from "../../../middlewares/auth/checkAuth";
 import { v4 as uuidv4 } from "uuid";
@@ -8,8 +8,6 @@ import validator from "@middy/validator";
 import { PutItemCommand } from "@aws-sdk/client-dynamodb";
 import { createApplicationSchema } from "../../../middlewares/schemas/createApplicationSchema";
 const createApplication = async (event) => {
-  console.log("BODY", event.body);
-
   const {
     title,
     extraInfo,
@@ -24,8 +22,6 @@ const createApplication = async (event) => {
 
   const user = event.user;
   const username = user.username.S;
-
-  console.log("USER", user);
 
   try {
     const putCommand = new PutItemCommand({

@@ -12,7 +12,6 @@ const loginHandler = async (event) => {
   const secret = process.env.JWT_SECRET;
 
   try {
-    // Hämta användaren från DynamoDB
     const user = await findUser(username);
     console.log("USER!!", user);
 
@@ -23,7 +22,6 @@ const loginHandler = async (event) => {
       };
     }
 
-    // Jämför lösenord
     const matchedPassword = await comparePassword(password, user.password.S);
     if (!matchedPassword) {
       return {
@@ -32,7 +30,6 @@ const loginHandler = async (event) => {
       };
     }
 
-    // Skapa token med jose
     const token = await new SignJWT({
       username: user.username,
       email: user.email,

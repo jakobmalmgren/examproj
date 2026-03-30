@@ -1,13 +1,10 @@
 import middy from "@middy/core";
-import { client } from "../../../config/dj";
+import { client } from "../../../config/db";
 import { checkAuth } from "../../../middlewares/auth/checkAuth";
 import { QueryCommand } from "@aws-sdk/lib-dynamodb";
 
 const readApplication = async (event) => {
-  console.log("userpayload", event.user);
-
   const userName = event.user.username.S;
-  console.log("EVENT!", event);
 
   try {
     const command = new QueryCommand({
