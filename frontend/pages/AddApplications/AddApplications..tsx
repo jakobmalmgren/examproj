@@ -257,7 +257,7 @@ const AddApplications = () => {
       };
 
       const res = await createApplication(cleanedForm);
-      console.log("result", res);
+      console.log("REEEESUUULT!!!!!", res);
       if (!res.success) {
         setSnackbar({
           open: true,
