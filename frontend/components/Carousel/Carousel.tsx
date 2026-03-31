@@ -34,10 +34,32 @@ const Carousel = () => {
     return () => clearInterval(interval);
   }, [reviews]);
 
+  // return (
+  //   <Box sx={{ display: "flex", justifyContent: "center", mt: 5 }}>
+  //     <Fade in={fadeIn} timeout={500}>
+  //       <Box>
+  //         <Review review={reviews[currentIndex]} />
+  //       </Box>
+  //     </Fade>
+  //   </Box>
+  // );
   return (
-    <Box sx={{ display: "flex", justifyContent: "center", mt: 5 }}>
+    <Box
+      sx={{
+        width: "100%",
+        mt: 5,
+      }}
+    >
       <Fade in={fadeIn} timeout={500}>
-        <Box>
+        <Box
+          sx={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+          }}
+        >
           <Review review={reviews[currentIndex]} />
         </Box>
       </Fade>

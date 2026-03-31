@@ -37,35 +37,67 @@ const SignUp = () => {
     setSnackbar((prev) => ({ ...prev, open: false }));
   };
 
+  // const handleSignup = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const result = await signup(form);
+
+  //     if (result.success) {
+  //       setForm({ username: "", email: "", password: "", confirmPassword: "" });
+  //       setSnackbar({
+  //         open: true,
+  //         message: result.message || "Account created successfully!",
+  //         severity: "success",
+  //       });
+  //     } else {
+  //       setSnackbar({
+  //         open: true,
+  //         message: result.message || "Signup failed",
+  //         severity: "error",
+  //       });
+  //     }
+  //   } catch (err) {
+  //     console.error("Signup error:", err);
+  //     setSnackbar({
+  //       open: true,
+  //       message: err.message || "Something went wrong. Please try again.",
+  //       severity: "error",
+  //     });
+  //   }
+  // };
   const handleSignup = async (e) => {
     e.preventDefault();
+
     try {
       const result = await signup(form);
 
-      if (result.success) {
-        setForm({ username: "", email: "", password: "", confirmPassword: "" });
-        setSnackbar({
-          open: true,
-          message: result.message || "Account created successfully!",
-          severity: "success",
-        });
-      } else {
-        setSnackbar({
-          open: true,
-          message: result.message || "Signup failed",
-          severity: "error",
-        });
+      if (!result.success) {
+        if (result.status === 400 || result.status === 409) {
+          setSnackbar({
+            open: true,
+            message: result.message || "Signup failed",
+            severity: "error",
+          });
+        }
+        return;
       }
-    } catch (err) {
-      console.error("Signup error:", err);
+
+      setForm({
+        username: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+      });
+
       setSnackbar({
         open: true,
-        message: err.message || "Something went wrong. Please try again.",
-        severity: "error",
+        message: result.message || "Account created successfully!",
+        severity: "success",
       });
+    } catch (err) {
+      console.error("Signup network error:", err);
     }
   };
-
   return (
     <AuthSkelleton title="Signup" onSubmit={handleSignup}>
       <TextField
