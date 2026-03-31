@@ -110,8 +110,8 @@ functions:
     handler: functions/reminder/reminder/index.handler
     events:
       - schedule:
-          # rate: cron(0 8 * * ? *)
-          rate: rate(1 minute)
+          rate: cron(0 8 * * ? *)
+          # rate: rate(1 minute)
           enabled: true
 
 resources:

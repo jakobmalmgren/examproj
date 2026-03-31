@@ -61,27 +61,38 @@ const ReviewForm = ({ open }) => {
       name: checked ? "Unknown" : decoded.username.S,
     }));
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const result = await postReview(reviewForm);
-    setToggleSwitch(false);
-    if (result.success) {
+
+    try {
+      const result = await postReview(reviewForm);
+      setToggleSwitch(false);
+
+      if (!result.success) {
+        if (result.status === 400 || result.status === 401) {
+          setSnackbar({
+            open: true,
+            message: result.message || "Failed to submit review",
+            severity: "error",
+          });
+        }
+        return;
+      }
+
       setReviewForm({
         rating: 0,
         comment: "",
         name: decoded.username.S,
       });
+
       setSnackbar({
         open: true,
-        message: result.message,
+        message: result.message || "Review submitted successfully",
         severity: "success",
       });
-    } else {
-      setSnackbar({
-        open: true,
-        message: result.message,
-        severity: "error",
-      });
+    } catch (error) {
+      console.log("Network error while posting review:", error);
     }
   };
 

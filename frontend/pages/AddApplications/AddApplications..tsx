@@ -258,12 +258,23 @@ const AddApplications = () => {
 
       const res = await createApplication(cleanedForm);
       console.log("result", res);
+      // if (!res.success) {
+      //   setSnackbar({
+      //     open: true,
+      //     message: res.message,
+      //     severity: "error",
+      //   });
+      // }
+
       if (!res.success) {
-        setSnackbar({
-          open: true,
-          message: res.message,
-          severity: "error",
-        });
+        if (res.status === 400) {
+          setSnackbar({
+            open: true,
+            message: res.message || "Input validation failed",
+            severity: "error",
+          });
+        }
+        return;
       }
 
       if (res.success) {
@@ -525,12 +536,6 @@ const AddApplications = () => {
             }
           />
         </Tooltip>
-        {/* <Tooltip
-          title="You can prioritize applications by selecting a priority level"
-          arrow
-        >
-          <InfoOutlinedIcon fontSize="small" sx={{ color: "primary.main" }} />
-        </Tooltip> */}
         <Tooltip
           title="You can prioritize applications by selecting a priority level"
           arrow
@@ -547,7 +552,7 @@ const AddApplications = () => {
             },
             arrow: {
               sx: {
-                color: "black", // 🖤 pilen blir svart
+                color: "black",
               },
             },
           }}
@@ -555,32 +560,64 @@ const AddApplications = () => {
           <InfoOutlinedIcon fontSize="small" sx={{ color: "primary.main" }} />
         </Tooltip>
       </Box>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: 2,
+          justifyContent: "center",
+        }}
+      >
+        <FormControlLabel
+          sx={{ color: "primary.main" }}
+          control={
+            <Switch
+              name="reminder"
+              checked={form.reminder}
+              onChange={(e) =>
+                setForm((prev) => ({
+                  ...prev,
+                  reminder: e.target.checked,
+                  reminderDate: e.target.checked ? prev.reminderDate : "",
+                }))
+              }
+              sx={{
+                "& .MuiSwitch-track": {
+                  backgroundColor: "primary.light",
+                },
+                "& .MuiSwitch-thumb": {
+                  color: "primary.main",
+                },
+              }}
+            />
+          }
+          label="Set Reminder"
+        />
 
-      <FormControlLabel
-        sx={{ color: "primary.main" }}
-        control={
-          <Switch
-            name="reminder"
-            checked={form.reminder}
-            onChange={(e) =>
-              setForm((prev) => ({
-                ...prev,
-                reminder: e.target.checked,
-                reminderDate: e.target.checked ? prev.reminderDate : "",
-              }))
-            }
-            sx={{
-              "& .MuiSwitch-track": {
-                backgroundColor: "primary.light",
+        <Tooltip
+          title="Set a reminder to follow up on your application if you haven’t received a response."
+          arrow
+          componentsProps={{
+            tooltip: {
+              sx: {
+                bgcolor: "black",
+                color: "white",
+                fontSize: 12,
+                borderRadius: 1,
+                px: 1.5,
+                py: 0.5,
               },
-              "& .MuiSwitch-thumb": {
-                color: "primary.main",
+            },
+            arrow: {
+              sx: {
+                color: "black",
               },
-            }}
-          />
-        }
-        label="Set Reminder"
-      />
+            },
+          }}
+        >
+          <InfoOutlinedIcon fontSize="small" sx={{ color: "primary.main" }} />
+        </Tooltip>
+      </Box>
 
       {form.reminder && (
         <Box

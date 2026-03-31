@@ -1,4 +1,4 @@
-export const createApplicationSchema = {
+export const updateApplicationSchema = {
   type: "object",
   required: ["body"],
   properties: {
@@ -54,6 +54,13 @@ export const createApplicationSchema = {
               key: { type: "string", minLength: 1 },
               contentType: { type: "string", minLength: 1 },
             },
+          },
+        },
+        removedFileKeys: {
+          type: "array",
+          items: {
+            type: "string",
+            minLength: 1,
           },
         },
         location: {

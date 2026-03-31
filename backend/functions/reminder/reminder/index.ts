@@ -64,7 +64,7 @@ const reminder = async () => {
         from: process.env.GMAIL_USER,
         to: email,
         subject: `Reminder: ${item.title || "Application"}`,
-        text: `Påminnelse för ${item.title || "din ansökan"} med datum ${item.reminderDate}.`,
+        text: `Reminder for the application ${item.title || "din ansökan"}. The reminder was set for ${item.reminderDate}.`,
       });
 
       console.log("Mail result:", JSON.stringify(mailResult, null, 2));
