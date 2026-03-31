@@ -50,18 +50,31 @@ export const handler = middy(postReviewHandler)
   .use(validator({ eventSchema: transpileSchema(postReviewSchema) })) // validera inputs
   .use(checkAuth())
   .onError((request) => {
-    console.log(
-      "VALIDATION DETAILS:",
-      JSON.stringify(request.error?.cause?.data, null, 2),
-    );
+    const message = request.error?.message || "Something went wrong";
 
-    // request.error innehåller validator-felet
+    const authErrors = [
+      "Missing Authorization header",
+      "Invalid Authorization format",
+      "Missing token",
+      "Unauthorized",
+    ];
+
+    const validationDetails = request.error?.cause?.data || null;
+    const isValidationError =
+      message === "Event object failed validation" || !!validationDetails;
+    const isAuthError = authErrors.includes(message);
+
+    let statusCode = 500;
+
+    if (isValidationError) statusCode = 400;
+    else if (isAuthError) statusCode = 401;
+
     request.response = {
-      statusCode: 400,
+      statusCode,
       body: JSON.stringify({
         success: false,
-        message: "Input validation failed",
-        details: request.error?.cause?.data,
+        message: isValidationError ? "Input validation failed" : message,
+        details: validationDetails,
       }),
     };
   });

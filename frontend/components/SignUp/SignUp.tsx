@@ -50,7 +50,6 @@ const SignUp = () => {
           severity: "success",
         });
       } else {
-        // Felmeddelande från backend
         setSnackbar({
           open: true,
           message: result.message || "Signup failed",

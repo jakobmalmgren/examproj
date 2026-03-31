@@ -51,12 +51,31 @@ export const handler = middy(getUploadUrl)
   .use(httpJsonBodyParser())
   .use(checkAuth())
   .onError((request) => {
+    const message = request.error?.message || "Something went wrong";
+
+    const authErrors = [
+      "Missing Authorization header",
+      "Invalid Authorization format",
+      "Missing token",
+      "Unauthorized",
+    ];
+
+    const validationDetails = request.error?.cause?.data || null;
+    const isValidationError =
+      message === "Event object failed validation" || !!validationDetails;
+    const isAuthError = authErrors.includes(message);
+
+    let statusCode = 500;
+
+    if (isValidationError) statusCode = 400;
+    else if (isAuthError) statusCode = 401;
+
     request.response = {
-      statusCode: 400,
+      statusCode,
       body: JSON.stringify({
         success: false,
-        message: "Failed to generate upload URL",
-        details: request.error?.details || request.error?.message,
+        message: isValidationError ? "Input validation failed" : message,
+        details: validationDetails,
       }),
     };
   });

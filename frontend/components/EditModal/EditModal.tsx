@@ -331,15 +331,15 @@ const EditModal = ({
       const res = await updateApplication(id, cleanedForm);
 
       if (!res.success) {
-        setSnackbar({
-          open: true,
-          message: res.message || "Failed to update application",
-          severity: "error",
-        });
+        if (res.status === 400 || res.status === 404) {
+          setSnackbar({
+            open: true,
+            message: res.message || "Failed to update application",
+            severity: "error",
+          });
+        }
         return;
       }
-
-      setRefreshKey((prev) => prev + 1);
 
       setSnackbar({
         open: true,
@@ -347,14 +347,13 @@ const EditModal = ({
         severity: "success",
       });
 
-      onClose();
+      // onClose();
+      setTimeout(() => {
+        setRefreshKey((prev) => prev + 1);
+        onClose();
+      }, 1200);
     } catch (err) {
-      console.log(err);
-      setSnackbar({
-        open: true,
-        message: "Failed to update application",
-        severity: "error",
-      });
+      console.log("Network error while updating application:", err);
     }
   };
 

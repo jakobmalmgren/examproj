@@ -258,12 +258,23 @@ const AddApplications = () => {
 
       const res = await createApplication(cleanedForm);
       console.log("result", res);
+      // if (!res.success) {
+      //   setSnackbar({
+      //     open: true,
+      //     message: res.message,
+      //     severity: "error",
+      //   });
+      // }
+
       if (!res.success) {
-        setSnackbar({
-          open: true,
-          message: res.message,
-          severity: "error",
-        });
+        if (res.status === 400) {
+          setSnackbar({
+            open: true,
+            message: res.message || "Input validation failed",
+            severity: "error",
+          });
+        }
+        return;
       }
 
       if (res.success) {

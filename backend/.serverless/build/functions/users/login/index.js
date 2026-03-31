@@ -10349,7 +10349,7 @@ import {
   ScanCommand
 } from "@aws-sdk/client-dynamodb";
 
-// config/dj.ts
+// config/db.ts
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 var client = new DynamoDBClient({ region: "eu-north-1" });
 
@@ -12880,12 +12880,25 @@ var loginHandler = async (event) => {
   }
 };
 var handler = core_default(loginHandler).use(http_json_body_parser_default()).use(validator_default({ eventSchema: transpileSchema(loginSchema) })).onError((request) => {
+  const message2 = request.error?.message || "Something went wrong";
+  const authErrors = [
+    "Missing Authorization header",
+    "Invalid Authorization format",
+    "Missing token",
+    "Unauthorized"
+  ];
+  const validationDetails = request.error?.cause?.data || null;
+  const isValidationError = message2 === "Event object failed validation" || !!validationDetails;
+  const isAuthError = authErrors.includes(message2);
+  let statusCode = 500;
+  if (isValidationError) statusCode = 400;
+  else if (isAuthError) statusCode = 401;
   request.response = {
-    statusCode: 400,
+    statusCode,
     body: JSON.stringify({
       success: false,
-      message: "Input validation failed",
-      details: request.error?.details || request.error?.message
+      message: isValidationError ? "Input validation failed" : message2,
+      details: validationDetails
     })
   };
 });
