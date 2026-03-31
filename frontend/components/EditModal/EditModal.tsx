@@ -331,15 +331,15 @@ const EditModal = ({
       const res = await updateApplication(id, cleanedForm);
 
       if (!res.success) {
-        setSnackbar({
-          open: true,
-          message: res.message || "Failed to update application",
-          severity: "error",
-        });
+        if (res.status === 400 || res.status === 404) {
+          setSnackbar({
+            open: true,
+            message: res.message || "Failed to update application",
+            severity: "error",
+          });
+        }
         return;
       }
-
-      setRefreshKey((prev) => prev + 1);
 
       setSnackbar({
         open: true,
@@ -347,14 +347,13 @@ const EditModal = ({
         severity: "success",
       });
 
-      onClose();
+      // onClose();
+      setTimeout(() => {
+        setRefreshKey((prev) => prev + 1);
+        onClose();
+      }, 1200);
     } catch (err) {
-      console.log(err);
-      setSnackbar({
-        open: true,
-        message: "Failed to update application",
-        severity: "error",
-      });
+      console.log("Network error while updating application:", err);
     }
   };
 
@@ -472,7 +471,7 @@ const EditModal = ({
                     fullWidth: true,
                     sx: {
                       "& .MuiSvgIcon-root": {
-                        color: "primary.main", // 🔵 gör kalender-ikonen blå
+                        color: "primary.main",
                       },
                     },
                   },
@@ -662,31 +661,66 @@ const EditModal = ({
               </Tooltip>
             </Box>
 
-            <FormControlLabel
-              sx={{ color: "primary.main" }}
-              control={
-                <Switch
-                  name="reminder"
-                  checked={form.reminder}
-                  onChange={(e) =>
-                    setForm((prev) => ({
-                      ...prev,
-                      reminder: e.target.checked,
-                      reminderDate: e.target.checked ? prev.reminderDate : "",
-                    }))
-                  }
-                  sx={{
-                    "& .MuiSwitch-track": {
-                      backgroundColor: "primary.light",
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 2,
+                justifyContent: "center",
+              }}
+            >
+              <FormControlLabel
+                sx={{ color: "primary.main" }}
+                control={
+                  <Switch
+                    name="reminder"
+                    checked={form.reminder}
+                    onChange={(e) =>
+                      setForm((prev) => ({
+                        ...prev,
+                        reminder: e.target.checked,
+                        reminderDate: e.target.checked ? prev.reminderDate : "",
+                      }))
+                    }
+                    sx={{
+                      "& .MuiSwitch-track": {
+                        backgroundColor: "primary.light",
+                      },
+                      "& .MuiSwitch-thumb": {
+                        color: "primary.main",
+                      },
+                    }}
+                  />
+                }
+                label="Set Reminder"
+              />
+              <Tooltip
+                title="Set a reminder to follow up on your application if you haven’t received a response."
+                arrow
+                componentsProps={{
+                  tooltip: {
+                    sx: {
+                      bgcolor: "black",
+                      color: "white",
+                      fontSize: 12,
+                      borderRadius: 1,
+                      px: 1.5,
+                      py: 0.5,
                     },
-                    "& .MuiSwitch-thumb": {
-                      color: "primary.main",
+                  },
+                  arrow: {
+                    sx: {
+                      color: "black",
                     },
-                  }}
+                  },
+                }}
+              >
+                <InfoOutlinedIcon
+                  fontSize="small"
+                  sx={{ color: "primary.main" }}
                 />
-              }
-              label="Set Reminder"
-            />
+              </Tooltip>
+            </Box>
 
             {form.reminder && (
               <Box
@@ -749,8 +783,8 @@ const EditModal = ({
                     display: "flex",
                     flexDirection: "column",
                     gap: 0.5,
-                    overflowY: "auto",
-                    maxHeight: "50%",
+                    // overflowY: "auto",
+                    // maxHeight: "50%",
                     width: "90%",
                   }}
                 >

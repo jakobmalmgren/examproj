@@ -9183,7 +9183,7 @@ var runMiddlewares = async (request, middlewares, plugin) => {
 };
 var core_default = middy;
 
-// config/dj.ts
+// config/db.ts
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 var client = new DynamoDBClient({ region: "eu-north-1" });
 
@@ -10393,12 +10393,21 @@ async function jwtVerify(jwt, key, options) {
 var checkAuth = () => {
   return {
     before: async (request) => {
+      const authHeader = request.event.headers?.authorization || request.event.headers?.Authorization;
+      if (!authHeader) {
+        throw new Error("Missing Authorization header");
+      }
+      if (!authHeader.startsWith("Bearer ")) {
+        throw new Error("Invalid Authorization format");
+      }
+      const token = authHeader.split(" ")[1];
+      if (!token) {
+        throw new Error("Missing token");
+      }
+      if (!process.env.JWT_SECRET) {
+        throw new Error("JWT_SECRET is not configured");
+      }
       try {
-        const authHeader = request.event.headers.authorization || request.event.headers.Authorization;
-        if (!authHeader) {
-          throw new Error("No token provided");
-        }
-        const token = authHeader.split(" ")[1];
         const { payload } = await jwtVerify(
           token,
           new TextEncoder().encode(process.env.JWT_SECRET)
@@ -11232,9 +11241,12 @@ var createApplicationSchema = {
         reminderDate: {
           anyOf: [{ type: "string", minLength: 1 }, { type: "null" }]
         },
+        // applicationDate: {
+        //   type: "string",
+        //   minLength: 1,
+        // },
         applicationDate: {
-          type: "string",
-          minLength: 1
+          anyOf: [{ type: "string" }, { type: "null" }]
         },
         files: {
           type: "array",
@@ -11289,7 +11301,6 @@ var createApplicationSchema = {
 
 // functions/applications/createApplication/index.ts
 var createApplication = async (event) => {
-  console.log("BODY", event.body);
   const {
     title,
     extraInfo,
@@ -11303,7 +11314,6 @@ var createApplication = async (event) => {
   } = event.body;
   const user = event.user;
   const username = user.username.S;
-  console.log("USER", user);
   try {
     const putCommand = new PutItemCommand({
       TableName: "ApplicationsTable",
@@ -11359,12 +11369,25 @@ var createApplication = async (event) => {
   }
 };
 var handler = core_default(createApplication).use(http_json_body_parser_default()).use(validator_default({ eventSchema: transpileSchema(createApplicationSchema) })).use(checkAuth()).onError((request) => {
+  const message2 = request.error?.message || "Something went wrong";
+  const authErrors = [
+    "Missing Authorization header",
+    "Invalid Authorization format",
+    "Missing token",
+    "Unauthorized"
+  ];
+  const validationDetails = request.error?.cause?.data || null;
+  const isValidationError = message2 === "Event object failed validation" || !!validationDetails;
+  const isAuthError = authErrors.includes(message2);
+  let statusCode = 500;
+  if (isValidationError) statusCode = 400;
+  else if (isAuthError) statusCode = 401;
   request.response = {
-    statusCode: 400,
+    statusCode,
     body: JSON.stringify({
       success: false,
-      message: "Input validation failed",
-      details: request.error?.details || request.error?.message
+      message: isValidationError ? "Input validation failed" : message2,
+      details: validationDetails
     })
   };
 });

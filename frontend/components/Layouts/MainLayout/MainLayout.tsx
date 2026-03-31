@@ -63,12 +63,13 @@ const MainLayout = ({ setIsLoggedIn }) => {
               color: "inherit",
               textDecoration: "none",
               cursor: "pointer",
+              display: "flex",
             }}
           >
             <img
-              src="/images/iconimg.png"
+              src="/images/newIcon.png"
               alt="RMA Logo"
-              style={{ height: "40px", width: "40px", borderRadius: "50%" }}
+              style={{ height: "50px", width: "50px", borderRadius: "50%" }}
             />
           </Typography>
 

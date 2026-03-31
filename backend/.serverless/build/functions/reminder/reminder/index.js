@@ -2,7 +2,7 @@
 import { ScanCommand, UpdateCommand, GetCommand } from "@aws-sdk/lib-dynamodb";
 import nodemailer from "nodemailer";
 
-// config/dj.ts
+// config/db.ts
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 var client = new DynamoDBClient({ region: "eu-north-1" });
 
@@ -58,7 +58,7 @@ var reminder = async () => {
         from: process.env.GMAIL_USER,
         to: email,
         subject: `Reminder: ${item.title || "Application"}`,
-        text: `P\xE5minnelse f\xF6r ${item.title || "din ans\xF6kan"} med datum ${item.reminderDate}.`
+        text: `Reminder for the application ${item.title || "din ans\xF6kan"}. The reminder was set for ${item.reminderDate}.`
       });
       console.log("Mail result:", JSON.stringify(mailResult, null, 2));
       await client.send(

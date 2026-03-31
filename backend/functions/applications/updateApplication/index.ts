@@ -1,3 +1,4 @@
+import { updateApplicationSchema } from "./../../../middlewares/schemas/updateApplicationSchema";
 import middy from "@middy/core";
 import httpJsonBodyParser from "@middy/http-json-body-parser";
 import { UpdateCommand, GetCommand } from "@aws-sdk/lib-dynamodb";
@@ -5,6 +6,8 @@ import { DeleteObjectsCommand } from "@aws-sdk/client-s3";
 import { checkAuth } from "../../../middlewares/auth/checkAuth";
 import { client } from "../../../config/db";
 import { s3 } from "../../../config/s3Files";
+import { transpileSchema } from "@middy/validator/transpile";
+import validator from "@middy/validator";
 
 const BUCKET_NAME = "my-app-files-123xyz-136191772737-eu-north-1-an";
 
@@ -139,14 +142,34 @@ const updateApplication = async (event) => {
 
 export const handler = middy(updateApplication)
   .use(httpJsonBodyParser())
+  .use(validator({ eventSchema: transpileSchema(updateApplicationSchema) }))
   .use(checkAuth())
   .onError((request) => {
+    const message = request.error?.message || "Something went wrong";
+
+    const authErrors = [
+      "Missing Authorization header",
+      "Invalid Authorization format",
+      "Missing token",
+      "Unauthorized",
+    ];
+
+    const validationDetails = request.error?.cause?.data || null;
+    const isValidationError =
+      message === "Event object failed validation" || !!validationDetails;
+    const isAuthError = authErrors.includes(message);
+
+    let statusCode = 500;
+
+    if (isValidationError) statusCode = 400;
+    else if (isAuthError) statusCode = 401;
+
     request.response = {
-      statusCode: 400,
+      statusCode,
       body: JSON.stringify({
         success: false,
-        message: "Failed to update application",
-        details: request.error?.details || request.error?.message,
+        message: isValidationError ? "Input validation failed" : message,
+        details: validationDetails,
       }),
     };
   });
