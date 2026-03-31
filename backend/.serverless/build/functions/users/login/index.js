@@ -10345,8 +10345,7 @@ var SignJWT = class {
 // services/users/userService.ts
 import {
   GetItemCommand,
-  QueryCommand,
-  ScanCommand
+  QueryCommand
 } from "@aws-sdk/client-dynamodb";
 
 // config/db.ts
@@ -12841,12 +12840,22 @@ var validator_default = validatorMiddleware;
 var loginHandler = async (event) => {
   const { username, password } = event.body;
   const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify({
+        success: false,
+        message: "JWT secret is not configured"
+      })
+    };
+  }
   try {
     const user = await findUser(username);
     console.log("USER!!", user);
     if (!user) {
       return {
         statusCode: 401,
+        success: false,
         body: JSON.stringify({ message: "wrong credentials" })
       };
     }
@@ -12854,6 +12863,7 @@ var loginHandler = async (event) => {
     if (!matchedPassword) {
       return {
         statusCode: 401,
+        success: false,
         body: JSON.stringify({ message: "wrong credentials" })
       };
     }
@@ -12875,6 +12885,7 @@ var loginHandler = async (event) => {
     console.error(err);
     return {
       statusCode: 500,
+      success: false,
       body: JSON.stringify({ message: "Internal server error" })
     };
   }

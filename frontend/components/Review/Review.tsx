@@ -1,7 +1,9 @@
 import { Box, Typography } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
+import { useTheme } from "@mui/material/styles";
 
 const Review = ({ review }) => {
+  const theme = useTheme();
   if (!review) return null;
 
   const rating = Number(review.rating?.N || 0);
@@ -13,7 +15,8 @@ const Review = ({ review }) => {
   return (
     <Box
       sx={{
-        width: 500,
+        width: "80%",
+        minWidth: 0,
         p: 2.5,
         borderRadius: 2,
         bgcolor: "#dad6d645",
@@ -21,6 +24,7 @@ const Review = ({ review }) => {
         display: "flex",
         flexDirection: "column",
         gap: 1.5,
+        boxSizing: "border-box",
       }}
     >
       {/* Header */}
@@ -64,7 +68,13 @@ const Review = ({ review }) => {
           {/* Stars */}
           <Box sx={{ display: "flex", mt: 0.3 }}>
             {[...Array(rating)].map((_, i) => (
-              <StarIcon key={i} sx={{ color: "#FFD700", fontSize: 18 }} />
+              <StarIcon
+                key={i}
+                sx={{
+                  color: theme.palette.primary.main,
+                  fontSize: 20,
+                }}
+              />
             ))}
           </Box>
         </Box>

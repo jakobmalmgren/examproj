@@ -60,26 +60,6 @@ const MyApplicationCard = ({ data, onDelete, setRefreshKey }) => {
           display: "flex",
           flexDirection: "column",
           gap: 1.5,
-
-          // 👇 scrollbar styling
-          "&::-webkit-scrollbar": {
-            width: "8px",
-          },
-          "&::-webkit-scrollbar-track": {
-            background: "#e0e0e0",
-            borderRadius: "10px",
-          },
-          "&::-webkit-scrollbar-thumb": {
-            backgroundColor: "#000",
-            borderRadius: "10px",
-          },
-          "&::-webkit-scrollbar-thumb:hover": {
-            backgroundColor: "#333",
-          },
-
-          // Firefox
-          scrollbarColor: "#000 #e0e0e0",
-          scrollbarWidth: "thin",
         }}
       >
         <Typography sx={{ fontSize: "40px" }}>{priorityEmoji}</Typography>

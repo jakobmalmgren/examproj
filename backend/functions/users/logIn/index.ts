@@ -11,6 +11,16 @@ const loginHandler = async (event) => {
   const { username, password } = event.body;
   const secret = process.env.JWT_SECRET;
 
+  if (!secret) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify({
+        success: false,
+        message: "JWT secret is not configured",
+      }),
+    };
+  }
+
   try {
     const user = await findUser(username);
     console.log("USER!!", user);
@@ -18,6 +28,7 @@ const loginHandler = async (event) => {
     if (!user) {
       return {
         statusCode: 401,
+        success: false,
         body: JSON.stringify({ message: "wrong credentials" }),
       };
     }
@@ -26,6 +37,7 @@ const loginHandler = async (event) => {
     if (!matchedPassword) {
       return {
         statusCode: 401,
+        success: false,
         body: JSON.stringify({ message: "wrong credentials" }),
       };
     }
@@ -52,6 +64,7 @@ const loginHandler = async (event) => {
     console.error(err);
     return {
       statusCode: 500,
+      success: false,
       body: JSON.stringify({ message: "Internal server error" }),
     };
   }

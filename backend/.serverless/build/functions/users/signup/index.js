@@ -10726,8 +10726,7 @@ var hashPassword = async (password) => {
 // services/users/userService.ts
 import {
   GetItemCommand,
-  QueryCommand,
-  ScanCommand
+  QueryCommand
 } from "@aws-sdk/client-dynamodb";
 
 // config/db.ts
@@ -10759,23 +10758,23 @@ var checkIfUsernameExists = async (username) => {
 };
 var checkEmailExists = async (email) => {
   try {
-    const command = new ScanCommand({
+    const normalizedEmail = email.trim().toLowerCase();
+    const command = new QueryCommand({
       TableName: "ApplicationsTable",
-      FilterExpression: "email = :email",
+      IndexName: "email-index",
+      // 🔥 viktigt!
+      KeyConditionExpression: "email = :email",
       ExpressionAttributeValues: {
-        ":email": { S: email }
+        ":email": { S: normalizedEmail }
       },
       Limit: 1
     });
     const result = await client.send(command);
-    const count = result.Count ?? 0;
-    if (count > 0) {
-      return true;
-    } else {
-      return false;
-    }
+    console.log("GSI result", result);
+    return (result.Count ?? 0) > 0;
   } catch (error) {
     console.log(error);
+    return false;
   }
 };
 
@@ -11853,6 +11852,7 @@ var signUpHandler = async (event) => {
   if (password !== confirmPassword) {
     return {
       statusCode: 400,
+      success: false,
       body: JSON.stringify({ message: "Passwords do not match" })
     };
   }
@@ -11861,6 +11861,7 @@ var signUpHandler = async (event) => {
     if (usernameExists) {
       return {
         statusCode: 409,
+        success: false,
         body: JSON.stringify({ message: "Username already exists" })
       };
     }
@@ -11868,9 +11869,11 @@ var signUpHandler = async (event) => {
     if (EmailExists) {
       return {
         statusCode: 409,
+        success: false,
         body: JSON.stringify({ message: "Email already exists" })
       };
     }
+    console.log("EmailExists", EmailExists);
     const hashedPassword = await hashPassword(password);
     const putCommand = new PutItemCommand({
       TableName: "ApplicationsTable",
@@ -11886,6 +11889,7 @@ var signUpHandler = async (event) => {
     await client.send(putCommand);
     return {
       statusCode: 201,
+      success: true,
       body: JSON.stringify({ message: "Account created successfully" })
     };
   } catch (err) {
