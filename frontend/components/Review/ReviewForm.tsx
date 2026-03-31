@@ -142,6 +142,9 @@ const ReviewForm = ({ open }) => {
             rating: newValue ?? 0,
           }));
         }}
+        sx={{
+          color: "primary.main",
+        }}
       />
 
       <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>

@@ -1,8 +1,4 @@
-import {
-  GetItemCommand,
-  QueryCommand,
-  ScanCommand,
-} from "@aws-sdk/client-dynamodb";
+import { GetItemCommand, QueryCommand } from "@aws-sdk/client-dynamodb";
 import { client } from "../../config/db";
 
 export const checkIfUsernameExists = async (username: string) => {
@@ -32,24 +28,25 @@ export const checkIfUsernameExists = async (username: string) => {
 
 export const checkEmailExists = async (email: string) => {
   try {
-    const command = new ScanCommand({
+    const normalizedEmail = email.trim().toLowerCase();
+
+    const command = new QueryCommand({
       TableName: "ApplicationsTable",
-      FilterExpression: "email = :email",
+      IndexName: "email-index", // 🔥 viktigt!
+      KeyConditionExpression: "email = :email",
       ExpressionAttributeValues: {
-        ":email": { S: email },
+        ":email": { S: normalizedEmail },
       },
       Limit: 1,
     });
 
     const result = await client.send(command);
-    const count = result.Count ?? 0;
-    if (count > 0) {
-      return true;
-    } else {
-      return false;
-    }
+    console.log("GSI result", result);
+
+    return (result.Count ?? 0) > 0;
   } catch (error) {
     console.log(error);
+    return false;
   }
 };
 export const findUser = async (username: string) => {
@@ -62,7 +59,7 @@ export const findUser = async (username: string) => {
       },
     });
     const result = await client.send(command);
-    console.log("RESSUUULLT!!!!!!!!!!!!!!", result);
+
     return result.Item;
   } catch (error) {
     console.error(error);

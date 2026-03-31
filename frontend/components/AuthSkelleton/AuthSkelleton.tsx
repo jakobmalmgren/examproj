@@ -19,12 +19,29 @@ const AuthSkelleton = ({
 
   return (
     <div className="authSkelleton">
-      <h1
+      {/* <h1
         className="authSkelleton__header"
         style={{ color: theme.palette.primary.main }}
       >
         {title}
-      </h1>
+      </h1> */}
+
+      <Typography
+        style={{ color: theme.palette.primary.main }}
+        sx={{
+          fontSize: {
+            xs: "20px",
+            sm: "20px",
+            md: "25px",
+            mb: "2",
+          },
+
+          fontWeight: 600,
+          mb: 2, // ✅ här
+        }}
+      >
+        {title}
+      </Typography>
 
       <Box
         component="form"

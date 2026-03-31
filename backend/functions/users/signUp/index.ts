@@ -16,6 +16,7 @@ const signUpHandler = async (event) => {
   if (password !== confirmPassword) {
     return {
       statusCode: 400,
+      success: false,
       body: JSON.stringify({ message: "Passwords do not match" }),
     };
   }
@@ -26,6 +27,7 @@ const signUpHandler = async (event) => {
     if (usernameExists) {
       return {
         statusCode: 409,
+        success: false,
         body: JSON.stringify({ message: "Username already exists" }),
       };
     }
@@ -34,9 +36,12 @@ const signUpHandler = async (event) => {
     if (EmailExists) {
       return {
         statusCode: 409,
+        success: false,
         body: JSON.stringify({ message: "Email already exists" }),
       };
     }
+
+    console.log("EmailExists", EmailExists);
 
     const hashedPassword = await hashPassword(password);
 
@@ -56,6 +61,7 @@ const signUpHandler = async (event) => {
 
     return {
       statusCode: 201,
+      success: true,
       body: JSON.stringify({ message: "Account created successfully" }),
     };
   } catch (err) {

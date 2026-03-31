@@ -1,3 +1,386 @@
+// import { BarChart } from "@mui/x-charts/BarChart";
+// import { Box, Typography, useTheme } from "@mui/material";
+// import { useEffect, useMemo, useState } from "react";
+// import { readApplication } from "../../apis/readApplication";
+
+// const categories = [
+//   "IT & Tech",
+//   "Education",
+//   "Healthcare",
+//   "Finance",
+//   "Marketing",
+//   "Engineering",
+//   "Support",
+//   "Other",
+// ];
+
+// const StatisticReports = () => {
+//   const theme = useTheme();
+//   const [applications, setApplications] = useState([]);
+
+//   useEffect(() => {
+//     const fetchApplications = async () => {
+//       const result = await readApplication();
+//       console.log("applications result", result);
+
+//       if (result.success) {
+//         setApplications(result.data || []);
+//       } else {
+//         console.error(result.message);
+//       }
+//     };
+
+//     fetchApplications();
+//   }, []);
+
+//   const chartData = useMemo(() => {
+//     const categoryCount = Object.fromEntries(categories.map((cat) => [cat, 0]));
+
+//     applications.forEach((app) => {
+//       const cat = app.category || "Other";
+
+//       if (categoryCount[cat] !== undefined) {
+//         categoryCount[cat] += 1;
+//       } else {
+//         categoryCount["Other"] += 1;
+//       }
+//     });
+
+//     return categories.map((cat) => categoryCount[cat]);
+//   }, [applications]);
+
+//   const priorityByCategory = useMemo(() => {
+//     const counts = Object.fromEntries(
+//       categories.map((cat) => [
+//         cat,
+//         {
+//           1: 0,
+//           2: 0,
+//           3: 0,
+//         },
+//       ]),
+//     );
+
+//     applications.forEach((app) => {
+//       const cat = app.category || "Other";
+//       const priority = Number(app.priority);
+
+//       if (!counts[cat]) {
+//         counts["Other"][3] += 1;
+//         return;
+//       }
+
+//       if (priority === 1 || priority === 2 || priority === 3) {
+//         counts[cat][priority] += 1;
+//       }
+//     });
+
+//     return {
+//       priority1: categories.map((cat) => counts[cat][1]),
+//       priority2: categories.map((cat) => counts[cat][2]),
+//       priority3: categories.map((cat) => counts[cat][3]),
+//     };
+//   }, [applications]);
+
+//   return (
+//     <Box
+//       sx={{
+//         width: "100%",
+//         display: "flex",
+//         justifyContent: "center", // ✅ centrerar allt
+//         pt: 6,
+//       }}
+//     >
+//       <Box
+//         sx={{
+//           width: "100%",
+//           height: "100%", // ✅ viktigt
+//           display: "flex",
+//           justifyContent: "center", // horisontellt
+//           alignItems: "center", // vertikalt 👈 DETTA saknas
+//         }}
+//       >
+//         {/* Chart 1 */}
+//         <Box
+//           sx={{
+//             width: "480px", // ✅ gör att de kan ligga bredvid varandra
+//             maxWidth: "100%", // ✅ responsiv fallback
+//             bgcolor: "white", // 🔥 snyggare card look (valfri)
+//             borderRadius: 2,
+//             p: 2,
+//             boxShadow: 2,
+//           }}
+//         >
+//           <Typography variant="subtitle1" gutterBottom textAlign="center">
+//             Applications by Category
+//           </Typography>
+
+//           <BarChart
+//             xAxis={[
+//               {
+//                 scaleType: "band",
+//                 data: categories,
+//                 tickLabelInterval: (_, index) => index % 3 === 0,
+//               },
+//             ]}
+//             series={[
+//               {
+//                 data: chartData,
+//                 label: "Applications",
+//                 color: theme.palette.primary.main,
+//               },
+//             ]}
+//             height={300}
+//           />
+//         </Box>
+
+//         {/* Chart 2 */}
+//         <Box
+//           sx={{
+//             width: "480px",
+//             maxWidth: "100%",
+//             bgcolor: "white",
+//             borderRadius: 2,
+//             p: 2,
+//             boxShadow: 2,
+//           }}
+//         >
+//           <Typography variant="subtitle1" gutterBottom textAlign="center">
+//             Priority Distribution by Category
+//           </Typography>
+
+//           <BarChart
+//             xAxis={[
+//               {
+//                 scaleType: "band",
+//                 data: categories,
+//                 tickLabelInterval: (_, index) => index % 3 === 0,
+//               },
+//             ]}
+//             series={[
+//               {
+//                 data: priorityByCategory.priority1,
+//                 label: "Priority 1",
+//                 color: "#f44336",
+//               },
+//               {
+//                 data: priorityByCategory.priority2,
+//                 label: "Priority 2",
+//                 color: "#ff9800",
+//               },
+//               {
+//                 data: priorityByCategory.priority3,
+//                 label: "Priority 3",
+//                 color: "#ffc107",
+//               },
+//             ]}
+//             height={300}
+//           />
+//         </Box>
+//       </Box>
+//     </Box>
+//   );
+// };
+
+// export default StatisticReports;
+// import { BarChart } from "@mui/x-charts/BarChart";
+// import { Box, Typography, useTheme } from "@mui/material";
+// import { useEffect, useMemo, useState } from "react";
+// import { readApplication } from "../../apis/readApplication";
+
+// const categories = [
+//   "IT & Tech",
+//   "Education",
+//   "Healthcare",
+//   "Finance",
+//   "Marketing",
+//   "Engineering",
+//   "Support",
+//   "Other",
+// ];
+
+// const StatisticReports = () => {
+//   const theme = useTheme();
+//   const [applications, setApplications] = useState([]);
+
+//   useEffect(() => {
+//     const fetchApplications = async () => {
+//       const result = await readApplication();
+//       console.log("applications result", result);
+
+//       if (result.success) {
+//         setApplications(result.data || []);
+//       } else {
+//         console.error(result.message);
+//       }
+//     };
+
+//     fetchApplications();
+//   }, []);
+
+//   const chartData = useMemo(() => {
+//     const categoryCount = Object.fromEntries(categories.map((cat) => [cat, 0]));
+
+//     applications.forEach((app) => {
+//       const cat = app.category || "Other";
+
+//       if (categoryCount[cat] !== undefined) {
+//         categoryCount[cat] += 1;
+//       } else {
+//         categoryCount["Other"] += 1;
+//       }
+//     });
+
+//     return categories.map((cat) => categoryCount[cat]);
+//   }, [applications]);
+
+//   const priorityByCategory = useMemo(() => {
+//     const counts = Object.fromEntries(
+//       categories.map((cat) => [
+//         cat,
+//         {
+//           1: 0,
+//           2: 0,
+//           3: 0,
+//         },
+//       ]),
+//     );
+
+//     applications.forEach((app) => {
+//       const cat = app.category || "Other";
+//       const priority = Number(app.priority);
+
+//       if (!counts[cat]) {
+//         counts["Other"][3] += 1;
+//         return;
+//       }
+
+//       if (priority === 1 || priority === 2 || priority === 3) {
+//         counts[cat][priority] += 1;
+//       }
+//     });
+
+//     return {
+//       priority1: categories.map((cat) => counts[cat][1]),
+//       priority2: categories.map((cat) => counts[cat][2]),
+//       priority3: categories.map((cat) => counts[cat][3]),
+//     };
+//   }, [applications]);
+
+//   return (
+//     <Box
+//       sx={{
+//         width: "100%",
+//         display: "flex",
+//         justifyContent: "center",
+//         px: { xs: 2, sm: 3, md: 4 },
+//         py: { xs: 3, md: 6 },
+//       }}
+//     >
+//       <Box
+//         sx={{
+//           width: "100%",
+//           maxWidth: "1200px",
+//           display: "flex",
+//           flexDirection: { xs: "column", lg: "row" },
+//           justifyContent: "center",
+//           alignItems: "center",
+//           gap: { xs: 3, md: 4 },
+//         }}
+//       >
+//         {/* Chart 1 */}
+//         <Box
+//           sx={{
+//             width: "100%",
+//             maxWidth: { xs: "100%", sm: "700px", lg: "520px" },
+//             bgcolor: "white",
+//             borderRadius: 2,
+//             p: { xs: 1.5, sm: 2, md: 3 },
+//             boxShadow: 2,
+//             display: "flex",
+//             flexDirection: "column",
+//             alignItems: "center",
+//           }}
+//         >
+//           <Typography variant="subtitle1" gutterBottom textAlign="center">
+//             Applications by Category
+//           </Typography>
+
+//           <Box sx={{ width: "100%" }}>
+//             <BarChart
+//               xAxis={[
+//                 {
+//                   scaleType: "band",
+//                   data: categories,
+//                   tickLabelInterval: (_, index) => index % 2 === 0,
+//                 },
+//               ]}
+//               series={[
+//                 {
+//                   data: chartData,
+//                   label: "Applications",
+//                   color: theme.palette.primary.main,
+//                 },
+//               ]}
+//               height={280}
+//             />
+//           </Box>
+//         </Box>
+
+//         {/* Chart 2 */}
+//         <Box
+//           sx={{
+//             width: "100%",
+//             maxWidth: { xs: "100%", sm: "700px", lg: "520px" },
+//             bgcolor: "white",
+//             borderRadius: 2,
+//             p: { xs: 1.5, sm: 2, md: 3 },
+//             boxShadow: 2,
+//             display: "flex",
+//             flexDirection: "column",
+//             alignItems: "center",
+//           }}
+//         >
+//           <Typography variant="subtitle1" gutterBottom textAlign="center">
+//             Priority Distribution by Category
+//           </Typography>
+
+//           <Box sx={{ width: "100%" }}>
+//             <BarChart
+//               xAxis={[
+//                 {
+//                   scaleType: "band",
+//                   data: categories,
+//                   tickLabelInterval: (_, index) => index % 2 === 0,
+//                 },
+//               ]}
+//               series={[
+//                 {
+//                   data: priorityByCategory.priority1,
+//                   label: "Priority 1",
+//                   color: "#f44336",
+//                 },
+//                 {
+//                   data: priorityByCategory.priority2,
+//                   label: "Priority 2",
+//                   color: "#ff9800",
+//                 },
+//                 {
+//                   data: priorityByCategory.priority3,
+//                   label: "Priority 3",
+//                   color: "#ffc107",
+//                 },
+//               ]}
+//               height={280}
+//             />
+//           </Box>
+//         </Box>
+//       </Box>
+//     </Box>
+//   );
+// };
+
+// export default StatisticReports;
 import { BarChart } from "@mui/x-charts/BarChart";
 import { Box, Typography, useTheme } from "@mui/material";
 import { useEffect, useMemo, useState } from "react";
@@ -21,7 +404,6 @@ const StatisticReports = () => {
   useEffect(() => {
     const fetchApplications = async () => {
       const result = await readApplication();
-      console.log("applications result", result);
 
       if (result.success) {
         setApplications(result.data || []);
@@ -51,14 +433,7 @@ const StatisticReports = () => {
 
   const priorityByCategory = useMemo(() => {
     const counts = Object.fromEntries(
-      categories.map((cat) => [
-        cat,
-        {
-          1: 0,
-          2: 0,
-          3: 0,
-        },
-      ]),
+      categories.map((cat) => [cat, { 1: 0, 2: 0, 3: 0 }]),
     );
 
     applications.forEach((app) => {
@@ -86,28 +461,36 @@ const StatisticReports = () => {
     <Box
       sx={{
         width: "100%",
+        maxWidth: "1200px",
+        mx: "auto",
+        minHeight: {
+          xs: "calc(100vh - 56px - 80px)",
+          sm: "calc(100vh - 64px - 80px)",
+        },
         display: "flex",
-        justifyContent: "center", // ✅ centrerar allt
-        pt: 6,
+        alignItems: "center",
+        justifyContent: "center",
+        py: { xs: 3, sm: 4, md: 6 },
+        px: { xs: 2, sm: 3 },
       }}
     >
       <Box
         sx={{
           width: "100%",
-          height: "100%", // ✅ viktigt
           display: "flex",
-          justifyContent: "center", // horisontellt
-          alignItems: "center", // vertikalt 👈 DETTA saknas
+          flexDirection: { xs: "column", xl: "row" },
+          justifyContent: "center",
+          alignItems: "stretch",
+          gap: { xs: 3, md: 4 },
         }}
       >
-        {/* Chart 1 */}
         <Box
           sx={{
-            width: "480px", // ✅ gör att de kan ligga bredvid varandra
-            maxWidth: "100%", // ✅ responsiv fallback
-            bgcolor: "white", // 🔥 snyggare card look (valfri)
+            flex: 1,
+            minWidth: 0,
+            bgcolor: "white",
             borderRadius: 2,
-            p: 2,
+            p: { xs: 1.5, sm: 2, md: 3 },
             boxShadow: 2,
           }}
         >
@@ -120,7 +503,7 @@ const StatisticReports = () => {
               {
                 scaleType: "band",
                 data: categories,
-                tickLabelInterval: (_, index) => index % 3 === 0,
+                tickLabelInterval: (_, index) => index % 2 === 0,
               },
             ]}
             series={[
@@ -134,14 +517,13 @@ const StatisticReports = () => {
           />
         </Box>
 
-        {/* Chart 2 */}
         <Box
           sx={{
-            width: "480px",
-            maxWidth: "100%",
+            flex: 1,
+            minWidth: 0,
             bgcolor: "white",
             borderRadius: 2,
-            p: 2,
+            p: { xs: 1.5, sm: 2, md: 3 },
             boxShadow: 2,
           }}
         >
@@ -154,7 +536,7 @@ const StatisticReports = () => {
               {
                 scaleType: "band",
                 data: categories,
-                tickLabelInterval: (_, index) => index % 3 === 0,
+                tickLabelInterval: (_, index) => index % 2 === 0,
               },
             ]}
             series={[

@@ -9036,10 +9036,6 @@ var updateApplicationSchema = {
         reminderDate: {
           anyOf: [{ type: "string", minLength: 1 }, { type: "null" }]
         },
-        // applicationDate: {
-        //   type: "string",
-        //   minLength: 1,
-        // },
         applicationDate: {
           anyOf: [{ type: "string" }, { type: "null" }]
         },
