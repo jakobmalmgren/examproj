@@ -50,6 +50,9 @@ const MyApplicationCard = ({ data, onDelete, setRefreshKey }) => {
         width: 350,
         maxHeight: 400,
         bgcolor: "#e3f2fd",
+        transform: {
+          xs: "scale(0.9)",
+        },
       }}
     >
       <Box
