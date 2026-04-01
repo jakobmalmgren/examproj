@@ -291,7 +291,6 @@ const MainLayout = ({ setIsLoggedIn }) => {
           justifyContent: "center",
           px: 2,
           textAlign: "center",
-          borderTop: "1px solid #e0e0e0",
           bgcolor: "white",
           zIndex: 1200,
         }}
