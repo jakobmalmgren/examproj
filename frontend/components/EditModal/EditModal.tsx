@@ -330,6 +330,7 @@ const EditModal = ({
       };
 
       const res = await updateApplication(id, cleanedForm);
+      console.log("ressiii", res);
 
       if (!res.success) {
         if (res.status === 400 || res.status === 404) {
@@ -348,10 +349,10 @@ const EditModal = ({
         severity: "success",
       });
 
-      setTimeout(() => {
-        setRefreshKey((prev) => prev + 1);
-        onClose();
-      }, 1200);
+      // setTimeout(() => {
+      //   setRefreshKey((prev) => prev + 1);
+      //   onClose();
+      // }, 1200);
     } catch (err) {
       console.log("Network error while updating application:", err);
     }
