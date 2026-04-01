@@ -10724,10 +10724,7 @@ var hashPassword = async (password) => {
 };
 
 // services/users/userService.ts
-import {
-  GetItemCommand,
-  QueryCommand
-} from "@aws-sdk/client-dynamodb";
+import { GetItemCommand, QueryCommand } from "@aws-sdk/client-dynamodb";
 
 // config/db.ts
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
