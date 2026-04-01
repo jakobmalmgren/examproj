@@ -2,17 +2,6 @@
   font-size: 13px;
 }
 
-.leaflet-tooltip::before {
-  display: none;
-}
-
-.leaflet-tooltip {
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-}
-
 .leaflet-container {
   background: transparent;
 }

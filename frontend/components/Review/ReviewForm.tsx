@@ -121,6 +121,7 @@ const ReviewForm = ({ open }) => {
         gap: 2,
         borderRadius: 2,
         bgcolor: "#e3f2fd",
+        transform: { xs: "scale(0.8)", sm: "scale(1)" },
       }}
     >
       <Typography

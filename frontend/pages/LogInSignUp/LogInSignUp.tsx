@@ -1,6 +1,6 @@
 import Carousel from "../../components/Carousel/Carousel";
 import { Outlet } from "react-router-dom";
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 
 const LogInSignUp = () => {
   return (
@@ -104,32 +104,7 @@ const LogInSignUp = () => {
                 textAlign: "center",
                 px: { md: 2, lg: 4 },
               }}
-            >
-              {/* <Typography
-                sx={{
-                  fontSize: { md: "28px", lg: "36px", xl: "42px" },
-                  fontWeight: 700,
-                  lineHeight: 1.2,
-                  mb: 2,
-                  color: "primary.main",
-                }}
-              >
-                Track. Apply. Succeed.
-              </Typography>
-
-              <Typography
-                sx={{
-                  fontSize: { md: "16px", lg: "18px" },
-                  opacity: 0.85,
-                  maxWidth: "500px",
-                  mx: "auto",
-                  color: "primary.main",
-                }}
-              >
-                Manage all your applications in one place and stay on top of
-                every opportunity.
-              </Typography> */}
-            </Box>
+            ></Box>
             <Carousel />
           </Box>
         </Box>

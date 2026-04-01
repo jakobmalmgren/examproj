@@ -19,13 +19,6 @@ const AuthSkelleton = ({
 
   return (
     <div className="authSkelleton">
-      {/* <h1
-        className="authSkelleton__header"
-        style={{ color: theme.palette.primary.main }}
-      >
-        {title}
-      </h1> */}
-
       <Typography
         style={{ color: theme.palette.primary.main }}
         sx={{

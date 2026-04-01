@@ -25,6 +25,8 @@ const Review = ({ review }) => {
         flexDirection: "column",
         gap: 1.5,
         boxSizing: "border-box",
+
+        transform: { xs: "scale(0.8)" },
       }}
     >
       {/* Header */}

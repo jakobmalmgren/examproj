@@ -10343,10 +10343,7 @@ var SignJWT = class {
 };
 
 // services/users/userService.ts
-import {
-  GetItemCommand,
-  QueryCommand
-} from "@aws-sdk/client-dynamodb";
+import { GetItemCommand, QueryCommand } from "@aws-sdk/client-dynamodb";
 
 // config/db.ts
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
@@ -10363,7 +10360,6 @@ var findUser = async (username) => {
       }
     });
     const result = await client.send(command);
-    console.log("RESSUUULLT!!!!!!!!!!!!!!", result);
     return result.Item;
   } catch (error) {
     console.error(error);
