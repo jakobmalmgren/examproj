@@ -279,7 +279,7 @@ const MainLayout = ({ setIsLoggedIn }) => {
         <Outlet />
       </Box>
 
-      <Box
+      {/* <Box
         sx={{
           position: "fixed",
           bottom: 0,
@@ -294,7 +294,7 @@ const MainLayout = ({ setIsLoggedIn }) => {
           bgcolor: "white",
           zIndex: 1200,
         }}
-      ></Box>
+      ></Box> */}
     </Box>
   );
 };
