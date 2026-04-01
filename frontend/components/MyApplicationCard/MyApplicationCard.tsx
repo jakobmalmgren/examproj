@@ -47,11 +47,13 @@ const MyApplicationCard = ({ data, onDelete, setRefreshKey }) => {
         borderRadius: 2,
         display: "flex",
         flexDirection: "column",
-        width: 350,
+        // width: 350,
         maxHeight: 400,
         bgcolor: "#e3f2fd",
-        transform: {
-          xs: "scale(0.9)",
+        width: {
+          xs: 300, // mobil
+          sm: 350, // small screens
+          md: 350, // desktop (valfritt)
         },
       }}
     >

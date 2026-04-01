@@ -76,7 +76,6 @@ const MyApplications = () => {
         setLoading(true);
 
         const res = await readApplication();
-        console.log("READAPPLICATIONS", res);
 
         if (!res.success) {
           console.log(res.message || "Failed to fetch applications");
