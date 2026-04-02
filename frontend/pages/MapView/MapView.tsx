@@ -6,11 +6,13 @@ import L from "leaflet";
 import { useEffect, useMemo, useState } from "react";
 import { readApplication } from "../../apis/readApplication";
 import { Box } from "@mui/material";
+import type { Application } from "../../sharedTypes/types";
+import type { LatLngExpression, LatLngBoundsExpression } from "leaflet";
 
 const pinImage = "/images/pinflat_105979.svg";
 
 function MapView() {
-  const [jobs, setJobs] = useState([]);
+  const [jobs, setJobs] = useState<Application[]>([]);
   const theme = useTheme();
 
   const customIcon = L.icon({
@@ -34,7 +36,8 @@ function MapView() {
   }, []);
 
   const jobsWithOffset = useMemo(() => {
-    const seenPositions = {};
+    // const seenPositions = {};
+    const seenPositions: { [key: string]: number } = {};
 
     return jobs
       .filter(
@@ -61,7 +64,7 @@ function MapView() {
       });
   }, [jobs]);
 
-  const center = useMemo(() => {
+  const center = useMemo((): LatLngExpression => {
     if (jobsWithOffset.length === 0) return [55.6, 13.0];
 
     const avgLat =
@@ -74,6 +77,11 @@ function MapView() {
 
     return [avgLat, avgLng];
   }, [jobsWithOffset]);
+
+  const bounds: LatLngBoundsExpression = [
+    [-85, -180],
+    [85, 180],
+  ];
 
   return (
     <Box
@@ -90,10 +98,7 @@ function MapView() {
         zoom={5}
         minZoom={4}
         maxZoom={12}
-        maxBounds={[
-          [-85, -180],
-          [85, 180],
-        ]}
+        maxBounds={bounds}
         maxBoundsViscosity={1.0}
         style={{
           height: "100%",

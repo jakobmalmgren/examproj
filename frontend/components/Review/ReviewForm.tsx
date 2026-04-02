@@ -67,6 +67,8 @@ const ReviewForm = ({ open }) => {
 
     try {
       const result = await postReview(reviewForm);
+      console.log("fooorm", reviewForm);
+
       setToggleSwitch(false);
 
       if (!result.success) {

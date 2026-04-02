@@ -7,8 +7,9 @@ import { PutItemCommand } from "@aws-sdk/client-dynamodb";
 import { postReviewSchema } from "../../../middlewares/schemas/postReviewSchema";
 import { checkAuth } from "../../../middlewares/auth/checkAuth";
 import { v4 as uuidv4 } from "uuid";
+import { FormRequest } from "../../../backendTypes/backendTypes";
 
-const postReviewHandler = async (event) => {
+const postReviewHandler = async (event: FormRequest) => {
   const user = event.user;
 
   const username = user.username.S;
@@ -59,7 +60,8 @@ export const handler = middy(postReviewHandler)
       "Unauthorized",
     ];
 
-    const validationDetails = request.error?.cause?.data || null;
+    // const validationDetails = request.error?.cause?.data || null;
+    const validationDetails = (request.error as any)?.cause?.data || null;
     const isValidationError =
       message === "Event object failed validation" || !!validationDetails;
     const isAuthError = authErrors.includes(message);

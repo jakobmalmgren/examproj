@@ -1,11 +1,13 @@
+import type { DeleteApplicationEvent } from "./../../../backendTypes/backendTypes";
 import middy from "@middy/core";
 import { client } from "../../../config/db";
 import { checkAuth } from "../../../middlewares/auth/checkAuth";
 import { DeleteCommand } from "@aws-sdk/lib-dynamodb";
 
-const deleteApplication = async (event) => {
+const deleteApplication = async (event: DeleteApplicationEvent) => {
   const userName = event.user.username.S;
   const id = event.pathParameters.id;
+  console.log("EVENT", event);
 
   try {
     const command = new DeleteCommand({
@@ -25,12 +27,14 @@ const deleteApplication = async (event) => {
         message: "Application deleted succesfully",
       }),
     };
-  } catch (error) {
+  } catch (error: unknown) {
     return {
       statusCode: 500,
       body: JSON.stringify({
         success: false,
-        message: error.message,
+        // message: error.message,
+        message:
+          error instanceof Error ? error.message : "Something went wrong",
       }),
     };
   }
@@ -48,7 +52,7 @@ export const handler = middy(deleteApplication)
       "Unauthorized",
     ];
 
-    const validationDetails = request.error?.cause?.data || null;
+    const validationDetails = (request.error as any)?.cause?.data || null;
     const isValidationError =
       message === "Event object failed validation" || !!validationDetails;
     const isAuthError = authErrors.includes(message);

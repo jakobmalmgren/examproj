@@ -6,8 +6,9 @@ import { v4 as uuidv4 } from "uuid";
 import { transpileSchema } from "@middy/validator/transpile";
 import validator from "@middy/validator";
 import { PutItemCommand } from "@aws-sdk/client-dynamodb";
+import { CreateApplicationEvent } from "../../../backendTypes/backendTypes";
 import { createApplicationSchema } from "../../../middlewares/schemas/createApplicationSchema";
-const createApplication = async (event) => {
+const createApplication = async (event: CreateApplicationEvent) => {
   const {
     title,
     extraInfo,
@@ -85,12 +86,14 @@ const createApplication = async (event) => {
         message: "Application created successfully!",
       }),
     };
-  } catch (error) {
+  } catch (error: unknown) {
     return {
       statusCode: 500,
       body: JSON.stringify({
         success: false,
-        message: error.message,
+        // message: error.message,
+        message:
+          error instanceof Error ? error.message : "Something went wrong",
       }),
     };
   }
@@ -110,7 +113,7 @@ export const handler = middy(createApplication)
       "Unauthorized",
     ];
 
-    const validationDetails = request.error?.cause?.data || null;
+    const validationDetails = (request.error as any)?.cause?.data || null;
     const isValidationError =
       message === "Event object failed validation" || !!validationDetails;
     const isAuthError = authErrors.includes(message);

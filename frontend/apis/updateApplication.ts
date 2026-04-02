@@ -1,6 +1,11 @@
+import type { UpdateApplicationRequest } from "./../sharedTypes/types";
+
 const API_BASE_URL = "https://x7nm2264aj.execute-api.eu-north-1.amazonaws.com";
 
-export const updateApplication = async (id, data) => {
+export const updateApplication = async (
+  id: string,
+  data: UpdateApplicationRequest,
+) => {
   const token = localStorage.getItem("token");
 
   const response = await fetch(`${API_BASE_URL}/api/applications/${id}`, {

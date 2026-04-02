@@ -1293,6 +1293,7 @@ import { DeleteCommand } from "@aws-sdk/lib-dynamodb";
 var deleteApplication = async (event) => {
   const userName = event.user.username.S;
   const id = event.pathParameters.id;
+  console.log("EVENT", event);
   try {
     const command = new DeleteCommand({
       TableName: "ApplicationsTable",
@@ -1314,7 +1315,8 @@ var deleteApplication = async (event) => {
       statusCode: 500,
       body: JSON.stringify({
         success: false,
-        message: error.message
+        // message: error.message,
+        message: error instanceof Error ? error.message : "Something went wrong"
       })
     };
   }

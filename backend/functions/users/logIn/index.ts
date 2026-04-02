@@ -6,8 +6,9 @@ import { comparePassword } from "../../../utils/bcrypt/bcrypt.js";
 import { transpileSchema } from "@middy/validator/transpile";
 import { loginSchema } from "../../../middlewares/schemas/loginSchema.js";
 import validator from "@middy/validator";
+import { LoginEvent } from "../../../backendTypes/backendTypes.js";
 
-const loginHandler = async (event) => {
+const loginHandler = async (event: LoginEvent) => {
   const { username, password } = event.body;
   const secret = process.env.JWT_SECRET;
 
@@ -25,7 +26,15 @@ const loginHandler = async (event) => {
     const user = await findUser(username);
     console.log("USER!!", user);
 
-    if (!user) {
+    // if (!user) {
+    //   return {
+    //     statusCode: 401,
+    //     success: false,
+    //     body: JSON.stringify({ message: "wrong credentials" }),
+    //   };
+    // }
+
+    if (!user || !user.password?.S) {
       return {
         statusCode: 401,
         success: false,

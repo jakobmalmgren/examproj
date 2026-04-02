@@ -9,8 +9,9 @@ import middy from "@middy/core";
 import { transpileSchema } from "@middy/validator/transpile";
 import validator from "@middy/validator";
 import httpJsonBodyParser from "@middy/http-json-body-parser";
+import { SignupEvent } from "../../../backendTypes/backendTypes";
 import { signUpSchema } from "../../../middlewares/schemas/signUpSchema";
-const signUpHandler = async (event) => {
+const signUpHandler = async (event: SignupEvent) => {
   const { username, email, password, confirmPassword } = event.body;
 
   if (password !== confirmPassword) {
@@ -86,7 +87,8 @@ export const handler = middy(signUpHandler)
       "Unauthorized",
     ];
 
-    const validationDetails = request.error?.cause?.data || null;
+    // const validationDetails = request.error?.cause?.data || null;
+    const validationDetails = (request.error as any)?.cause?.data || null;
     const isValidationError =
       message === "Event object failed validation" || !!validationDetails;
     const isAuthError = authErrors.includes(message);

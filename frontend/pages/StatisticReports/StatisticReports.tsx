@@ -2,6 +2,7 @@ import { BarChart } from "@mui/x-charts/BarChart";
 import { Box, Typography, useTheme } from "@mui/material";
 import { useEffect, useMemo, useState } from "react";
 import { readApplication } from "../../apis/readApplication";
+import { Application } from "../../sharedTypes/types";
 
 const categories = [
   "IT & Tech",
@@ -35,7 +36,7 @@ const StatisticReports = () => {
   const chartData = useMemo(() => {
     const categoryCount = Object.fromEntries(categories.map((cat) => [cat, 0]));
 
-    applications.forEach((app) => {
+    applications.forEach((app: Application) => {
       const cat = app.category || "Other";
 
       if (categoryCount[cat] !== undefined) {
@@ -53,7 +54,7 @@ const StatisticReports = () => {
       categories.map((cat) => [cat, { 1: 0, 2: 0, 3: 0 }]),
     );
 
-    applications.forEach((app) => {
+    applications.forEach((app: Application) => {
       const cat = app.category || "Other";
       const priority = Number(app.priority);
 

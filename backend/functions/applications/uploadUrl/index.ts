@@ -5,11 +5,14 @@ import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { v4 as uuidv4 } from "uuid";
 import { s3 } from "../../../config/s3Files";
+import { UploadUrlEvent } from "../../../backendTypes/backendTypes";
 
 const BUCKET_NAME = "my-app-files-123xyz-136191772737-eu-north-1-an";
 
-const getUploadUrl = async (event) => {
+const getUploadUrl = async (event: UploadUrlEvent) => {
   const { fileName, fileType } = event.body;
+  console.log("hehehehehe", event);
+
   const user = event.user;
   const username = user.username.S;
 
@@ -36,12 +39,14 @@ const getUploadUrl = async (event) => {
         fileKey,
       }),
     };
-  } catch (error) {
+  } catch (error: unknown) {
     return {
       statusCode: 500,
       body: JSON.stringify({
         success: false,
-        message: error.message,
+        // message: error.message,
+        message:
+          error instanceof Error ? error.message : "Something went wrong",
       }),
     };
   }
@@ -60,7 +65,8 @@ export const handler = middy(getUploadUrl)
       "Unauthorized",
     ];
 
-    const validationDetails = request.error?.cause?.data || null;
+    // const validationDetails = request.error?.cause?.data || null;
+    const validationDetails = (request.error as any)?.cause?.data || null;
     const isValidationError =
       message === "Event object failed validation" || !!validationDetails;
     const isAuthError = authErrors.includes(message);

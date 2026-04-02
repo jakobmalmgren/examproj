@@ -1,4 +1,5 @@
 import { jwtVerify } from "jose";
+// import type { MiddlewareObj } from "@middy/core";
 
 export const checkAuth = () => {
   return {
