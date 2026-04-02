@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
-import { type AuthSkelletonProps } from "./types/types";
+import type { AuthSkelletonProps } from "../../frontendTypes/frontendTypes";
 import { useTheme } from "@mui/material/styles";
 import { CircularProgress } from "@mui/material";
 
@@ -30,7 +30,7 @@ const AuthSkelleton = ({
           },
 
           fontWeight: 600,
-          mb: 2, // ✅ här
+          mb: 2,
         }}
       >
         {title}

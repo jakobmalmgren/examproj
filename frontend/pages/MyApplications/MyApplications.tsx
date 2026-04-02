@@ -17,15 +17,16 @@ import InboxIcon from "@mui/icons-material/Inbox";
 import { deleteApplication } from "../../apis/deleteApplication";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { readApplication } from "../../apis/readApplication";
+import type { Application, SnackbarState } from "../../sharedTypes/types";
 
 const MyApplications = () => {
-  const [applications, setApplications] = useState([]);
+  const [applications, setApplications] = useState<Application[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshKey, setRefreshKey] = useState(0);
   const [priority, setPriority] = useState<string | null>(null);
   const [city, setCity] = useState("");
 
-  const [snackbar, setSnackbar] = useState({
+  const [snackbar, setSnackbar] = useState<SnackbarState>({
     open: false,
     message: "",
     severity: "success",
@@ -43,8 +44,9 @@ const MyApplications = () => {
     }
   };
 
-  const handleDeleteApplication = async (sk: string) => {
-    const id = sk.replace("APPLICATION#", "");
+  const handleDeleteApplication = async (id: string) => {
+    // const id = value.replace("APPLICATION#", "");
+    console.log("id", id);
 
     try {
       const result = await deleteApplication(id);
@@ -95,7 +97,7 @@ const MyApplications = () => {
     fetchApplications();
   }, [refreshKey]);
 
-  const filteredApplications = applications.filter((app) => {
+  const filteredApplications = applications.filter((app: Application) => {
     const matchesPriority =
       !priority ||
       (priority === "prio1" && Number(app.priority) === 1) ||

@@ -11370,8 +11370,9 @@ var updateApplication = async (event) => {
       statusCode: 500,
       body: JSON.stringify({
         success: false,
-        message: "Failed to update application",
-        error: error.message
+        // message: "Failed to update application",
+        // error: error.message,
+        message: error instanceof Error ? error.message : "Something went wrong"
       })
     };
   }

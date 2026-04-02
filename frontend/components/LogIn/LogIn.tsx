@@ -11,11 +11,15 @@ import { login } from "../../apis/auth";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import { useNavigate } from "react-router-dom";
+import type {
+  LogInProps,
+  SnackbarState,
+} from "../../frontendTypes/frontendTypes";
 
-const LogIn = ({ setIsLoggedIn }) => {
+const LogIn = ({ setIsLoggedIn }: LogInProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState({ username: "", password: "" });
-  const [snackbar, setSnackbar] = useState({
+  const [snackbar, setSnackbar] = useState<SnackbarState>({
     open: false,
     message: "",
     severity: "success",
@@ -56,7 +60,7 @@ const LogIn = ({ setIsLoggedIn }) => {
     } catch (err) {
       setSnackbar({
         open: true,
-        message: "Network error",
+        message: err instanceof Error ? err.message : "Network error",
         severity: "error",
       });
     } finally {

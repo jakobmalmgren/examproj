@@ -7,6 +7,13 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import dayjs, { Dayjs } from "dayjs";
 import { getUploadUrl } from "../../apis/getUploadUrl";
 import Snackbar from "@mui/material/Snackbar";
+import type {
+  CreateApplicationRequest,
+  LocationOption,
+  UploadFile,
+  GeoapifyFeature,
+  SnackbarState,
+} from "../../sharedTypes/types";
 
 import {
   Box,
@@ -35,20 +42,6 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 
 const GEOAPIFY_API_KEY = import.meta.env.VITE_GEOAPIFY_API_KEY;
 
-type UploadFile = {
-  name: string;
-  url: string;
-  key: string;
-  contentType: string;
-};
-
-type LocationOption = {
-  label: string;
-  city: string;
-  latitude: number;
-  longitude: number;
-};
-
 const initialForm = {
   title: "",
   extraInfo: [""],
@@ -75,7 +68,7 @@ const AddApplications = () => {
   const [locationOptions, setLocationOptions] = useState<LocationOption[]>([]);
   const [loadingLocations, setLoadingLocations] = useState(false);
 
-  const [snackbar, setSnackbar] = useState({
+  const [snackbar, setSnackbar] = useState<SnackbarState>({
     open: false,
     message: "",
     severity: "success",
@@ -203,9 +196,10 @@ const AddApplications = () => {
         );
 
         const data = await response.json();
+        console.log("data", data);
 
         const options: LocationOption[] =
-          data?.features?.map((feature: any) => ({
+          data?.features?.map((feature: GeoapifyFeature) => ({
             label: feature.properties.formatted,
             city:
               feature.properties.city ||
@@ -248,7 +242,7 @@ const AddApplications = () => {
         selectedFiles.map((file) => uploadFileToS3(file)),
       );
 
-      const cleanedForm = {
+      const cleanedForm: CreateApplicationRequest = {
         ...form,
         title: form.title.trim(),
         category: form.category.trim(),
@@ -259,7 +253,6 @@ const AddApplications = () => {
       };
 
       const res = await createApplication(cleanedForm);
-      console.log("result", res);
 
       if (!res.success) {
         if (res.status === 400) {

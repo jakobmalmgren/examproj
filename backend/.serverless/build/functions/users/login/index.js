@@ -12848,7 +12848,7 @@ var loginHandler = async (event) => {
   try {
     const user = await findUser(username);
     console.log("USER!!", user);
-    if (!user) {
+    if (!user || !user.password?.S) {
       return {
         statusCode: 401,
         success: false,

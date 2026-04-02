@@ -11,6 +11,7 @@ import AuthSkelleton from "../AuthSkelleton/AuthSkelleton";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import { signup } from "../../apis/auth";
+import type { SnackbarState } from "../../frontendTypes/frontendTypes";
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -22,7 +23,7 @@ const SignUp = () => {
     confirmPassword: "",
   });
 
-  const [snackbar, setSnackbar] = useState({
+  const [snackbar, setSnackbar] = useState<SnackbarState>({
     open: false,
     message: "",
     severity: "success",
@@ -67,7 +68,11 @@ const SignUp = () => {
         severity: "success",
       });
     } catch (err) {
-      console.error("Signup network error:", err);
+      setSnackbar({
+        open: true,
+        message: err instanceof Error ? err.message : "Network error",
+        severity: "error",
+      });
     }
   };
   return (

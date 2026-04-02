@@ -5,6 +5,7 @@ import { useTheme } from "@mui/material/styles";
 const Review = ({ review }) => {
   const theme = useTheme();
   if (!review) return null;
+  console.log("REv", review);
 
   const rating = Number(review.rating?.N || 0);
 

@@ -1489,6 +1489,7 @@ var s3 = new S3Client({
 var BUCKET_NAME = "my-app-files-123xyz-136191772737-eu-north-1-an";
 var getUploadUrl = async (event) => {
   const { fileName, fileType } = event.body;
+  console.log("hehehehehe", event);
   const user = event.user;
   const username = user.username.S;
   try {
@@ -1515,7 +1516,8 @@ var getUploadUrl = async (event) => {
       statusCode: 500,
       body: JSON.stringify({
         success: false,
-        message: error.message
+        // message: error.message,
+        message: error instanceof Error ? error.message : "Something went wrong"
       })
     };
   }
