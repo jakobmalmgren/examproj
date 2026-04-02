@@ -1,6 +1,8 @@
+import type { CreateApplicationRequest } from "../sharedTypes/types";
+
 const API_BASE_URL = "https://x7nm2264aj.execute-api.eu-north-1.amazonaws.com";
 
-export const createApplication = async (data) => {
+export const createApplication = async (data: CreateApplicationRequest) => {
   const token = localStorage.getItem("token");
 
   const response = await fetch(`${API_BASE_URL}/api/applications`, {

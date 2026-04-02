@@ -2,8 +2,9 @@ import middy from "@middy/core";
 import { client } from "../../../config/db";
 import { checkAuth } from "../../../middlewares/auth/checkAuth";
 import { QueryCommand } from "@aws-sdk/lib-dynamodb";
+import { AuthenticatedEvent } from "../../../backendTypes/backendTypes";
 
-const readApplication = async (event) => {
+const readApplication = async (event: AuthenticatedEvent) => {
   const userName = event.user.username.S;
 
   try {
@@ -26,12 +27,14 @@ const readApplication = async (event) => {
         data: result.Items,
       }),
     };
-  } catch (error) {
+  } catch (error: unknown) {
     return {
       statusCode: 500,
       body: JSON.stringify({
         success: false,
-        message: error.message,
+        // message: error.message,
+        message:
+          error instanceof Error ? error.message : "Something went wrong",
       }),
     };
   }
@@ -49,7 +52,7 @@ export const handler = middy(readApplication)
       "Unauthorized",
     ];
 
-    const validationDetails = request.error?.cause?.data || null;
+    const validationDetails = (request.error as any)?.cause?.data || null;
     const isValidationError =
       message === "Event object failed validation" || !!validationDetails;
     const isAuthError = authErrors.includes(message);

@@ -10048,7 +10048,7 @@ var client = new DynamoDBClient({ region: "eu-north-1" });
 // functions/review/postReview/index.ts
 import { PutItemCommand } from "@aws-sdk/client-dynamodb";
 
-// middlewares/schemas/postReviewSchema
+// middlewares/schemas/postReviewSchema.ts
 var postReviewSchema = {
   type: "object",
   required: ["body"],

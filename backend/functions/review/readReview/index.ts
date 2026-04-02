@@ -1,8 +1,9 @@
 import middy from "@middy/core";
 import { client } from "../../../config/db";
 import { QueryCommand } from "@aws-sdk/client-dynamodb";
+import { AuthenticatedEvent } from "../../../backendTypes/backendTypes";
 
-const readReviewHandler = async (event) => {
+const readReviewHandler = async (event: AuthenticatedEvent) => {
   const user = event.user;
 
   try {
@@ -42,7 +43,8 @@ export const handler = middy(readReviewHandler).onError((request) => {
     "Unauthorized",
   ];
 
-  const validationDetails = request.error?.cause?.data || null;
+  // const validationDetails = request.error?.cause?.data || null;
+  const validationDetails = (request.error as any)?.cause?.data || null;
   const isValidationError =
     message === "Event object failed validation" || !!validationDetails;
   const isAuthError = authErrors.includes(message);

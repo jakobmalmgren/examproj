@@ -36,30 +36,13 @@ import InfoIcon from "@mui/icons-material/Info";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import { UploadFile } from "../../../sharedTypes/sharedTypes";
+import {
+  LocationOption,
+  EditModalProps,
+} from "../../frontendTypes/frontendTypes";
 
 const GEOAPIFY_API_KEY = import.meta.env.VITE_GEOAPIFY_API_KEY;
-
-type UploadFile = {
-  name: string;
-  url: string;
-  key: string;
-  contentType: string;
-};
-
-type LocationOption = {
-  label: string;
-  city: string;
-  latitude: number;
-  longitude: number;
-};
-
-type EditModalProps = {
-  open: boolean;
-  onClose: () => void;
-  id: string;
-  data: any;
-  setRefreshKey: React.Dispatch<React.SetStateAction<number>>;
-};
 
 const initialForm = {
   title: "",
@@ -349,10 +332,10 @@ const EditModal = ({
         severity: "success",
       });
 
-      // setTimeout(() => {
-      //   setRefreshKey((prev) => prev + 1);
-      //   onClose();
-      // }, 1200);
+      setTimeout(() => {
+        setRefreshKey((prev) => prev + 1);
+        onClose();
+      }, 1200);
     } catch (err) {
       console.log("Network error while updating application:", err);
     }

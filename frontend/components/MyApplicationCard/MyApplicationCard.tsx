@@ -5,8 +5,14 @@ import { Box, Paper, Typography, Chip, IconButton } from "@mui/material";
 import EditModal from "../EditModal/EditModal";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import { MyApplicationCardProps } from "../../frontendTypes/frontendTypes";
+import { UploadFile } from "../../../sharedTypes/sharedTypes";
 
-const MyApplicationCard = ({ data, onDelete, setRefreshKey }) => {
+const MyApplicationCard = ({
+  data,
+  onDelete,
+  setRefreshKey,
+}: MyApplicationCardProps) => {
   const id = data.sk.split("#")[1];
 
   const {
@@ -26,7 +32,7 @@ const MyApplicationCard = ({ data, onDelete, setRefreshKey }) => {
   const city = location?.city || "";
 
   const [editOpen, setEditOpen] = useState(false);
-  const [selectedFile, setSelectedFile] = useState<any | null>(null);
+  const [selectedFile, setSelectedFile] = useState<UploadFile | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const handleCloseModal = () => {
     setModalOpen(false);
@@ -36,7 +42,8 @@ const MyApplicationCard = ({ data, onDelete, setRefreshKey }) => {
   const priorityEmoji = priority === 1 ? "🔥" : priority === 2 ? "🤷" : "🤦";
 
   const handleDelete = async () => {
-    await onDelete(data.sk);
+    // await onDelete(data.sk);
+    await onDelete(id);
   };
 
   return (
@@ -47,13 +54,12 @@ const MyApplicationCard = ({ data, onDelete, setRefreshKey }) => {
         borderRadius: 2,
         display: "flex",
         flexDirection: "column",
-        // width: 350,
         maxHeight: 400,
         bgcolor: "#e3f2fd",
         width: {
-          xs: 300, // mobil
-          sm: 350, // small screens
-          md: 350, // desktop (valfritt)
+          xs: 300,
+          sm: 350,
+          md: 350,
         },
       }}
     >
@@ -186,7 +192,7 @@ const MyApplicationCard = ({ data, onDelete, setRefreshKey }) => {
 
         <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
           {files.length > 0 ? (
-            files.map((file: any, idx: number) => (
+            files.map((file: UploadFile, idx: number) => (
               <Box
                 key={file.key || idx}
                 sx={{ display: "flex", alignItems: "center", gap: 1 }}

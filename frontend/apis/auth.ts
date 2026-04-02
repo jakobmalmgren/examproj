@@ -1,6 +1,8 @@
+import { LoginRequest, SignupRequest } from "../sharedTypes/types";
+
 const API_BASE_URL = "https://x7nm2264aj.execute-api.eu-north-1.amazonaws.com";
 
-export const login = async ({ username, password }) => {
+export const login = async ({ username, password }: LoginRequest) => {
   const response = await fetch(`${API_BASE_URL}/api/user/login`, {
     method: "POST",
     headers: {
@@ -32,7 +34,7 @@ export const signup = async ({
   email,
   password,
   confirmPassword,
-}) => {
+}: SignupRequest) => {
   const response = await fetch(`${API_BASE_URL}/api/user/signup`, {
     method: "POST",
     headers: {

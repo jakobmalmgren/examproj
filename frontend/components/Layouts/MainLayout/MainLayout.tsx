@@ -278,23 +278,6 @@ const MainLayout = ({ setIsLoggedIn }) => {
       >
         <Outlet />
       </Box>
-
-      {/* <Box
-        sx={{
-          position: "fixed",
-          bottom: 0,
-          left: 0,
-          width: "100%",
-          height: "80px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          px: 2,
-          textAlign: "center",
-          bgcolor: "white",
-          zIndex: 1200,
-        }}
-      ></Box> */}
     </Box>
   );
 };
