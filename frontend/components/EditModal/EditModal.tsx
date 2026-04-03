@@ -36,8 +36,8 @@ import InfoIcon from "@mui/icons-material/Info";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
-import { UploadFile } from "../../../sharedTypes/sharedTypes";
-import {
+import type { UploadFile } from "../../../sharedTypes/sharedTypes";
+import type {
   LocationOption,
   EditModalProps,
 } from "../../frontendTypes/frontendTypes";
@@ -847,9 +847,9 @@ const EditModal = ({
                     <Box
                       key={`${file.name}-${idx}`}
                       sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
+                        // display: "flex",
+                        // alignItems: "center",
+                        // justifyContent: "space-between",
                         gap: 1,
                       }}
                     >
