@@ -1,4 +1,3 @@
-import Carousel from "../../components/Carousel/Carousel";
 import { Outlet } from "react-router-dom";
 import { Box } from "@mui/material";
 
@@ -40,15 +39,10 @@ const LogInSignUp = () => {
           >
             <Box
               component="img"
-              src="/images/rma.png"
+              src="/images/iconRMA.png"
               alt="hero"
               sx={{
-                width: {
-                  xs: "140px",
-                  sm: "170px",
-                  md: "180px",
-                  lg: "180px",
-                },
+                width: "195px",
                 maxWidth: "100%",
                 height: "auto",
               }}
@@ -82,10 +76,10 @@ const LogInSignUp = () => {
         >
           <Box
             component="img"
-            src="/images/rma.png"
+            src="/images/hero.svg"
             alt="hero"
             sx={{
-              width: { md: "240px", lg: "300px", xl: "400px" },
+              width: "300px",
               maxWidth: "80%",
               height: "auto",
               mb: { md: 1.5, lg: 2 },
@@ -105,7 +99,6 @@ const LogInSignUp = () => {
                 px: { md: 2, lg: 4 },
               }}
             ></Box>
-            <Carousel />
           </Box>
         </Box>
       </Box>

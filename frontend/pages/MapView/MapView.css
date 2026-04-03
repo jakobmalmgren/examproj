@@ -1,23 +1,44 @@
-.tooltip-box {
-  font-size: 13px;
+.leaflet-control-zoom {
+  margin-top: 20px !important;
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
 }
 
-.leaflet-container {
-  background: transparent;
+/* Ta bort ramen runt knapparna */
+.leaflet-control-zoom a {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: #555;
+  font-size: 18px;
+  transition: all 0.2s ease;
 }
 
-.leaflet-control-attribution {
-  font-size: 10px;
-  opacity: 0.6;
+/* Hover = subtil modern effekt */
+.leaflet-control-zoom a:hover {
+  color: #1976d2; /* eller din primary */
+  transform: scale(1.15);
+  background: transparent !important;
 }
 
+/* 🔥 Hela tooltip wrappern */
 .leaflet-tooltip {
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  padding: 0;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
 }
 
-.leaflet-tooltip-top:before {
-  border-top-color: rgba(20, 20, 20, 0.92);
+/* 🔥 Ta bort lilla triangeln (pilen) */
+.leaflet-tooltip:before {
+  display: none !important;
+}
+
+/* 🔥 Alla position-varianter */
+.leaflet-tooltip-top:before,
+.leaflet-tooltip-bottom:before,
+.leaflet-tooltip-left:before,
+.leaflet-tooltip-right:before {
+  display: none !important;
 }

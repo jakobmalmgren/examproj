@@ -1,4 +1,5 @@
 import ReviewForm from "../../Review/ReviewForm";
+import Carousel from "../../Carousel/Carousel";
 import { useState } from "react";
 import { Outlet, Link as RouterLink } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
@@ -6,12 +7,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import MenuIcon from "@mui/icons-material/Menu";
-import CloseIcon from "@mui/icons-material/Close";
+import Backdrop from "@mui/material/Backdrop";
 import HomeIcon from "@mui/icons-material/Home";
 import AddIcon from "@mui/icons-material/Add";
 import BarChartIcon from "@mui/icons-material/BarChart";
@@ -21,8 +17,23 @@ import RateReviewIcon from "@mui/icons-material/RateReview";
 import Tooltip from "@mui/material/Tooltip";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
+import { keyframes } from "@mui/system";
 import ReviewDrawer from "../../Review/ReviewDrawer";
-import Carousel from "../../Carousel/Carousel";
+
+const pulse = keyframes`
+  0% {
+    transform: scale(1);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
+  }
+  50% {
+    transform: scale(1.04);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.24);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
+  }
+`;
 
 const navItems = [
   { text: "My Applications", icon: <HomeIcon />, path: "/home" },
@@ -32,7 +43,6 @@ const navItems = [
 ];
 
 const MainLayout = ({ setIsLoggedIn }) => {
-  const [drawerOpen, setDrawerOpen] = useState(false);
   const [reviewModalOpen, setReviewModalOpen] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
@@ -50,10 +60,21 @@ const MainLayout = ({ setIsLoggedIn }) => {
         display: "flex",
         flexDirection: "column",
         overflow: "hidden",
+        position: "relative",
       }}
     >
-      <AppBar position="fixed">
-        <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+      <AppBar
+        position="fixed"
+        sx={{ zIndex: (theme) => theme.zIndex.appBar + 3 }}
+      >
+        <Toolbar
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            height: "70px",
+            padding: "10px",
+          }}
+        >
           <Typography
             variant="h6"
             component={RouterLink}
@@ -66,18 +87,21 @@ const MainLayout = ({ setIsLoggedIn }) => {
             }}
           >
             <img
-              src="/images/newIcon.png"
+              src="/images/1.png"
               alt="RMA Logo"
-              style={{ height: "40px", width: "40px", borderRadius: "50%" }}
+              style={{ height: "45px", width: "45px", borderRadius: "50%" }}
             />
           </Typography>
 
           <Box
             sx={{
-              display: { xs: "none", md: "flex" },
-              gap: 4,
+              display: { md: "flex" },
+              gap: 2,
               justifyContent: "center",
-              flexGrow: 1,
+              width: "fit-content",
+              mx: "auto",
+              backgroundColor: "white",
+              borderRadius: "999px",
             }}
           >
             {navItems.map((item) => (
@@ -106,14 +130,8 @@ const MainLayout = ({ setIsLoggedIn }) => {
                 <IconButton
                   component={RouterLink}
                   to={item.path}
-                  color="inherit"
+                  color="primary"
                   size="large"
-                  sx={{
-                    color: "white",
-                    "&:hover": {
-                      color: "black",
-                    },
-                  }}
                 >
                   {item.icon}
                 </IconButton>
@@ -122,26 +140,8 @@ const MainLayout = ({ setIsLoggedIn }) => {
           </Box>
 
           <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-            {isMobile && (
-              <IconButton
-                sx={{ color: "inherit" }}
-                onClick={() => setReviewModalOpen(true)}
-              >
-                <RateReviewIcon />
-              </IconButton>
-            )}
-
             <IconButton sx={{ color: "inherit" }} onClick={handleLogout}>
               <LogoutIcon />
-            </IconButton>
-
-            <IconButton
-              color="inherit"
-              edge="end"
-              onClick={() => setDrawerOpen(true)}
-              sx={{ display: { xs: "flex", md: "none" } }}
-            >
-              <MenuIcon />
             </IconButton>
           </Box>
         </Toolbar>
@@ -149,123 +149,95 @@ const MainLayout = ({ setIsLoggedIn }) => {
         {!isMobile && <ReviewDrawer />}
       </AppBar>
 
-      <Drawer
-        anchor="top"
-        open={drawerOpen}
-        onClose={() => setDrawerOpen(false)}
-        transitionDuration={{ enter: 300, exit: 300 }}
-        PaperProps={{
-          sx: {
-            width: "100%",
-            bgcolor: "white",
-            borderBottomLeftRadius: 12,
-            borderBottomRightRadius: 12,
-            p: 1,
-          },
+      {isMobile && (
+        <>
+          <Backdrop
+            open={reviewModalOpen}
+            onClick={() => setReviewModalOpen(false)}
+            sx={{
+              zIndex: (theme) => theme.zIndex.appBar + 1,
+              backgroundColor: "rgba(0,0,0,0.45)",
+            }}
+          />
+
+          <Box
+            sx={{
+              position: "fixed",
+              top: "70px",
+              left: "50%",
+              width: "min(92vw, 520px)",
+              transform: reviewModalOpen
+                ? "translateX(-50%) translateY(0)"
+                : "translateX(-50%) translateY(calc(-100% + 26px))",
+              transition: "transform 350ms ease",
+              zIndex: (theme) => theme.zIndex.appBar + 2,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Box
+              sx={{
+                width: "100%",
+                overflow: "hidden",
+                borderBottomLeftRadius: 18,
+                borderBottomRightRadius: 18,
+              }}
+            >
+              <ReviewForm open={reviewModalOpen} />
+            </Box>
+
+            <Box
+              onClick={() => setReviewModalOpen((prev) => !prev)}
+              sx={{
+                height: "26px",
+                minHeight: "26px",
+                width: "52px",
+                backgroundColor: "primary.main",
+                color: "white",
+                borderTopLeftRadius: 0,
+                borderTopRightRadius: 0,
+                borderBottomLeftRadius: 18,
+                borderBottomRightRadius: 18,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+                userSelect: "none",
+                boxShadow: "0 4px 10px rgba(0,0,0,0.18)",
+                animation: reviewModalOpen
+                  ? "none"
+                  : `${pulse} 1.8s ease-in-out infinite`,
+              }}
+            >
+              <RateReviewIcon sx={{ fontSize: 18 }} />
+            </Box>
+          </Box>
+        </>
+      )}
+
+      <Box
+        sx={{
+          position: "fixed",
+          bottom: 8,
+          left: 0,
+          right: 0,
+          px: 1,
+          width: "100%",
+          zIndex: (theme) => theme.zIndex.appBar,
+          pointerEvents: "auto",
+          boxSizing: "border-box",
         }}
       >
-        <Box sx={{ display: "flex", justifyContent: "flex-end", p: 0 }}>
-          <IconButton
-            onClick={() => setDrawerOpen(false)}
-            sx={{ color: theme.palette.primary.main }}
-          >
-            <CloseIcon />
-          </IconButton>
-        </Box>
-
-        <List
+        <Box
           sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "row",
-            flexWrap: "wrap",
-            gap: 1,
-            pb: 2,
+            width: "100%",
+            overflow: "hidden",
           }}
         >
-          {navItems.map((item) => (
-            <ListItem key={item.text} disablePadding sx={{ width: "auto" }}>
-              <Tooltip
-                title={item.text}
-                arrow
-                placement="bottom"
-                componentsProps={{
-                  tooltip: {
-                    sx: {
-                      bgcolor: "black",
-                      color: "white",
-                      fontSize: 12,
-                      borderRadius: 1,
-                      px: 1.5,
-                      py: 0.5,
-                    },
-                  },
-                  arrow: {
-                    sx: {
-                      color: "black",
-                    },
-                  },
-                }}
-              >
-                <IconButton
-                  component={RouterLink}
-                  to={item.path}
-                  onClick={() => setDrawerOpen(false)}
-                  sx={{
-                    color: theme.palette.primary.main,
-                    "&:hover": {
-                      color: "black",
-                    },
-                  }}
-                >
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      color: "inherit",
-                      justifyContent: "center",
-                    }}
-                  >
-                    {item.icon}
-                  </ListItemIcon>
-                </IconButton>
-              </Tooltip>
-            </ListItem>
-          ))}
-        </List>
-      </Drawer>
-
-      {/* Mobile review drawer */}
-      <Drawer
-        anchor="top"
-        open={reviewModalOpen}
-        onClose={() => setReviewModalOpen(false)}
-        transitionDuration={{ enter: 300, exit: 300 }}
-        PaperProps={{
-          sx: {
-            // width: "100%",
-            minHeight: "30vh",
-            maxHeight: "55vh",
-            overflowY: "auto",
-            bgcolor: "white",
-            borderBottomLeftRadius: 20,
-            borderBottomRightRadius: 20,
-          },
-        }}
-      >
-        <Box>
-          <IconButton
-            sx={{ color: theme.palette.primary.main }}
-            onClick={() => setReviewModalOpen(false)}
-          >
-            <CloseIcon />
-          </IconButton>
+          <Carousel />
         </Box>
-
-        <ReviewForm open={reviewModalOpen} />
-
-        <Carousel />
-      </Drawer>
+      </Box>
 
       <Box
         className="mainLayout__content"
@@ -273,7 +245,7 @@ const MainLayout = ({ setIsLoggedIn }) => {
           flex: 1,
           overflowY: "auto",
           mt: { xs: "56px", sm: "64px" },
-          mb: "80px",
+          mb: { xs: "110px", sm: "120px" },
         }}
       >
         <Outlet />
