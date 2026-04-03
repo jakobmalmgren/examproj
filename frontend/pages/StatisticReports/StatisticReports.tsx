@@ -2,7 +2,8 @@ import { BarChart } from "@mui/x-charts/BarChart";
 import { Box, Typography, useTheme } from "@mui/material";
 import { useEffect, useMemo, useState } from "react";
 import { readApplication } from "../../apis/readApplication";
-import { Application } from "../../sharedTypes/types";
+import type { Application } from "../../../sharedTypes/sharedTypes";
+import { checkAuthenticated } from "../../utils/utils";
 
 const categories = [
   "IT & Tech",
@@ -20,6 +21,7 @@ const StatisticReports = () => {
   const [applications, setApplications] = useState([]);
 
   useEffect(() => {
+    checkAuthenticated();
     const fetchApplications = async () => {
       const result = await readApplication();
 

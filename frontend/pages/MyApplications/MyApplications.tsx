@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { checkAuthenticated } from "../../utils/utils";
 import MyApplicationCard from "../../components/MyApplicationCard/MyApplicationCard";
 import {
   Box,
@@ -17,7 +18,8 @@ import InboxIcon from "@mui/icons-material/Inbox";
 import { deleteApplication } from "../../apis/deleteApplication";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { readApplication } from "../../apis/readApplication";
-import type { Application, SnackbarState } from "../../sharedTypes/types";
+import type { Application } from "../../../sharedTypes/sharedTypes";
+import type { SnackbarState } from "../../frontendTypes/frontendTypes";
 
 const MyApplications = () => {
   const [applications, setApplications] = useState<Application[]>([]);
@@ -73,6 +75,7 @@ const MyApplications = () => {
   };
 
   useEffect(() => {
+    checkAuthenticated();
     const fetchApplications = async () => {
       try {
         setLoading(true);
@@ -97,6 +100,18 @@ const MyApplications = () => {
     fetchApplications();
   }, [refreshKey]);
 
+  const token = localStorage.getItem("token");
+
+  if (token) {
+    const payload = JSON.parse(atob(token.split(".")[1]));
+
+    const isExpired = Date.now() >= payload.exp * 1000;
+
+    if (isExpired) {
+      localStorage.removeItem("token");
+      window.location.href = "/login";
+    }
+  }
   const filteredApplications = applications.filter((app: Application) => {
     const matchesPriority =
       !priority ||

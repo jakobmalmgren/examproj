@@ -55,3 +55,13 @@ export type EditModalProps = {
   data: any;
   setRefreshKey: React.Dispatch<React.SetStateAction<number>>;
 };
+
+export type FileViewerProps = {
+  open: boolean;
+  onClose: () => void;
+  file: {
+    name: string;
+    url: string;
+    contentType?: string;
+  } | null;
+};
