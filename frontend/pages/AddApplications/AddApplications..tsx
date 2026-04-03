@@ -14,6 +14,7 @@ import type {
   GeoapifyFeature,
   SnackbarState,
 } from "../../sharedTypes/types";
+import { checkAuthenticated } from "../../utils/utils";
 
 import {
   Box,
@@ -177,6 +178,8 @@ const AddApplications = () => {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   useEffect(() => {
+    checkAuthenticated();
+
     const controller = new AbortController();
 
     const fetchLocations = async () => {

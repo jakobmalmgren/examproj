@@ -3,10 +3,11 @@ import "leaflet/dist/leaflet.css";
 import { useTheme } from "@mui/material/styles";
 import { MapContainer, TileLayer, Marker, Tooltip } from "react-leaflet";
 import L from "leaflet";
+import { checkAuthenticated } from "../../utils/utils";
 import { useEffect, useMemo, useState } from "react";
 import { readApplication } from "../../apis/readApplication";
 import { Box } from "@mui/material";
-import type { Application } from "../../sharedTypes/types";
+import type { Application } from "../../../sharedTypes/sharedTypes";
 import type { LatLngExpression, LatLngBoundsExpression } from "leaflet";
 
 const pinImage = "/images/pinflat_105979.svg";
@@ -23,6 +24,7 @@ function MapView() {
   });
 
   useEffect(() => {
+    checkAuthenticated();
     const fetchApplication = async () => {
       try {
         const data = await readApplication();
@@ -36,7 +38,6 @@ function MapView() {
   }, []);
 
   const jobsWithOffset = useMemo(() => {
-    // const seenPositions = {};
     const seenPositions: { [key: string]: number } = {};
 
     return jobs
@@ -121,9 +122,10 @@ function MapView() {
                   minWidth: "270px",
                   padding: "14px 16px",
                   borderRadius: "12px",
-                  background: "rgba(20, 20, 20, 0.92)",
+                  background: theme.palette.primary.main,
+                  color: "#111", // 🔥 svart text
                   boxShadow: "0 8px 24px rgba(0,0,0,0.25)",
-                  border: "1px solid rgba(255,255,255,0.08)",
+                  border: "none",
                 }}
               >
                 {[
@@ -143,7 +145,7 @@ function MapView() {
                     style={{
                       display: "flex",
                       alignItems: "flex-start",
-                      marginBottom: "6px",
+                      marginBottom: i === 3 ? "0" : "6px",
                       gap: "8px",
                     }}
                   >
@@ -151,7 +153,7 @@ function MapView() {
                       style={{
                         minWidth: "120px",
                         fontWeight: 700,
-                        color: theme.palette.primary.main,
+                        color: "#111",
                         fontSize: "13px",
                       }}
                     >
@@ -160,7 +162,7 @@ function MapView() {
 
                     <span
                       style={{
-                        color: "white",
+                        color: "#111",
                         fontSize: "13px",
                         wordBreak: "break-word",
                       }}

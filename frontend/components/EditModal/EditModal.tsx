@@ -364,8 +364,9 @@ const EditModal = ({
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            pr: 1,
-            pb: 1,
+            // pr: 3,
+            // pb: 3,
+            mt: 1,
           }}
         >
           <IconButton
