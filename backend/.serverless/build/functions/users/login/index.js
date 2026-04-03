@@ -12867,7 +12867,7 @@ var loginHandler = async (event) => {
       username: user.username,
       email: user.email,
       name: user.name
-    }).setProtectedHeader({ alg: "HS256" }).sign(new TextEncoder().encode(secret));
+    }).setProtectedHeader({ alg: "HS256" }).setExpirationTime("1h").sign(new TextEncoder().encode(secret));
     return {
       statusCode: 200,
       body: JSON.stringify({
