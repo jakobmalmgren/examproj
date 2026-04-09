@@ -92,6 +92,9 @@ const StatisticReports = () => {
         justifyContent: "center",
         py: { xs: 3, sm: 4, md: 6 },
         px: { xs: 2, sm: 3 },
+
+        mt: { xs: "56px", sm: "64px" },
+        mb: { xs: "110px", sm: "120px" },
       }}
     >
       <Box

@@ -297,7 +297,9 @@ const AddApplications = () => {
         width: "100%",
         maxWidth: { xs: "100%", sm: "650px", md: "800px" },
         margin: "0 auto",
-        mt: { xs: 2, sm: 4, md: 5 },
+        // mt: { xs: 2, sm: 4, md: 5 },
+        mt: { xs: "56px", sm: "64px" },
+        mb: { xs: "110px", sm: "120px" },
       }}
     >
       <TextField
@@ -653,6 +655,11 @@ const AddApplications = () => {
               slotProps={{
                 textField: {
                   fullWidth: true,
+                  sx: {
+                    "& .MuiSvgIcon-root": {
+                      color: "primary.main",
+                    },
+                  },
                 },
               }}
             />
