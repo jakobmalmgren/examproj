@@ -5,8 +5,8 @@ import { Box, Paper, Typography, Chip, IconButton } from "@mui/material";
 import EditModal from "../EditModal/EditModal";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { MyApplicationCardProps } from "../../frontendTypes/frontendTypes";
-import { UploadFile } from "../../../sharedTypes/sharedTypes";
+import type { MyApplicationCardProps } from "../../frontendTypes/frontendTypes";
+import type { UploadFile } from "../../../sharedTypes/sharedTypes";
 
 const MyApplicationCard = ({
   data,
@@ -50,6 +50,7 @@ const MyApplicationCard = ({
     <Paper
       elevation={3}
       sx={{
+        position: "relative",
         p: 2,
         borderRadius: 2,
         display: "flex",
@@ -73,8 +74,6 @@ const MyApplicationCard = ({
           gap: 1.5,
         }}
       >
-        <Typography sx={{ fontSize: "40px" }}>{priorityEmoji}</Typography>
-
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           <img
             src="/images/position.svg"
@@ -236,59 +235,95 @@ const MyApplicationCard = ({
       </Box>
 
       <Box
-        sx={{ display: "flex", justifyContent: "flex-end", gap: 0.5, mt: 1 }}
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          mt: 1,
+        }}
       >
-        <Tooltip
-          title="Delete"
-          arrow
-          componentsProps={{
-            tooltip: {
-              sx: {
-                bgcolor: "black",
-                color: "white",
-                fontSize: 12,
-                borderRadius: 1,
-                px: 1.5,
-                py: 0.5,
-              },
-            },
-            arrow: {
-              sx: {
-                color: "black",
-              },
-            },
-          }}
-        >
-          <IconButton onClick={handleDelete} size="small" color="primary">
-            <DeleteIcon fontSize="small" sx={{ color: "black" }} />
-          </IconButton>
-        </Tooltip>
+        {/* ⭐ Vänster */}
+        <Typography sx={{ fontSize: "30px" }}>{priorityEmoji}</Typography>
 
-        <Tooltip
-          title="Edit"
-          arrow
-          componentsProps={{
-            tooltip: {
-              sx: {
-                bgcolor: "black",
-                color: "white",
-                fontSize: 12,
-                borderRadius: 1,
-                px: 1.5,
-                py: 0.5,
+        {/* 👉 Höger */}
+        <Box sx={{ display: "flex", gap: 0.5 }}>
+          <Tooltip
+            title="Delete"
+            arrow
+            componentsProps={{
+              tooltip: {
+                sx: {
+                  bgcolor: "black",
+                  color: "white",
+                  fontSize: 12,
+                  borderRadius: 1,
+                  px: 1.5,
+                  py: 0.5,
+                },
               },
-            },
-            arrow: {
-              sx: {
-                color: "black",
+              arrow: {
+                sx: {
+                  color: "black",
+                },
               },
-            },
-          }}
-        >
-          <IconButton size="small" onClick={() => setEditOpen(true)}>
-            <EditIcon fontSize="small" sx={{ color: "black" }} />
-          </IconButton>
-        </Tooltip>
+            }}
+          >
+            <IconButton
+              onClick={handleDelete}
+              size="small"
+              sx={{
+                backgroundColor: "#b36b65",
+                "&:hover": {
+                  backgroundColor: "#b36b657b",
+                  "& .MuiSvgIcon-root": {
+                    color: "black",
+                  },
+                },
+              }}
+            >
+              <DeleteIcon fontSize="small" sx={{ color: "#e3f2fd" }} />
+            </IconButton>
+          </Tooltip>
+
+          <Tooltip
+            title="Edit"
+            arrow
+            componentsProps={{
+              tooltip: {
+                sx: {
+                  bgcolor: "black",
+                  color: "white",
+                  fontSize: 12,
+                  borderRadius: 1,
+                  px: 1.5,
+                  py: 0.5,
+                },
+              },
+              arrow: {
+                sx: {
+                  color: "black",
+                },
+              },
+            }}
+          >
+            <IconButton
+              size="small"
+              onClick={() => setEditOpen(true)}
+              sx={{
+                backgroundColor: "#a6cbb4",
+                "&:hover": {
+                  backgroundColor: "#a6cbb481",
+                  "& .MuiSvgIcon-root": {
+                    color: "black",
+                  },
+                },
+              }}
+            >
+              <EditIcon fontSize="small" sx={{ color: "#e3f2fd" }} />
+            </IconButton>
+          </Tooltip>
+        </Box>
+
         <EditModal
           data={data}
           setRefreshKey={setRefreshKey}

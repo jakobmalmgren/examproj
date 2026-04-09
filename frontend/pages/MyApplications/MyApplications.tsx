@@ -131,10 +131,13 @@ const MyApplications = () => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        mt: { xs: 3, sm: 4, md: 5 },
+        // mt: { xs: 3, sm: 4, md: 5 },
         gap: { xs: 3, sm: 4 },
         px: { xs: 2, sm: 3 },
         pb: 4,
+
+        mt: { xs: "56px", sm: "64px" },
+        mb: { xs: "110px", sm: "120px" },
       }}
     >
       <Paper
