@@ -245,7 +245,10 @@ const MainLayout = ({ setIsLoggedIn }) => {
           flex: 1,
           overflowY: "auto",
           mt: { xs: "56px", sm: "64px" },
-          mb: { xs: "110px", sm: "120px" },
+          // mb: { xs: "110px", sm: "120px" },
+          // backgroundColor: "red",
+          // padding: "30px",
+          // position: "relative",
         }}
       >
         <Outlet />
