@@ -56,7 +56,8 @@ const MyApplicationCard = ({
         display: "flex",
         flexDirection: "column",
         maxHeight: 400,
-        bgcolor: "#e3f2fd",
+        background:
+          "linear-gradient(135deg, rgba(227,242,253,1) 0%, rgba(255,255,255,1) 100%)",
         width: {
           xs: 300,
           sm: 350,
@@ -272,12 +273,9 @@ const MyApplicationCard = ({
               onClick={handleDelete}
               size="small"
               sx={{
-                backgroundColor: "#b36b65",
+                backgroundColor: "#c9554b",
                 "&:hover": {
-                  backgroundColor: "#b36b657b",
-                  "& .MuiSvgIcon-root": {
-                    color: "black",
-                  },
+                  backgroundColor: "#c9554be0",
                 },
               }}
             >
@@ -310,12 +308,9 @@ const MyApplicationCard = ({
               size="small"
               onClick={() => setEditOpen(true)}
               sx={{
-                backgroundColor: "#a6cbb4",
+                backgroundColor: "#2aa459",
                 "&:hover": {
-                  backgroundColor: "#a6cbb481",
-                  "& .MuiSvgIcon-root": {
-                    color: "black",
-                  },
+                  backgroundColor: "#2aa459cb",
                 },
               }}
             >

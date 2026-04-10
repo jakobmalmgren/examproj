@@ -304,7 +304,7 @@ const MyApplications = () => {
             width: "100%",
           }}
         >
-          <TextField
+          {/* <TextField
             fullWidth
             label="City"
             variant="outlined"
@@ -329,6 +329,34 @@ const MyApplications = () => {
               },
               "& .MuiInputLabel-root": {
                 fontSize: { xs: "14px", sm: "16px" },
+              },
+            }}
+          /> */}
+          <TextField
+            fullWidth
+            label="City"
+            variant="outlined"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+            size="small"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <LocationOnIcon
+                    sx={{
+                      color: "primary.main",
+                      fontSize: { xs: 20, sm: 24 },
+                    }}
+                  />
+                </InputAdornment>
+              ),
+            }}
+            sx={{
+              "& .MuiInputBase-input": {
+                fontSize: "16px",
+              },
+              "& .MuiInputLabel-root": {
+                fontSize: "16px",
               },
             }}
           />
