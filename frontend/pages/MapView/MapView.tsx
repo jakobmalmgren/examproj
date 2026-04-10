@@ -25,6 +25,7 @@ function MapView() {
 
   useEffect(() => {
     checkAuthenticated();
+
     const fetchApplication = async () => {
       try {
         const data = await readApplication();
@@ -116,26 +117,53 @@ function MapView() {
           >
             <Tooltip direction="top" offset={[0, -12]} opacity={1}>
               <div
-                className="tooltip-box"
                 style={{
                   fontFamily: theme.typography.fontFamily,
-                  minWidth: "270px",
+                  width: "auto", // 🔥 auto width
+                  maxWidth: "320px",
                   padding: "14px 16px",
                   borderRadius: "12px",
-                  background: theme.palette.primary.main,
-                  color: "#111", // 🔥 svart text
+                  background:
+                    "linear-gradient(135deg, rgba(227,242,253,1) 0%, rgba(255,255,255,1) 100%)",
+                  color: "#111",
                   boxShadow: "0 8px 24px rgba(0,0,0,0.25)",
-                  border: "none",
+                  boxSizing: "border-box",
                 }}
               >
+                <div
+                  style={{
+                    fontSize: "12px",
+                    fontWeight: 700,
+                    textTransform: "uppercase",
+                    marginBottom: "12px",
+                    opacity: 0.8,
+                  }}
+                >
+                  Application details
+                </div>
+
                 {[
-                  { label: "Application Title:", value: job.title },
                   {
+                    icon: "/images/position.svg",
+                    alt: "position icon",
+                    label: "Application Title:",
+                    value: job.title || "No title",
+                  },
+                  {
+                    icon: "/images/earth.svg",
+                    alt: "earth icon",
                     label: "Location:",
                     value: job.location?.city || "No location",
                   },
-                  { label: "Category:", value: job.category || "No category" },
                   {
+                    icon: "/images/briefcase.svg",
+                    alt: "briefcase icon",
+                    label: "Category:",
+                    value: job.category || "No category",
+                  },
+                  {
+                    icon: "/images/calender.svg",
+                    alt: "calendar icon",
                     label: "Application Date:",
                     value: job.applicationDate || "No date",
                   },
@@ -143,18 +171,28 @@ function MapView() {
                   <div
                     key={i}
                     style={{
-                      display: "flex",
+                      display: "flex", // 🔥 FLEX istället för grid
                       alignItems: "flex-start",
-                      marginBottom: i === 3 ? "0" : "6px",
                       gap: "8px",
+                      marginBottom: i === 3 ? "0" : "8px",
                     }}
                   >
+                    <img
+                      src={row.icon}
+                      alt={row.alt}
+                      style={{
+                        width: "18px",
+                        height: "18px",
+                        marginTop: "2px",
+                      }}
+                    />
+
                     <span
                       style={{
-                        minWidth: "120px",
                         fontWeight: 700,
-                        color: "#111",
                         fontSize: "13px",
+                        minWidth: "110px",
+                        flexShrink: 0,
                       }}
                     >
                       {row.label}
@@ -162,8 +200,8 @@ function MapView() {
 
                     <span
                       style={{
-                        color: "#111",
                         fontSize: "13px",
+                        flex: 1,
                         wordBreak: "break-word",
                       }}
                     >
