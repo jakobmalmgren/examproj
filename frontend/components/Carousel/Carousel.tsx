@@ -38,9 +38,8 @@ const Carousel = () => {
           gap: 1.2,
           width: "max-content",
           minWidth: "100%",
-          alignItems: "stretch",
+          alignItems: "flex-end",
           animation: "scroll 60s linear infinite",
-
           "@keyframes scroll": {
             "0%": {
               transform: "translateX(0)",
@@ -65,9 +64,9 @@ const Carousel = () => {
                 sm: "220px",
                 md: "250px",
               },
-              height: 100,
               flexShrink: 0,
               display: "flex",
+              alignItems: "flex-end",
             }}
           >
             <Review review={review} />
