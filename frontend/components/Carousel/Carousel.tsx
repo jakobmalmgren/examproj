@@ -48,6 +48,9 @@ const Carousel = () => {
               transform: "translateX(-50%)",
             },
           },
+          "&:hover": {
+            animationPlayState: "paused",
+          },
         }}
       >
         {loopedReviews.map((review, index) => (

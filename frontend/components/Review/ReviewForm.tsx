@@ -122,7 +122,9 @@ const ReviewForm = ({ open }) => {
         flexDirection: "column",
         gap: 2,
         borderRadius: 2,
-        bgcolor: "#e3f2fd",
+        // bgcolor: "#e3f2fd",
+        background:
+          "linear-gradient(135deg, rgba(227,242,253,1) 0%, rgba(255,255,255,1) 100%)",
         // bgcolor: "primary.main",
       }}
     >
@@ -146,7 +148,8 @@ const ReviewForm = ({ open }) => {
           }));
         }}
         sx={{
-          color: "#FFD700",
+          color: "#FFD54F",
+          filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.15))",
         }}
       />
 
