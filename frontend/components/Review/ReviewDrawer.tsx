@@ -89,7 +89,9 @@ const ReviewDrawer = () => {
             : "translateY(-50%) translateX(-420px)",
           transition: "transform 225ms cubic-bezier(0.4, 0, 0.2, 1)",
           width: 400,
-          bgcolor: "#e3f2fd",
+          // bgcolor: "#e3f2fd",
+          background:
+            "linear-gradient(135deg, rgba(227,242,253,1) 0%, rgba(255,255,255,1) 100%)",
           borderRadius: 2,
           boxShadow: 3,
           p: 3,
