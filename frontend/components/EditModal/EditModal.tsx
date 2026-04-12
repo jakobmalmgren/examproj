@@ -343,7 +343,7 @@ const EditModal = ({
 
   return (
     <>
-      <Dialog
+      {/* <Dialog
         open={open}
         onClose={onClose}
         fullWidth
@@ -355,6 +355,25 @@ const EditModal = ({
               width: { xs: "calc(100% - 16px)", sm: "100%" },
               maxHeight: { xs: "92vh", sm: "90vh" },
               borderRadius: { xs: 2, sm: 3 },
+            },
+          },
+        }}
+      > */}
+
+      <Dialog
+        open={open}
+        onClose={onClose}
+        fullWidth
+        maxWidth="sm"
+        scroll="paper"
+        slotProps={{
+          paper: {
+            sx: {
+              mx: { xs: 1, sm: 2 },
+              width: { xs: "calc(100% - 16px)", sm: "100%" },
+              maxHeight: { xs: "92vh", sm: "90vh" },
+              borderRadius: { xs: 2, sm: 3 },
+              overflow: "hidden",
             },
           },
         }}
@@ -386,10 +405,17 @@ const EditModal = ({
           </IconButton>
         </DialogTitle>
 
+        {/* <DialogContent
+          sx={{
+            px: { xs: 2, sm: 3 },
+            pb: { xs: 2, sm: 3 },
+          }}
+        > */}
         <DialogContent
           sx={{
             px: { xs: 2, sm: 3 },
             pb: { xs: 2, sm: 3 },
+            overflowY: "auto",
           }}
         >
           <Box
